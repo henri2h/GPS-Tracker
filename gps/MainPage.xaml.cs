@@ -1,21 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using Windows.Devices.Geolocation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
-using Windows.ApplicationModel.Background;
-using System.Threading;
-using Windows.UI.Core;
-using System.Collections.ObjectModel;
 using Windows.ApplicationModel.ExtendedExecution;
+using System.Threading;
+using System.Collections.Generic;
+using Windows.UI.Xaml.Controls;
+using System.Collections.ObjectModel;
+using Windows.UI.Core;
 using Windows.UI;
-using System.Xml;
-
+using Windows.UI.Xaml;
 
 // Pour plus d'informations sur le modèle d'élément Page vierge, consultez la page http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -23,36 +20,86 @@ namespace gps
 {
     public sealed partial class MainPage : Page
     {
-        string latitude = "test";
-        string longitude = "test";
-        double? speed = 0;
+        //speed unit to display
+        speedUnit speedunit = speedUnit.metersPerSecond;
+
+        // saving
+        static string tempFile = "";
+        bool recordingLocalisation = false;
+
+        //postion
+        static List<point> track = new List<point>();
+
+        point currentPoint = new point();
+
+        // max
+        //speed
         double? maxSpeed = 0;
-        string altitude = "test";
-        string accuracy = "test";
+        double mediumSpeed = 0;
+        double mediumSpeedVertical = 0;
+
+        //distance
+        double totalDistance = 0;
+
+
         string output = "";
         string source = "";
+
+
         StringWriter sw = new StringWriter();
         int value = 0;
         DateTimeOffset date = DateTimeOffset.Now;
 
+        //postion recorder
         BasicGeoposition position;
         BasicGeoposition position_old;
+
         Geoposition global;
-
-        List<point> track = new List<point>();
-
-        public MainPage()
-        {
-            this.InitializeComponent();
-   
-
-        }
 
 
         private Geolocator locator;
         private ObservableCollection<string> coordinates = new ObservableCollection<string>();
 
+
+        public MainPage()
+        {
+            this.InitializeComponent();
+            tempFile = getTempFile();
+            messageBox("get temp file : " + tempFile);
+            timer.start();
+
+            startLocalisation();
+        }
+
+        private async void messageBox(string msg)
+        {
+            var msgDlg = new Windows.UI.Popups.MessageDialog(msg);
+            msgDlg.DefaultCommandIndex = 1;
+            await msgDlg.ShowAsync();
+        }
+
         //true if the localisation is enabled
+        private bool startLocalisation()
+        {
+            locator = new Geolocator();
+
+
+            locator.DesiredAccuracy = PositionAccuracy.High;
+            locator.MovementThreshold = 1;
+
+            locator.PositionChanged += Locator_PositionChanged;
+            locator.StatusChanged += Locator_StatusChanged;
+
+            coords.ItemsSource = coordinates;
+
+            StartLocationExtensionSession();
+
+            //    System.Diagnostics.Debug.WriteLine("Failled to create extended session");
+
+
+            define();
+            return true;
+        }
 
         private void Locator_PositionChanged(Geolocator sender, PositionChangedEventArgs args)
         {
@@ -61,57 +108,60 @@ namespace gps
             global = args.Position;
             if (global != null)
             {
+
                 position_old = position;
                 position = args.Position.Coordinate.Point.Position;
-
-
                 output = value.ToString();
 
-                // login point
-                point newPoint = new point();
-                newPoint.track = value;
-
-                pointDescription pointValue = new pointDescription();
-                pointValue.altitude = args.Position.Coordinate.Point.Position.Altitude;
-                pointValue.latitude = args.Position.Coordinate.Point.Position.Latitude;
-                pointValue.longitude = args.Position.Coordinate.Point.Position.Longitude;
-
-                pointValue.speed = args.Position.Coordinate.Speed * 3.6;
-                pointValue.date = args.Position.Coordinate.Timestamp;
-
-                newPoint.waypoint = pointValue;
-
-                track.Add(newPoint);
-
-                // set display
-                altitude = newPoint.waypoint.altitude.ToString();
-                latitude = newPoint.waypoint.latitude.ToString();
-                longitude = newPoint.waypoint.longitude.ToString();
-                speed = newPoint.waypoint.speed;
-                date = newPoint.waypoint.date;
-
-                accuracy = args.Position.Coordinate.Accuracy.ToString();
-                source = args.Position.Coordinate.PositionSource.ToString();
-                if (maxSpeed < speed) { maxSpeed = speed; }
-
-                var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                if (value > 2)
                 {
-                    define();
-                    if (value > 2)
+                    totalDistance += GetDistanceBetweenPoints(position_old.Latitude, position_old.Longitude, position.Latitude, position.Longitude);
+                }
+                
+                // ======= setup the variables ============
+                currentPoint.track = value;
+
+                currentPoint.altitude = args.Position.Coordinate.Point.Position.Altitude;
+                currentPoint.latitude = args.Position.Coordinate.Point.Position.Latitude;
+                currentPoint.longitude = args.Position.Coordinate.Point.Position.Longitude;
+
+                currentPoint.speed = args.Position.Coordinate.Speed;
+                currentPoint.date = args.Position.Coordinate.Timestamp;
+                currentPoint.accuracy = args.Position.Coordinate.Accuracy;
+                currentPoint.positionSource = args.Position.Coordinate.PositionSource;
+
+
+
+                // ===== save them if needed ===========
+                if (recordingLocalisation)
+                {
+                    // login point
+                    track.Add(currentPoint);
+                    var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        MapPolyline mapPolyline = new MapPolyline();
-                        mapPolyline.Path = new Geopath(new List<BasicGeoposition>() {
+                        define();
+                        if (value > 2)
+                        {
+                            MapPolyline mapPolyline = new MapPolyline();
+                            mapPolyline.Path = new Geopath(new List<BasicGeoposition>() {
                             new BasicGeoposition() {Latitude=position_old.Latitude, Longitude=position_old.Longitude},
                             new BasicGeoposition() {Latitude=position.Latitude, Longitude=position.Longitude}
                             });
-                        mapPolyline.StrokeColor = Colors.Black;
-                        mapPolyline.StrokeThickness = 3;
-                        mapPolyline.StrokeDashed = true;
+                            mapPolyline.StrokeColor = Colors.Black;
+                            mapPolyline.StrokeThickness = 3;
+                            mapPolyline.StrokeDashed = true;
 
-                        MapControl1.MapElements.Add(mapPolyline);
-                    }
-                });
+                            MapControl1.MapElements.Add(mapPolyline);
+                        }
+                    });
+                }
+
+                if (maxSpeed < currentPoint.speed) { maxSpeed = currentPoint.speed; }
+
+
             }
+            
+            value++;
         }
         private void Locator_StatusChanged(Geolocator sender, StatusChangedEventArgs args)
         {
@@ -121,20 +171,6 @@ namespace gps
                 define();
 
             });
-
-        }
-
-        private void GetCoordinate()
-        {
-
-            locator = new Geolocator();
-            locator.DesiredAccuracy = PositionAccuracy.High;
-            locator.MovementThreshold = 1;
-            locator.PositionChanged += Locator_PositionChanged;
-            locator.StatusChanged += Locator_StatusChanged;
-            coords.ItemsSource = coordinates;
-
-            StartLocationExtensionSession();
 
         }
 
@@ -155,6 +191,12 @@ namespace gps
                 output = "error";
                 define();
                 //TODO: handle denied
+                //return false;
+
+            }
+            else
+            {
+                //return true;
             }
 
         }
@@ -162,14 +204,16 @@ namespace gps
         private void ExtendedExecutionSession_Revoked(object sender, ExtendedExecutionRevokedEventArgs args)
         //ExtendedExecutionSession sender, ExtensionRevokedEventArgs args)
         {
+            messageBox("Extended session revoked");
             //TODO: clean up session data
-
             StopLocationExtensionSession();
-            StartLocationExtensionSession();
+
         }
 
         private void StopLocationExtensionSession()
         {
+            messageBox("Extended session stoped");
+            //reinitialisze the session
             if (session != null)
             {
                 session.Dispose();
@@ -183,16 +227,42 @@ namespace gps
         /// </summary>
         private void define()
         {
-            tbLatitude.Text = latitude;
-            tbLongitude.Text = longitude;
-            tbAltitude.Text = altitude;
-            tbSpeed.Text = speed.ToString();
-            tbAccuracy.Text = accuracy;
+            //localisation
+            tbLatitude.Text = currentPoint.latitude.ToString();
+            tbLongitude.Text = currentPoint.longitude.ToString();
+            tbAltitude.Text = currentPoint.altitude.ToString();
+
+            tbTotalDistance.Text = totalDistance.ToString();
+
+            tbAccuracy.Text = currentPoint.accuracy.ToString();
             tbDate.Text = date.ToString();
+
             tbOutput.Text = output;
             tbSource.Text = source;
-            tbMaxSpeed.Text = maxSpeed.ToString();
-            value++;
+
+            // change the speed
+            switch (speedunit)
+            {
+                case speedUnit.metersPerSecond:
+                    tbSpeed.Text = currentPoint.speed.ToString() + "m/s";
+                    tbMaxSpeed.Text = maxSpeed.ToString() + "m/s";
+                    break;
+
+                case speedUnit.kmPerHour:
+                    tbSpeed.Text = (currentPoint.speed * 3.6).ToString() + "km/h";
+                    tbMaxSpeed.Text = (maxSpeed * 3.6).ToString() + "km/h";
+                    break;
+
+                case speedUnit.milesPerHour:
+                    tbSpeed.Text = (currentPoint.speed / 1609.344 * 3600).ToString() + "miles/h";
+                    tbMaxSpeed.Text = (maxSpeed / 1609.344 * 3600).ToString() + "miles/h";
+                    break;
+
+                default:
+                    break;
+            }
+
+
 
             try { MapControl1.Center = global.Coordinate.Point; }
             catch { }
@@ -201,7 +271,7 @@ namespace gps
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-
+            messageBox("Page loaded");
         }
 
         private void btSave_Click(object sender, RoutedEventArgs e)
@@ -210,6 +280,9 @@ namespace gps
         }
 
 
+        /// <summary>
+        /// choose and save file
+        /// </summary>
         private async void choose()
         {
             FileSavePicker savePicker = new FileSavePicker();
@@ -225,7 +298,7 @@ namespace gps
                 // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
                 CachedFileManager.DeferUpdates(file);
                 // write to file
-                await FileIO.WriteTextAsync(file, generateGPXOutput());
+                await FileIO.WriteTextAsync(file, gpx.generateGPXOutput(track));
                 // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
                 // Completing updates may require Windows to ask for user input.
                 FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
@@ -247,12 +320,6 @@ namespace gps
 
         private void MapControl1_Loaded(object sender, RoutedEventArgs e)
         {
-            /* MapControl1.Center =
-                new Geopoint(new BasicGeoposition()
-                {
-                    Latitude = 46.604,
-                    Longitude = 6.329
-                });*/
             MapControl1.ZoomLevel = 17;
         }
 
@@ -264,80 +331,121 @@ namespace gps
             }
             catch { }
         }
-        private string generateGPXOutput()
-        {
-            XmlDocument doc = new XmlDocument();
-            XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", "no");
-            XmlElement root = doc.DocumentElement;
-            doc.InsertBefore(xmlDeclaration, root);
 
-
-            XmlElement gpx = doc.CreateElement(string.Empty, "gpx", string.Empty);
-            doc.AppendChild(gpx);
-
-            XmlElement trk = doc.CreateElement(string.Empty, "trk", string.Empty);
-            gpx.AppendChild(trk);
-
-            XmlElement name = doc.CreateElement(string.Empty, "name", string.Empty);
-            XmlText nameValue = doc.CreateTextNode("track : " + DateTime.Now.ToString());
-            name.AppendChild(nameValue);
-            trk.AppendChild(name);
-
-            XmlElement trkseg = doc.CreateElement(string.Empty, "trkseg", string.Empty);
-            trk.AppendChild(trkseg);
-
-            foreach (point pointLocal in track)
-            {
-                //create point
-                XmlElement trkpt = doc.CreateElement(string.Empty, "trkpt", string.Empty);
-                //set attribute latitude and longitude
-                XmlAttribute lat = doc.CreateAttribute("lat");
-                lat.Value = pointLocal.waypoint.latitude.ToString();
-                XmlAttribute lon = doc.CreateAttribute("lon");
-                lon.Value = pointLocal.waypoint.longitude.ToString();
-                // add attributes to the xml node
-                trkpt.Attributes.Append(lat);
-                trkpt.Attributes.Append(lon);
-                // add the xml node to the xml document
-                trkseg.AppendChild(trkpt);
-
-                // add elevetion to the xml node
-                XmlElement ele = doc.CreateElement(string.Empty, "ele", string.Empty);
-                XmlText value = doc.CreateTextNode(pointLocal.waypoint.altitude.ToString());
-                ele.AppendChild(value);
-                trkpt.AppendChild(ele);
-            }
-
-            //returning the xml document to a string
-            StringWriter output = new StringWriter();
-            doc.Save(output);
-            return output.ToString();
-
-        }
 
         private void btStart_Click(object sender, RoutedEventArgs e)
         {
-            GetCoordinate();
+            recordingLocalisation = true;
+            define();
 
+        }
+
+        private string getTempFile()
+        {
+            string file = Path.GetTempPath();
+            return file + "current.gpx";
+        }
+
+
+        public async static void saveGPX(Object stateInfo)
+        {
+            if (!File.Exists(tempFile))
+            {
+                File.Create(tempFile);
+            }
+            StorageFile file = await StorageFile.GetFileFromPathAsync(tempFile);
+
+            await FileIO.WriteTextAsync(file, gpx.generateGPXOutput(track));
+            System.Diagnostics.Debug.WriteLine("saved temporary file");
+        }
+
+        private void Slider_PointerMoved(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            switch (sliderUnitSpeed.Value.ToString())
+            {
+                case "0":
+                    speedunit = speedUnit.metersPerSecond;
+                    sliderUnitSpeed.Header = "m/s";
+                    break;
+
+                case "1":
+                    speedunit = speedUnit.kmPerHour;
+                    sliderUnitSpeed.Header = "km/h";
+                    break;
+
+                case "2":
+                    speedunit = speedUnit.milesPerHour;
+                    sliderUnitSpeed.Header = "miles/h";
+                    break;
+
+            }
+            define();
+        }
+
+
+        public double GetDistanceBetweenPoints(double lat1, double long1, double lat2, double long2)
+        {
+            double distance = 0;
+
+            double dLat = (lat2 - lat1) / 180 * Math.PI;
+            double dLong = (long2 - long1) / 180 * Math.PI;
+
+            double a = Math.Sin(dLat / 2) * Math.Sin(dLat / 2)
+            + Math.Cos(lat2) * Math.Sin(dLong / 2) * Math.Sin(dLong / 2);
+            double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            //Calculate radius of earth
+            // For this you can assume any of the two points.
+            double radiusE = 6378135; // Equatorial radius, in metres
+            double radiusP = 6356750; // Polar Radius
+
+            //Numerator part of function
+            double nr = Math.Pow(radiusE * radiusP * Math.Cos(lat1 / 180 * Math.PI), 2);
+            //Denominator part of the function
+            double dr = Math.Pow(radiusE * Math.Cos(lat1 / 180 * Math.PI), 2)
+     + Math.Pow(radiusP * Math.Sin(lat1 / 180 * Math.PI), 2);
+            double radius = Math.Sqrt(nr / dr);
+
+            //Calaculate distance in metres.
+            distance = radius * c;
+            return distance;
         }
     }
 
-    public class pointDescription
+    public class point
     {
+        public int track { get; set; }
         //position
         public double altitude { get; set; }
         public double latitude { get; set; }
         public double longitude { get; set; }
+        public double accuracy { get; set; }
 
         //date
         public DateTimeOffset date { get; set; }
 
         // speed
         public double? speed { get; set; }
+        public PositionSource positionSource { get; set; }
     }
-    public class point
+
+
+
+    /// <summary>
+    /// This class is for the timer
+    /// </summary>
+    public static class timer
     {
-        public int track { get; set; }
-        public pointDescription waypoint { get; set; }
+        public static Timer timerVar;
+        public static void start()
+        {
+            timerVar = new Timer(MainPage.saveGPX, null, 0, 100);
+        }
+        public static void stop()
+        {
+            timerVar.Dispose();
+        }
+
     }
+
 }

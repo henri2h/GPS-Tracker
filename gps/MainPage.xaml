@@ -8,6 +8,9 @@
     xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
     mc:Ignorable="d" Loaded="Page_Loaded" Foreground="Black" Background="White">
     <Grid Background="White" x:Name="panel">
+
+
+
         <!--TitlePanel contains the name of the application and page title-->
         <ScrollViewer>
             <StackPanel>
@@ -22,12 +25,12 @@
                         <TextBlock Text="Output : " Width="Auto" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <TextBlock x:Name="tbOutput"  Width="Auto" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="1"/>
                     </StackPanel>
-                    
+
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Position source : " Width="Auto" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <TextBlock x:Name="tbSource"  Width="Auto" Height="Auto" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                     </StackPanel>
-                    
+
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="Latitude : " Width="Auto" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                         <TextBlock x:Name="tbLatitude"  Width="Auto" Height="30"	HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -44,8 +47,14 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Height="30">
+                        <TextBlock Text="Total distance : " />
+                        <TextBlock x:Name="tbTotalDistance"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Height="30">
                         <TextBlock Text="Speed : "/>
                         <TextBlock x:Name="tbSpeed" />
+                        <AppBarSeparator/>
                         <TextBlock Text="Max speed : "/>
                         <TextBlock x:Name="tbMaxSpeed"/>
                     </StackPanel>
@@ -62,17 +71,23 @@
                 </StackPanel>
 
                 <StackPanel Orientation="Horizontal">
+                    <Slider x:Name="sliderUnitSpeed" Maximum="2" Width="140" Header="unit speed" PointerMoved="Slider_PointerMoved" LargeChange="1"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
                     <Button x:Name="btSave" Content="Save" Width="150" Height="31" Click="btSave_Click"/>
-                    <AppBarSeparator></AppBarSeparator>
+                    <AppBarSeparator/>
                     <Button x:Name="btCenter" Content="center"  Height="28" Width="177" Click="btCenter_Click"/>
                 </StackPanel>
 
                 <ListView x:Name="coords" Height="180" Visibility="Collapsed" />
 
-                <Maps:MapControl Height="424" HorizontalAlignment="Stretch" VerticalAlignment="Top" x:Name="MapControl1" TransitFeaturesVisible="False" MapServiceToken="your token her" Loaded="MapControl1_Loaded" ZoomInteractionMode="GestureAndControl" RotateInteractionMode="GestureAndControl"/>
+                <Maps:MapControl Height="424" HorizontalAlignment="Stretch" VerticalAlignment="Top" x:Name="MapControl1" TransitFeaturesVisible="False" MapServiceToken="dIQYRjm1oGFEfWPNnTmx~GRofurcHYDuU4uJtNG1C6Q~AhcpDsCLAmjtPskvs3dCm3TMl2Hhawxmy66H6cGFAmkUcOFou7gYl0xbTzzit0Id" Loaded="MapControl1_Loaded" ZoomInteractionMode="GestureAndControl" RotateInteractionMode="GestureAndControl"/>
 
             </StackPanel>
         </ScrollViewer>
+
+
     </Grid>
 
 </Page>
