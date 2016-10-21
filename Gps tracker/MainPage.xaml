@@ -49,7 +49,7 @@
 
 
 
-                <Maps:MapControl Height="424" HorizontalAlignment="Stretch" VerticalAlignment="Top" x:Name="MapControl1" TransitFeaturesVisible="False" MapServiceToken="dIQYRjm1oGFEfWPNnTmx~GRofurcHYDuU4uJtNG1C6Q~AhcpDsCLAmjtPskvs3dCm3TMl2Hhawxmy66H6cGFAmkUcOFou7gYl0xbTzzit0Id" Loaded="MapControl1_Loaded" ZoomInteractionMode="GestureAndControl" RotateInteractionMode="GestureAndControl"/>
+                <Maps:MapControl Height="424" HorizontalAlignment="Stretch" VerticalAlignment="Top" x:Name="MapControl1" TransitFeaturesVisible="False" MapServiceToken="put the map service tocken here" Loaded="MapControl1_Loaded" ZoomInteractionMode="GestureAndControl" RotateInteractionMode="GestureAndControl"/>
 
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="btUpdate" Content="Update" Click="btUpdate_Click"></Button>
