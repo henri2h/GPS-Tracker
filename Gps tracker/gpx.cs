@@ -7,7 +7,7 @@ using System.IO;
 using System.Windows;
 using System.Xml;
 
-namespace gps
+namespace Gps_tracker
 {
     public static class gpx
     {

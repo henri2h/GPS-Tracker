@@ -1,0 +1,74 @@
+﻿<Page
+    x:Class="Gps_tracker.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Gps_tracker"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+        <ScrollViewer>
+            <StackPanel>
+                <StackPanel x:Name="TitlePanel" Height="40" BorderBrush="#FF130404" Background="#FF8B8B8B" BorderThickness="0,1">
+                    <TextBlock Text="Gps tracker"/>
+                </StackPanel>
+                <Button x:Name="btStart" Content="Start recording the track" Click="btStart_Click"/>
+
+                <TextBlock x:Name="tbOutput"/>
+                <TextBlock x:Name="LocatorUITexBlock" Visibility="Collapsed"/>
+                <TextBlock x:Name="tbSource"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="tbLatitude" />
+                    <TextBlock x:Name="tbLongitude" Margin="10,0,0,0"/>
+                </StackPanel>
+
+                <TextBlock x:Name="tbAltitude"/>
+                <TextBlock x:Name="tbTotalDistance"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="UISpeedTextBox" />
+                    <TextBlock x:Name="UIMediumSpeedTextBox" Margin="10,0,0,0"/>
+                    <TextBlock x:Name="UIMaxSpeedTextBox" Margin="10,0,0,0"/>
+                </StackPanel>
+
+                <TextBlock x:Name="tbAccuracy" />
+                <TextBlock x:Name="tbDate"  Width="Auto" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+                <Slider x:Name="sliderUnitSpeed" Maximum="2" Width="140" LargeChange="1"  PointerReleased="Slider_PointerMoved" ValueChanged="Slider_PointerMoved" HorizontalAlignment="Left"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="btSave" Content="Save" Width="150" Height="31" Click="btSave_Click"/>
+                    <AppBarSeparator/>
+                    <Button x:Name="btCenter" Content="center"  Height="28" Width="177" Click="btCenter_Click"/>
+
+                </StackPanel>
+
+
+
+                <Maps:MapControl Height="424" HorizontalAlignment="Stretch" VerticalAlignment="Top" x:Name="MapControl1" TransitFeaturesVisible="False" MapServiceToken="dIQYRjm1oGFEfWPNnTmx~GRofurcHYDuU4uJtNG1C6Q~AhcpDsCLAmjtPskvs3dCm3TMl2Hhawxmy66H6cGFAmkUcOFou7gYl0xbTzzit0Id" Loaded="MapControl1_Loaded" ZoomInteractionMode="GestureAndControl" RotateInteractionMode="GestureAndControl"/>
+
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="btUpdate" Content="Update" Click="btUpdate_Click"></Button>
+                    <Button x:Name="btMapupdate" Content="update map" Click="btMapupdate_Click"/>
+                </StackPanel>
+
+                <!--console-->
+                <StackPanel x:Name="ConsoleUI" Background="Black" >
+                    <TextBlock Text="Console :"/>
+                    <ScrollViewer MaxHeight="100" x:Name="ConsoleUITextBoxScroll">
+                        <TextBlock x:Name="ConsoleUIWriteBox" Foreground="White" FontSize="12"/>
+                    </ScrollViewer>
+                    <TextBox x:Name="ConsoleUIReadBox"/>
+
+                </StackPanel>
+                <TextBlock Text="Made by Henri2H"/>
+            </StackPanel>
+
+        </ScrollViewer>
+
+    </Grid>
+</Page>
