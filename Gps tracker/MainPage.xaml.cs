@@ -27,19 +27,18 @@ namespace Gps_tracker
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        //local
-        public static MainPage mainpage;
-        public static string tempFile = "";
+        timer time;
+        public string tempFile = "";
 
         //UI
-        public static double? maxSpeed = 0;
+        public double? maxSpeed = 0;
         double mediumSpeed = 0;
         speedUnit SpeedUnit = speedUnit.metersPerSecond;
 
-        public static double totalDistance = 0;
+        public double totalDistance = new double();
+        public string output = "";
 
-        public static string output = "";
-        public static string LocatorStatus = "";
+        public string LocatorStatus = "";
 
 
         StringWriter sw = new StringWriter();
@@ -47,7 +46,7 @@ namespace Gps_tracker
         DateTimeOffset date = DateTimeOffset.Now;
 
         // intialize the locator
-        locator GPSLocator = new locator();
+        locator GPSLocator;
 
         public static ObservableCollection<string> coordinates = new ObservableCollection<string>();
 
@@ -57,22 +56,27 @@ namespace Gps_tracker
             try
             {
                 this.InitializeComponent();
-                mainpage = this;
 
-                tempFile = files.getTempFile();
+                MapControl1.MapServiceToken = "dIQYRjm1oGFEfWPNnTmx~GRofurcHYDuU4uJtNG1C6Q~AhcpDsCLAmjtPskvs3dCm3TMl2Hhawxmy66H6cGFAmkUcOFou7gYl0xbTzzit0Id";
+
+                // intitalisation
+                time = new timer(this);
+                GPSLocator = new locator(this);
+                Console.page = this;
+
+                var _ = TCPClient.SocketClient.connect("10.0.0.3");
+
+
+                tempFile = files.getTempFile(".gpx");
                 Console.WriteLine("Temp file : " + tempFile);
-                System.Diagnostics.Debug.WriteLine("get temp file : " + tempFile);
 
                 GPSLocator.startLocalisation();
                 updateUITextElements();
             }
             catch (Exception ex)
             {
-                string err = ErrorMessage.getErrorString(ex);
-                Console.WriteLine(err);
-                tempFile = files.getTempFile();
-                File.WriteAllText(tempFile + ".err", err);
-                files.saveFile(".err", err + Environment.NewLine + tempFile);
+                ex.Source = "MainPage.constructor";
+                ErrorMessage.printOut(ex);
             }
         }
 
@@ -82,30 +86,37 @@ namespace Gps_tracker
         {
             try
             {
-                MapControl1.Center = GPSLocator.global.Coordinate.Point;
-                MapControl1.ZoomLevel = 18;
+                if (GPSLocator.global != null)
+                {
+                    MapControl1.Center = GPSLocator.global.Coordinate.Point;
+                    MapControl1.ZoomLevel = 16;
+                }
             }
-            catch (Exception ex) { System.Diagnostics.Debug.WriteLine(ErrorMessage.getErrorString(ex)); }
+            catch (Exception ex)
+            {
+                ex.Source = "MaiPage.btCenter_Click";
+                ErrorMessage.printOut(ex);
+            }
         }
         //start
         private void btStart_Click(object sender, RoutedEventArgs e)
         {
             if (GPSLocator.recordingLocalisation == false)
             {
-                //  timer.start(GPSLocator);
+                time.start(GPSLocator);
                 GPSLocator.recordingLocalisation = true;
                 btStart.Content = "Stop recording the track";
             }
             else
             {
-                //timer.stop();
+                time.stop();
                 GPSLocator.recordingLocalisation = false;
                 btStart.Content = "Start recording the track";
             }
             updateUITextElements();
         }
         //save
-        private void btSave_Click(object sender, RoutedEventArgs e) { files.choose(GPSLocator); }
+        private void btSave_Click(object sender, RoutedEventArgs e) { files.choose(this, GPSLocator); }
         //slider
         private void Slider_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
@@ -120,47 +131,81 @@ namespace Gps_tracker
             updateSpeedUIElement();
         }
         //update
+
         private void btUpdate_Click(object sender, RoutedEventArgs e)
         {
             updateUITextElements();
         }
 
-
         //============ UI ===============
-        public void unThreadUpdateUITextElement() { var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { updateUITextElements(); }); }
+        public void unThreadUpdateUITextElement()
+        {
+            try
+            {
+                var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { updateUITextElements(); });
+            }
+            catch (Exception ex)
+            {
+                ex.Source = "MainPage.unThreadUpdateUITextElement";
+                ErrorMessage.printOut(ex);
+            }
+        }
         public void updateUITextElements()
         {
-            updateUITextBox();
-            updateSpeedUIElement();
+            try
+            {
+                updateUITextBox();
+                updateSpeedUIElement();
+            }
+            catch (Exception ex)
+            {
+                ex.Source = "MainPage.updateUITextElements";
+                ErrorMessage.printOut(ex);
+            }
         }
 
         public void updateUITextBox()
         {
-            updateTextBlock(tbDate, "Date : ", date.ToString());
-            updateTextBlock(tbOutput, "Output : ", output);
+            try
+            {
+                updateTextBlock(tbDate, "Date : ", date.ToString());
+                updateTextBlock(tbOutput, "Output : ", output);
 
-            updateTextBlock(tbSource, "Postion source : ", GPSLocator.currentPoint.positionSource.ToString());
-            updateTextBlock(LocatorUITexBlock, "Locator status : ", GPSLocator.Status);
+                updateTextBlock(tbSource, "Postion source : ", GPSLocator.currentPoint.positionSource.ToString());
+                updateTextBlock(LocatorUITexBlock, "Locator status : ", GPSLocator.Status);
 
-            updateTextBlock(tbTotalDistance, "Total travel distance : ", totalDistance.ToString());
+                updateTextBlock(tbTotalDistance, "Total travel distance : ", totalDistance.ToString());
 
-            updateTextBlock(tbLatitude, "Latitude : ", GPSLocator.currentPoint.latitude.ToString());
-            updateTextBlock(tbLongitude, "Longitude : ", GPSLocator.currentPoint.longitude.ToString());
-            updateTextBlock(tbAltitude, "Altitude : ", GPSLocator.currentPoint.altitude.ToString());
-            updateTextBlock(tbAccuracy, "Accuracy : ", GPSLocator.currentPoint.accuracy.ToString());
-
+                updateTextBlock(tbLatitude, "Latitude : ", GPSLocator.currentPoint.latitude.ToString());
+                updateTextBlock(tbLongitude, "Longitude : ", GPSLocator.currentPoint.longitude.ToString());
+                updateTextBlock(tbAltitude, "Altitude : ", GPSLocator.currentPoint.altitude.ToString());
+                updateTextBlock(tbAccuracy, "Accuracy : ", GPSLocator.currentPoint.accuracy.ToString());
+            }
+            catch (Exception ex)
+            {
+                ex.Source = "MainPage.updateUITextBox";
+                ErrorMessage.printOut(ex);
+            }
 
         }
 
 
         public void updateTextBlock(TextBlock tb, string helpString, string text)
         {
-            if (text != "" || text != null)
+            try
             {
-                tb.Visibility = Visibility.Visible;
-                tb.Text = helpString + text;
+                if (text != "" || text != null)
+                {
+                    tb.Visibility = Visibility.Visible;
+                    tb.Text = helpString + text;
+                }
+                else { tb.Visibility = Visibility.Collapsed; }
             }
-            else { tb.Visibility = Visibility.Collapsed; }
+            catch (Exception ex)
+            {
+                ex.Source = "MainPage.updateTextBlock";
+                ErrorMessage.printOut(ex);
+            }
         }
 
         public void updateSpeedUnit()
@@ -192,6 +237,7 @@ namespace Gps_tracker
             updateTextBlock(UIMediumSpeedTextBox, "Average speed : ", getSpeedValueForUnit(mediumSpeed));
             updateTextBlock(UIMaxSpeedTextBox, "Max speed : ", getSpeedValueForUnit(maxSpeed));
         }
+
         // return speed unit values and calculate them
         public string getSpeedValueForUnit(double? inputSpeed)
         {
@@ -213,29 +259,48 @@ namespace Gps_tracker
         }
 
 
-        public void unThreadUpdateUIMap() { var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { updateUIMap(); }); }
+        public void unThreadUpdateUIMap()
+        {
+            try
+            {
+                var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { updateUIMap(); });
+            }
+            catch (Exception ex)
+            {
+                ex.Source = "MainPage.unThreadUpdateUIMap";
+                ErrorMessage.printOut(ex);
+            }
+        }
         public void updateUIMap()
         {
-            point oldPoint = null;
-            foreach (point pointElement in GPSLocator.track)
+            try
             {
-                if (oldPoint != null)
+                point oldPoint = null;
+                point[] points = GPSLocator.track.ToArray();
+                foreach (point pointElement in points)
                 {
-                    Windows.UI.Xaml.Controls.Maps.MapPolyline mapPolyline = new Windows.UI.Xaml.Controls.Maps.MapPolyline();
-                    mapPolyline.Path = new Geopath(new List<BasicGeoposition>() {
+                    if (oldPoint != null)
+                    {
+                        Windows.UI.Xaml.Controls.Maps.MapPolyline mapPolyline = new Windows.UI.Xaml.Controls.Maps.MapPolyline();
+                        mapPolyline.Path = new Geopath(new List<BasicGeoposition>() {
                             new BasicGeoposition() {Latitude=oldPoint.latitude, Longitude=oldPoint.longitude},
                             new BasicGeoposition() {Latitude=pointElement.latitude, Longitude=pointElement.longitude}
                              });
-                    mapPolyline.StrokeColor = Colors.Black;
-                    mapPolyline.StrokeThickness = 3;
-                    mapPolyline.StrokeDashed = true;
-                    MapControl1.MapElements.Add(mapPolyline);
+                        mapPolyline.StrokeColor = Colors.Black;
+                        mapPolyline.StrokeThickness = 3;
+                        mapPolyline.StrokeDashed = true;
+                        MapControl1.MapElements.Add(mapPolyline);
+                    }
+
+                    oldPoint = pointElement;
                 }
 
-                oldPoint = pointElement;
             }
-
-
+            catch (Exception ex)
+            {
+                ex.Source = "MainPage.updateUIMap";
+                ErrorMessage.printOut(ex);
+            }
         }
 
         public static async void messageBox(string msg)
@@ -245,23 +310,36 @@ namespace Gps_tracker
             await msgDlg.ShowAsync();
         }
 
-        private void btMapupdate_Click(object sender, RoutedEventArgs e)
-        {
-            System.Console.WriteLine("Map should be updated");
-            Console.WriteLine("Size of track : " + GPSLocator.track.ToArray().Length);
-            updateUIMap();
-        }
+
 
         public void WriteLine(string text)
         {
-            var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            try
             {
-                ConsoleUIWriteBox.Text += text + Environment.NewLine;
-                ConsoleUITextBoxScroll.ChangeView(ConsoleUITextBoxScroll.ScrollableHeight, 0, ConsoleUITextBoxScroll.ZoomFactor);
-            });
+                var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    ConsoleUIWriteBox.Text += text + Environment.NewLine;
+                    //  ConsoleUITextBoxScroll.ChangeView(ConsoleUITextBoxScroll.ScrollableHeight, 0, ConsoleUITextBoxScroll.ZoomFactor);
+                });
+            }
+            catch (Exception ex)
+            {
+                ex.Source = "MainPage.WriteLine (Console)";
+                ErrorMessage.printOut(ex);
+            }
         }
 
-
+        private void ConsoleUIbtReturn_Click(object sender, RoutedEventArgs e)
+        {
+            string comm = ConsoleUIReadBox.Text;
+            var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Console.setNewLine(comm); });
+            ConsoleUIReadBox.Text = "";
+        }
+        private void btMapupdate_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("Map Updating : Size of track : " + GPSLocator.track.ToArray().Length);
+            updateUIMap();
+        }
     }
 
 

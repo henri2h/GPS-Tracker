@@ -11,7 +11,7 @@ namespace Gps_tracker
     /// <summary>
     /// This class is for the timer
     /// </summary>
-    public static class timer
+    public class timer
     {
         public static bool timerEnabled;
 
@@ -20,17 +20,33 @@ namespace Gps_tracker
 
         public static Timer timerVar;
         static locator GPSLocator;
-        public static void start(locator gs)
+        MainPage page;
+
+        public timer(MainPage pages)
+        {
+            page = pages;
+        }
+        public void start(locator gs)
         {
             GPSLocator = gs;
             timerVar = new Timer(timerCallback, null, 0, 10000);
             if (endtimer != null) { endtimer(); }
         }
-        public static void timerCallback(object tc)
+        public void timerCallback(object tc)
         {
-            files.saveGPXTempFile(GPSLocator);
+            try
+            {
+                bool ok = files.saveGPXTempFile(page, GPSLocator);
+                if (!ok) { Console.WriteLine("TempFile : saveKO"); }
+                else { Console.WriteLine("TempFile : saveOK"); }
+            }
+            catch (Exception ex)
+            {
+                ex.Source = "timer.timerCallback";
+                ErrorMessage.printOut(ex);
+            }
         }
-        public static void stop()
+        public void stop()
         {
             timerVar.Dispose();
         }

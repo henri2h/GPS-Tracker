@@ -13,7 +13,7 @@ namespace Gps_tracker
     {
         public static string generateGPXOutput(List<point> track)
         {
-            System.Diagnostics.Debug.WriteLine("generating gpx output");
+            Console.WriteLine("Generating gpx output");
 
             XmlDocument doc = new XmlDocument();
             

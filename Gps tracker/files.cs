@@ -12,100 +12,132 @@ namespace Gps_tracker
 {
     public class files
     {
-        public static string getTempFile()
+        // temp files and dir
+        public static string getTempFile(string extention)
         {
             string file = Path.GetTempPath();
-            return file + "current.gpx";
+            string name = "current";
+            int version = 0;
+            while (File.Exists(file + name + version + extention))
+            {
+                version++;
+            }
+            return file + name + version + extention;
         }
+        public static string getTempDir()
+        {
+            return Path.GetTempPath();
+        }
+
+
         // save tempfile
-        public async static void saveGPXTempFile(locator GPSLocator)
+        public static bool saveGPXTempFile(MainPage page, locator GPSLocator)
         {
             try
             {
-                if (GPSLocator.track == null) { System.Diagnostics.Debug.WriteLine("error, the track file doesn't exist"); }
-                if (!File.Exists(MainPage.tempFile))
+                if (GPSLocator.track == null)
                 {
-                    File.Create(MainPage.tempFile);
+
+                    Console.WriteLine("[TempFile] : The track file doesn't exist");
                 }
-                StorageFile file = await StorageFile.GetFileFromPathAsync(MainPage.tempFile);
+                else
+                {
+                    File.WriteAllText(page.tempFile, gpx.generateGPXOutput(GPSLocator.track));
 
-                await FileIO.WriteTextAsync(file, gpx.generateGPXOutput(GPSLocator.track));
-                System.Diagnostics.Debug.WriteLine("saved temporary file");
-
+                    return true;
+                }
             }
-            catch (Exception ex)
+            catch (FileLoadException fex)
             {
-                System.Diagnostics.Debug.WriteLine("Error");
-                System.Diagnostics.Debug.WriteLine(ErrorMessage.getErrorString(ex));
+                // we didn't catch this erro because if it happend, it make no difference because we are trying to save a temporary file.
+                Console.WriteLine("[TempFile] : " + fex.Message);
+                return false;
             }
+            return false;
         }
         public static async void saveFile(string extension, string content)
         {
-            FileSavePicker savePicker = new FileSavePicker();
-            savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-            // Dropdown of file types the user can save the file as
-            savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { extension });
-            savePicker.SuggestedFileName = "error";
-            StorageFile file = await savePicker.PickSaveFileAsync();
-            if (file != null)
+            try
             {
-                // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
-                CachedFileManager.DeferUpdates(file);
-                // write to file
-                await FileIO.WriteTextAsync(file, content);
-                // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
-                // Completing updates may require Windows to ask for user input.
-                FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
-                if (status == FileUpdateStatus.Complete)
+                FileSavePicker savePicker = new FileSavePicker();
+                savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+                // Dropdown of file types the user can save the file as
+                savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { extension });
+                savePicker.SuggestedFileName = "error";
+                StorageFile file = await savePicker.PickSaveFileAsync();
+                if (file != null)
                 {
-                    MainPage.messageBox("File " + file.Name + " was saved.");
-                    Console.WriteLine("File " + file.Name + " was saved.");
+                    // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
+                    CachedFileManager.DeferUpdates(file);
+                    // write to file
+                    await FileIO.WriteTextAsync(file, content);
+                    // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
+                    // Completing updates may require Windows to ask for user input.
+                    FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+                    if (status == FileUpdateStatus.Complete)
+                    {
+                        MainPage.messageBox("File " + file.Name + " was saved.");
+                        Console.WriteLine("File " + file.Name + " was saved.");
+                    }
+                    else
+                    {
+                        MainPage.messageBox("File " + file.Name + " couldn't be saved.");
+                        Console.WriteLine("File " + file.Name + " couldn't be saved.");
+                    }
                 }
                 else
                 {
-                    MainPage.messageBox("File " + file.Name + " couldn't be saved.");
-                    Console.WriteLine("File " + file.Name + " couldn't be saved.");
+                    MainPage.messageBox("Operation cancelled.");
+                    Console.WriteLine("Operation cancelled");
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MainPage.messageBox("Operation cancelled.");
-                Console.WriteLine("Operation cancelled");
+                ex.Source = "file.saveFile";
+                ErrorMessage.printOut(ex);
             }
         }
-        public static async void choose(locator GPXLocator)
+        public static async void choose(MainPage page, locator GPXLocator)
         {
-            FileSavePicker savePicker = new FileSavePicker();
-            savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
-            // Dropdown of file types the user can save the file as
-            savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".gpx" });
-            // Default file name if the user does not type one in or select a file to replace
-            savePicker.SuggestedFileName = "gps-track";
-
-            StorageFile file = await savePicker.PickSaveFileAsync();
-            if (file != null)
+            try
             {
-                // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
-                CachedFileManager.DeferUpdates(file);
-                // write to file
-                await FileIO.WriteTextAsync(file, gpx.generateGPXOutput(GPXLocator.track));
-                // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
-                // Completing updates may require Windows to ask for user input.
-                FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
-                if (status == FileUpdateStatus.Complete)
+                FileSavePicker savePicker = new FileSavePicker();
+                savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+                // Dropdown of file types the user can save the file as
+                savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".gpx" });
+                // Default file name if the user does not type one in or select a file to replace
+                savePicker.SuggestedFileName = "gps-track";
+
+                StorageFile file = await savePicker.PickSaveFileAsync();
+                if (file != null)
                 {
-                    MainPage.output = "File " + file.Name + " was saved.";
+                    // Prevent updates to the remote version of the file until we finish making changes and call CompleteUpdatesAsync.
+                    CachedFileManager.DeferUpdates(file);
+                    // write to file
+                    await FileIO.WriteTextAsync(file, gpx.generateGPXOutput(GPXLocator.track));
+                    // Let Windows know that we're finished changing the file so the other app can update the remote version of the file.
+                    // Completing updates may require Windows to ask for user input.
+                    FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
+                    if (status == FileUpdateStatus.Complete)
+                    {
+                        page.output = "File " + file.Name + " was saved.";
+                    }
+                    else
+                    {
+                        page.output = "File " + file.Name + " couldn't be saved.";
+                    }
                 }
                 else
                 {
-                    MainPage.output = "File " + file.Name + " couldn't be saved.";
+                    page.output = "Operation cancelled.";
                 }
+                page.unThreadUpdateUITextElement();
             }
-            else
+            catch (Exception ex)
             {
-                MainPage.output = "Operation cancelled.";
+                ex.Source = "file.choose";
+                ErrorMessage.printOut(ex);
             }
-            MainPage.mainpage.unThreadUpdateUITextElement();
         }
     }
 }

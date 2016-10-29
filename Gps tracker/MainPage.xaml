@@ -49,7 +49,7 @@
 
 
 
-                <Maps:MapControl Height="424" HorizontalAlignment="Stretch" VerticalAlignment="Top" x:Name="MapControl1" TransitFeaturesVisible="False" MapServiceToken="put the map service tocken here" Loaded="MapControl1_Loaded" ZoomInteractionMode="GestureAndControl" RotateInteractionMode="GestureAndControl"/>
+                <Maps:MapControl Height="424" HorizontalAlignment="Stretch" VerticalAlignment="Top" x:Name="MapControl1" TransitFeaturesVisible="False"  Loaded="MapControl1_Loaded" ZoomInteractionMode="GestureAndControl" RotateInteractionMode="GestureAndControl"/>
 
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="btUpdate" Content="Update" Click="btUpdate_Click"></Button>
@@ -58,11 +58,15 @@
 
                 <!--console-->
                 <StackPanel x:Name="ConsoleUI" Background="Black" >
-                    <TextBlock Text="Console :"/>
-                    <ScrollViewer MaxHeight="100" x:Name="ConsoleUITextBoxScroll">
+                    <TextBlock Text="Console :" Foreground="White"/>
+                    <ScrollViewer MaxHeight="400" x:Name="ConsoleUITextBoxScroll">
                         <TextBlock x:Name="ConsoleUIWriteBox" Foreground="White" FontSize="12"/>
                     </ScrollViewer>
-                    <TextBox x:Name="ConsoleUIReadBox"/>
+                    
+                    <StackPanel Orientation="Horizontal">
+                        <TextBox x:Name="ConsoleUIReadBox"/>
+                        <Button x:Name="ConsoleUIbtReturn" Content="return" Click="ConsoleUIbtReturn_Click" Foreground="White"/>
+                    </StackPanel>
 
                 </StackPanel>
                 <TextBlock Text="Made by Henri2H"/>

@@ -9,11 +9,9 @@ namespace Gps_tracker
 {
     public class extendedSession
     {
-        static ExtendedExecutionSession session;
-
-        public static async void StartLocationExtensionSession()
+        ExtendedExecutionSession session;
+        public async void StartLocationExtensionSession()
         {
-
             session = new ExtendedExecutionSession();
             session.Description = "Location Tracker";
             session.Reason = ExtendedExecutionReason.LocationTracking;
@@ -22,28 +20,28 @@ namespace Gps_tracker
             var result = await session.RequestExtensionAsync();
             if (result == ExtendedExecutionResult.Denied)
             {
-                MainPage.output = "error";
-                MainPage.mainpage.unThreadUpdateUITextElement();
-
                 MainPage.messageBox("error on creating the extended session");
+                Console.WriteLine("Error on creationg the extended session");
             }
             else
             {
                 System.Diagnostics.Debug.WriteLine("Extended session succesfuly created");
+                Console.WriteLine("Extended session succesfuly created");
             }
 
         }
 
-        static void ExtendedExecutionSession_Revoked(object sender, ExtendedExecutionRevokedEventArgs args)
+        void ExtendedExecutionSession_Revoked(object sender, ExtendedExecutionRevokedEventArgs args)
         //ExtendedExecutionSession sender, ExtensionRevokedEventArgs args)
         {
             MainPage.messageBox("Extended session revoked");
+            Console.WriteLine("Extended session revoked");
             //TODO: clean up session data
             StopLocationExtensionSession();
 
         }
 
-        static void StopLocationExtensionSession()
+        void StopLocationExtensionSession()
         {
             MainPage.messageBox("Extended session stoped");
             //reinitialisze the session
@@ -53,7 +51,7 @@ namespace Gps_tracker
                 session = null;
             }
             System.Diagnostics.Debug.WriteLine("Extended session stoped");
-
+            Console.WriteLine("Extended session stoped");
         }
 
     }
