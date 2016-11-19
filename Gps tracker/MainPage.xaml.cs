@@ -2,23 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
 using Windows.Devices.Geolocation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
 namespace Gps_tracker
 {
@@ -57,13 +47,15 @@ namespace Gps_tracker
             {
                 this.InitializeComponent();
 
-                MapControl1.MapServiceToken = "dIQYRjm1oGFEfWPNnTmx~GRofurcHYDuU4uJtNG1C6Q~AhcpDsCLAmjtPskvs3dCm3TMl2Hhawxmy66H6cGFAmkUcOFou7gYl0xbTzzit0Id";
+                // place the mapServiceToken here, you can get one at https://www.bingmapsportal.com/
+                MapControl1.MapServiceToken = "";
 
                 // intitalisation
                 time = new timer(this);
                 GPSLocator = new locator(this);
                 Console.page = this;
 
+                // this is in order to debug the client remotely
                 var _ = TCPClient.SocketClient.connect("10.0.0.3");
 
 
@@ -275,6 +267,50 @@ namespace Gps_tracker
         {
             try
             {
+
+                point[] points = GPSLocator.track.ToArray();
+                if (points.Length > 0)
+                {
+                    point oldPoint = points[points.Length - 2];
+                    point current = points[points.Length - 1];
+
+                    if (oldPoint != null)
+                    {
+                        setUIMapSegement(
+                            new BasicGeoposition() { Latitude = oldPoint.latitude, Longitude = oldPoint.longitude },
+                            new BasicGeoposition() { Latitude = current.latitude, Longitude = current.longitude }
+                        );
+
+
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                ex.Source = "MainPage.updateUIMap";
+                ErrorMessage.printOut(ex);
+            }
+        }
+        public void setUIMapSegement(BasicGeoposition start, BasicGeoposition end)
+        {
+            Windows.UI.Xaml.Controls.Maps.MapPolyline mapPolyline = new Windows.UI.Xaml.Controls.Maps.MapPolyline();
+            mapPolyline.Path = new Geopath(new List<BasicGeoposition>() { start, end });
+
+            mapPolyline.StrokeColor = Colors.Black;
+            mapPolyline.StrokeThickness = 3;
+            mapPolyline.StrokeDashed = true;
+            MapControl1.MapElements.Add(mapPolyline);
+        }
+
+        /// <summary>
+        /// Refresh all the map
+        /// </summary>
+        public void updateUIAllMap()
+        {
+            MapControl1.MapElements.Clear();
+            try
+            {
                 point oldPoint = null;
                 point[] points = GPSLocator.track.ToArray();
                 foreach (point pointElement in points)
@@ -302,7 +338,6 @@ namespace Gps_tracker
                 ErrorMessage.printOut(ex);
             }
         }
-
         public static async void messageBox(string msg)
         {
             var msgDlg = new Windows.UI.Popups.MessageDialog(msg);
@@ -338,7 +373,7 @@ namespace Gps_tracker
         private void btMapupdate_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Map Updating : Size of track : " + GPSLocator.track.ToArray().Length);
-            updateUIMap();
+            updateUIAllMap();
         }
     }
 

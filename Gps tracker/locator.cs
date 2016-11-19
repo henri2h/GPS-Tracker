@@ -14,6 +14,7 @@ namespace Gps_tracker
 {
     public class locator
     {
+
         public MainPage page;
         //postion
         public List<point> track = null;
@@ -49,10 +50,9 @@ namespace Gps_tracker
 
 
                 page.output = "locator started";
-
-                extendedSession exS = new extendedSession();
-                // start extended session
-                exS.StartLocationExtensionSession();
+                
+                // start the extended session
+                extendedSession.StartLocationExtensionSession();
 
                 System.Diagnostics.Debug.WriteLine("Started locator");
                 Console.WriteLine("Locator started : ");

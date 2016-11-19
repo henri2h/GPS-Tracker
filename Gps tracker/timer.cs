@@ -43,7 +43,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "timer.timerCallback";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.printOut(ex, "error handeled");
             }
         }
         public void stop()

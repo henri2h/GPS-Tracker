@@ -26,6 +26,7 @@
                 var _ = Gps_tracker.TCPClient.SocketClient.connect(Gps_tracker.TCPClient.SocketClient.host);
             }
             else if (args[0] == "send") { Gps_tracker.ErrorMessage.sendErrorMessages(); }
+            else if (args[0] == "exRelaunch") { Gps_tracker.extendedSession.StartLocationExtensionSession(); }
             else
             {
                 var _ = Gps_tracker.TCPClient.SocketClient.writeLine(text);

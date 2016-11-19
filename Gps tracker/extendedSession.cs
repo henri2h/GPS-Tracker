@@ -9,12 +9,13 @@ namespace Gps_tracker
 {
     public class extendedSession
     {
-        ExtendedExecutionSession session;
-        public async void StartLocationExtensionSession()
+        static ExtendedExecutionSession session;
+        public static async void StartLocationExtensionSession()
         {
             session = new ExtendedExecutionSession();
             session.Description = "Location Tracker";
             session.Reason = ExtendedExecutionReason.LocationTracking;
+
             session.Revoked += ExtendedExecutionSession_Revoked;
 
             var result = await session.RequestExtensionAsync();
@@ -31,17 +32,17 @@ namespace Gps_tracker
 
         }
 
-        void ExtendedExecutionSession_Revoked(object sender, ExtendedExecutionRevokedEventArgs args)
+        static void ExtendedExecutionSession_Revoked(object sender, ExtendedExecutionRevokedEventArgs args)
         //ExtendedExecutionSession sender, ExtensionRevokedEventArgs args)
         {
             MainPage.messageBox("Extended session revoked");
             Console.WriteLine("Extended session revoked");
             //TODO: clean up session data
             StopLocationExtensionSession();
-
+            Console.WriteLine("to relaunch the extended session, type exRelaunch");
         }
 
-        void StopLocationExtensionSession()
+        static void StopLocationExtensionSession()
         {
             MainPage.messageBox("Extended session stoped");
             //reinitialisze the session

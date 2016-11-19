@@ -25,8 +25,12 @@ namespace Gps_tracker
 
             return output.ToString();
         }
-        public static void printOut(Exception ex)
+        public static void printOut(Exception ex, string customMessage = "")
         {
+            // add a way to print custom messages
+            if(customMessage != ""){
+                Console.WriteLine(customMessage);
+            }
             string err = getErrorString(ex);
             Console.WriteLine(err);
             string tempFile = files.getTempFile(".err");
