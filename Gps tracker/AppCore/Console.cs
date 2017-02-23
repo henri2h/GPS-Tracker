@@ -1,19 +1,26 @@
-﻿namespace System.AppCore
+﻿using Gps_tracker.UI;
+using System.Collections.Generic;
+
+namespace System.AppCore
 {
     public class Console
     {
-        public static Gps_tracker.MainPage page;
         public static bool active = true;
+        public static List<ConsoleView> consoles = new List<ConsoleView>();
         public static void WriteLine(string Text)
         {
             if (active)
             {
                 System.Diagnostics.Debug.WriteLine("[Console] : " + Text);
-                page.WriteLine(Text);
+                foreach (ConsoleView cView in consoles)
+                {
+                    cView.WriteLine(Text);
+                }
                 var _ = Gps_tracker.TCPClient.SocketClient.writeLine(Text);
             }
             else { System.Diagnostics.Debug.WriteLine("Console not enabled : " + Text); }
         }
+
         public static void setNewLine(string text)
         {
             string[] args = text.Split(' ');
