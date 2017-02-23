@@ -1,4 +1,5 @@
 ﻿using System;
+using System.AppCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,19 +14,12 @@ namespace Gps_tracker
     /// </summary>
     public class timer
     {
-        public static bool timerEnabled;
 
         public delegate void endTimer();
         public static endTimer endtimer;
 
         public static Timer timerVar;
         static locator GPSLocator;
-        MainPage page;
-
-        public timer(MainPage pages)
-        {
-            page = pages;
-        }
         public void start(locator gs)
         {
             GPSLocator = gs;
@@ -36,7 +30,7 @@ namespace Gps_tracker
         {
             try
             {
-                bool ok = files.saveGPXTempFile(page, GPSLocator);
+                bool ok = files.saveGPXTempFile( GPSLocator);
                 if (!ok) { Console.WriteLine("TempFile : saveKO"); }
                 else { Console.WriteLine("TempFile : saveOK"); }
             }

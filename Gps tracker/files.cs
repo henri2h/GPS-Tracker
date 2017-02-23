@@ -1,4 +1,5 @@
 ﻿using System;
+using System.AppCore;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace Gps_tracker
 
 
         // save tempfile
-        public static bool saveGPXTempFile(MainPage page, locator GPSLocator)
+        public static bool saveGPXTempFile(locator GPSLocator)
         {
             try
             {
@@ -42,7 +43,7 @@ namespace Gps_tracker
                 }
                 else
                 {
-                    File.WriteAllText(page.tempFile, gpx.generateGPXOutput(GPSLocator.track));
+                    File.WriteAllText(AppCore.Core.tempFile, gpx.generateGPXOutput(GPSLocator.track));
 
                     return true;
                 }
