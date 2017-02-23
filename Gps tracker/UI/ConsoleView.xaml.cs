@@ -20,7 +20,7 @@ namespace Gps_tracker.UI
 {
     public sealed partial class ConsoleView : UserControl
     {
-        string text { get; set; }
+        public string Text { get; set; }
         public ConsoleView()
         {
             this.InitializeComponent();
@@ -28,17 +28,17 @@ namespace Gps_tracker.UI
 
         public void WriteLine(string text)
         {
-            this.text += text + Environment.NewLine;
-            if (this.text.Length > 200)
+            this.Text += text + Environment.NewLine;
+            if (this.Text.Length > 200)
             {
-                this.text = this.text.Substring(this.text.Length - 200);
+                this.Text = this.Text.Substring(this.Text.Length - 200);
             }
 
             try
             {
                 var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    ConsoleUItextBox.Text = this.text;
+                    ConsoleUItextBox.Text = this.Text;
                     //  ConsoleUITextBoxScroll.ChangeView(ConsoleUITextBoxScroll.ScrollableHeight, 0, ConsoleUITextBoxScroll.ZoomFactor);
                 });
             }
@@ -49,5 +49,9 @@ namespace Gps_tracker.UI
             }
         }
 
+        public void Clear()
+        {
+            ConsoleUItextBox.Text = "";
+        }
     }
 }
