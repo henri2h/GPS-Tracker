@@ -99,6 +99,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AppCore\Information.cs" />
     <Compile Include="ErrorMessage.cs" />
     <Compile Include="extendedSession.cs" />
     <Compile Include="files.cs" />
@@ -109,9 +110,23 @@
     </Compile>
     <Compile Include="point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="System\Console.cs" />
+    <Compile Include="SettingsView.xaml.cs">
+      <DependentUpon>SettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AppCore\Console.cs" />
+    <Compile Include="AppCore\Core.cs" />
+    <Compile Include="AppCore\Setting.cs" />
     <Compile Include="TCPClient.cs" />
     <Compile Include="timer.cs" />
+    <Compile Include="UI\ConsoleView.xaml.cs">
+      <DependentUpon>ConsoleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\InformationsView.xaml.cs">
+      <DependentUpon>InformationsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\MapView.xaml.cs">
+      <DependentUpon>MapView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="unit.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -139,7 +154,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="SettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\ConsoleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\InformationsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\MapView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

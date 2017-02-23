@@ -9,6 +9,7 @@ using Windows.Storage.Streams;
 using Windows.Networking.Sockets;
 using Windows.Networking;
 using Windows.Security.Cryptography;
+using System.AppCore;
 
 namespace Gps_tracker
 {
