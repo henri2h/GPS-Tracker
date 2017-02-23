@@ -12,7 +12,7 @@
             <TextBox Text="Settings"/>
             <ToggleSwitch x:Name="UISwitchSaving" Header="Saving"/>
             <ToggleSwitch x:Name="UISwitchExtended" Header="Extended"/>
-            <Button x:Name="UITbSave" Content="Save" HorizontalAlignment="Stretch"/>
+            <Button x:Name="UITbSave" Content="Save" HorizontalAlignment="Stretch" Click="UITbSave_Click"/>
         </StackPanel>
     </Grid>
 </Page>
