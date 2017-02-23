@@ -10,6 +10,7 @@ namespace Gps_tracker.AppCore
 {
     public class Core
     {
+        const string settingFileName = "settings.set";
         public static Setting settings { get; set; }
         public static string tempFile { get; set; }
 
@@ -23,11 +24,20 @@ namespace Gps_tracker.AppCore
 
         public static async void loadSettings()
         {
-            StorageFile file = await localFolder.GetFileAsync("settings.set");
+            StorageFile file = await localFolder.GetFileAsync(settingFileName);
             if (file != null)
             {
                 string content = await FileIO.ReadTextAsync(file);
                 settings = Newtonsoft.Json.JsonConvert.DeserializeObject<Setting>(content);
+            }
+            else
+            {
+                settings = new Setting();
+                settings.SpeedUnit = speedUnit.metersPerSecond;
+                settings.autoSave = true;
+                settings.enhancedMode = true;
+
+                saveSettings();
             }
 
         }
@@ -35,7 +45,7 @@ namespace Gps_tracker.AppCore
         public static async void saveSettings()
         {
             string text = Newtonsoft.Json.JsonConvert.SerializeObject(settings);
-            StorageFile file = await localFolder.GetFileAsync("settings.set");
+            StorageFile file = await localFolder.GetFileAsync(settingFileName);
             if (file != null)
             {
                 await FileIO.WriteTextAsync(file, text);
