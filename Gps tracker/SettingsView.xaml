@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Gps_tracker.SettingsViews"
+    x:Class="Gps_tracker.SettingsView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Gps_tracker"
@@ -12,6 +12,7 @@
             <TextBox Text="Settings"/>
             <ToggleSwitch x:Name="UISwitchSaving" Header="Saving"/>
             <ToggleSwitch x:Name="UISwitchExtended" Header="Extended"/>
+            <Button x:Name="UITbSave" Content="Save" HorizontalAlignment="Stretch"/>
         </StackPanel>
     </Grid>
 </Page>

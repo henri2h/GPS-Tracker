@@ -25,6 +25,27 @@ namespace Gps_tracker
         public SettingsView()
         {
             this.InitializeComponent();
+            loadSettings();
+        }
+        public void loadSettings()
+        {
+            UISwitchExtended.IsOn = AppCore.Core.settings.enhancedMode;
+            UISwitchSaving.IsOn = AppCore.Core.settings.autoSave;
+        }
+        public void saveSettings()
+        {
+            AppCore.Core.settings.enhancedMode = UISwitchExtended.IsOn;
+            AppCore.Core.settings.autoSave = UISwitchSaving.IsOn;
+
+            AppCore.Core.saveSettings();
+        }
+
+        private void UITbSave_Click(object sender, RoutedEventArgs e)
+        {
+            saveSettings();
+
+            Frame rootFrame = Window.Current.Content as Frame;
+            bool canChange = rootFrame.Navigate(typeof(MainPage));
         }
     }
 }
