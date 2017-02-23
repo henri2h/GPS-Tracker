@@ -10,5 +10,6 @@ namespace Gps_tracker.AppCore
     {
         public bool autoSave { get; set; }
         public bool enhancedMode { get; set; }
+        public string MapServiceToken { get; set; }
     }
 }
