@@ -1,10 +1,10 @@
-﻿namespace System
+﻿namespace System.AppCore
 {
-    internal class Console
+    public class Console
     {
         public static Gps_tracker.MainPage page;
         public static bool active = true;
-        internal static void WriteLine(string Text)
+        public static void WriteLine(string Text)
         {
             if (active)
             {
@@ -14,7 +14,7 @@
             }
             else { System.Diagnostics.Debug.WriteLine("Console not enabled : " + Text); }
         }
-        internal static void setNewLine(string text)
+        public static void setNewLine(string text)
         {
             string[] args = text.Split(' ');
             if (args[0] == "connect" && args.Length > 1)
