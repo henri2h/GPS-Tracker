@@ -1,4 +1,5 @@
 ﻿using System;
+using System.AppCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,17 @@ namespace Gps_tracker
 {
     public class extendedSession
     {
+        public static bool extendedSessionActive
+        {
+            get
+            {
+                if (session != null)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
         static ExtendedExecutionSession session;
         public static async void StartLocationExtensionSession()
         {
@@ -26,6 +38,7 @@ namespace Gps_tracker
             }
             else
             {
+                
                 System.Diagnostics.Debug.WriteLine("Extended session succesfuly created");
                 Console.WriteLine("Extended session succesfuly created");
             }
