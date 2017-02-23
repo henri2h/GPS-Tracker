@@ -1,4 +1,5 @@
 ﻿using System;
+using System.AppCore;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -51,13 +52,9 @@ namespace Gps_tracker
                 MapControl1.MapServiceToken = "";
 
                 // intitalisation
-                time = new timer(this);
+                time = new timer();
                 GPSLocator = new locator(this);
                 Console.page = this;
-
-                // this is in order to debug the client remotely
-                var _ = TCPClient.SocketClient.connect("10.0.0.3");
-
 
                 tempFile = files.getTempFile(".gpx");
                 Console.WriteLine("Temp file : " + tempFile);
@@ -148,6 +145,8 @@ namespace Gps_tracker
             {
                 updateUITextBox();
                 updateSpeedUIElement();
+                if (extendedSession.extendedSessionActive) { UITbExtendedSession.Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Colors.Green); }
+                else { UITbExtendedSession.Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Colors.Red); }
             }
             catch (Exception ex)
             {
