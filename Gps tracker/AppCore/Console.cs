@@ -11,7 +11,7 @@ namespace System.AppCore
         {
             if (active)
             {
-                System.Diagnostics.Debug.WriteLine("[Console] : " + Text);
+                System.Diagnostics.Debug.WriteLine("[" + DateTime.Now.ToString() + "] : " + "[Console] : " + Text);
                 foreach (ConsoleView cView in consoles)
                 {
                     cView.WriteLine(Text);
