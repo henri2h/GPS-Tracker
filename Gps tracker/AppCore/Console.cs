@@ -1,5 +1,6 @@
 ﻿using Gps_tracker.UI;
 using System.Collections.Generic;
+using System.Text;
 
 namespace System.AppCore
 {
@@ -28,6 +29,7 @@ namespace System.AppCore
             {
                 var _ = Gps_tracker.TCPClient.SocketClient.connect(args[1]);
             }
+            else if (args[0] == "help") { showHelp(); }
             else if (args[0] == "connect")
             {
                 var _ = Gps_tracker.TCPClient.SocketClient.connect(Gps_tracker.TCPClient.SocketClient.host);
@@ -39,6 +41,18 @@ namespace System.AppCore
                 var _ = Gps_tracker.TCPClient.SocketClient.writeLine(text);
             }
 
+        }
+        static void showHelp()
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("===============");
+            sb.AppendLine("Console Help : ");
+            sb.AppendLine("===============");
+            sb.AppendLine(" -- connect : connect to the debug server");
+            sb.AppendLine(" -- connect <hostname> : connect to the debug server with the specified ip");
+            sb.AppendLine(" -- send : send the errors messages to the client");
+            sb.AppendLine(" -- exRelauch : relaunch the extended session");
+            WriteLine(sb.ToString());
         }
     }
 }

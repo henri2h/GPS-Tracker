@@ -135,12 +135,7 @@ namespace Gps_tracker
 
 
 
-        private void ConsoleUIbtReturn_Click(object sender, RoutedEventArgs e)
-        {
-            string comm = ConsoleUIReadBox.Text;
-            var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Console.setNewLine(comm); });
-            ConsoleUIReadBox.Text = "";
-        }
+      
         private void btMapupdate_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Map Updating : Size of track : " + GPSLocator.track.ToArray().Length);
