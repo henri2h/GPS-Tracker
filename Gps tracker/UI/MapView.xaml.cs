@@ -1,19 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Devices.Geolocation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -25,8 +15,7 @@ namespace Gps_tracker.UI
         {
             this.InitializeComponent();
             // place the mapServiceToken here, you can get one at https://www.bingmapsportal.com/
-
-            MapControl.MapServiceToken = AppCore.Core.settings.MapServiceToken;
+            if (AppCore.Core.settings.MapServiceToken != null) MapControl.MapServiceToken = AppCore.Core.settings.MapServiceToken;
             MapControl.MapServiceToken = "dIQYRjm1oGFEfWPNnTmx~GRofurcHYDuU4uJtNG1C6Q~AhcpDsCLAmjtPskvs3dCm3TMl2Hhawxmy66H6cGFAmkUcOFou7gYl0xbTzzit0Id";
 
         }
@@ -51,7 +40,7 @@ namespace Gps_tracker.UI
         {
             try
             {
-                if (points.Length > 0)
+                if (points.Length > 1)
                 {
                     point oldPoint = points[points.Length - 2];
                     point current = points[points.Length - 1];
