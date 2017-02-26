@@ -1,6 +1,7 @@
 ﻿using System;
 using System.AppCore;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,8 @@ namespace Gps_tracker.AppCore
         {
             loadSettings();
         }
-        public static void setTempFile() {
+        public static void setTempFile()
+        {
             AppCore.Core.tempFile = files.getTempFile(".gpx");
             Console.WriteLine("Temp file : " + AppCore.Core.tempFile);
         }
@@ -31,23 +33,32 @@ namespace Gps_tracker.AppCore
         {
             try
             {
+                string filePath = Path.Combine(localFolder.Path, settingFileName);
+                if (File.Exists(filePath))
+                {
+                    StorageFile file = await localFolder.GetFileAsync(settingFileName);
+                    string content = await FileIO.ReadTextAsync(file);
+                    settings = Newtonsoft.Json.JsonConvert.DeserializeObject<Setting>(content);
+                    Console.WriteLine("File exist");
+                }
+                else { createSettings(); }
 
-                StorageFile file = await localFolder.GetFileAsync(settingFileName);
-                string content = await FileIO.ReadTextAsync(file);
-                settings = Newtonsoft.Json.JsonConvert.DeserializeObject<Setting>(content);
-                Console.WriteLine("File exist");
             }
             catch
             {
-                Console.WriteLine("File didn' exist");
-                settings = new Setting();
-                settings.SpeedUnit = speedUnit.metersPerSecond;
-                settings.autoSave = true;
-                settings.enhancedMode = true;
-
-                saveSettings();
+                createSettings();
             }
 
+        }
+        static void createSettings()
+        {
+            Console.WriteLine("File didn' exist");
+            settings = new Setting();
+            settings.SpeedUnit = speedUnit.metersPerSecond;
+            settings.autoSave = true;
+            settings.enhancedMode = true;
+
+            saveSettings();
         }
 
         public static async void saveSettings()
@@ -56,7 +67,7 @@ namespace Gps_tracker.AppCore
             string text = Newtonsoft.Json.JsonConvert.SerializeObject(settings);
             await localFolder.CreateFileAsync(settingFileName, CreationCollisionOption.ReplaceExisting);
             StorageFile file = await localFolder.GetFileAsync(settingFileName);
-            
+
             if (file != null)
             {
                 await FileIO.WriteTextAsync(file, text);
