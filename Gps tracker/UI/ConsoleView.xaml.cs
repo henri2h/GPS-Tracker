@@ -21,7 +21,7 @@ namespace Gps_tracker.UI
 {
     public sealed partial class ConsoleView : UserControl
     {
-        const int maxLenght = 600;
+        const int maxLenght = 800;
         public string Text { get; set; }
         public ConsoleView()
         {
@@ -51,7 +51,12 @@ namespace Gps_tracker.UI
                 ErrorMessage.printOut(ex);
             }
         }
-
+        private void ConsoleUIbtReturn_Click(object sender, RoutedEventArgs e)
+        {
+            string comm = ConsoleUIReadBox.Text;
+            var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Console.setNewLine(comm); });
+            ConsoleUIReadBox.Text = "";
+        }
         public void Clear()
         {
             ConsoleUItextBox.Text = "";

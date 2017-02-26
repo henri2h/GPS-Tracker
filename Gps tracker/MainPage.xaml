@@ -40,11 +40,7 @@
                         <UI:ConsoleView x:Name="ConsoleView"/>
                     </ScrollViewer>
 
-                    <StackPanel Orientation="Horizontal">
-                        <TextBox x:Name="ConsoleUIReadBox"/>
-                        <Button x:Name="ConsoleUIbtReturn" Content="return" Click="ConsoleUIbtReturn_Click" Foreground="White"/>
-                    </StackPanel>
-
+               
                 </StackPanel>
                 <Button x:Name="UITbSettings" Content="Settings" HorizontalAlignment="Stretch" Click="UITbSettings_Click"/>
                 <Button x:Name="UITbFiles" Content="Files" HorizontalAlignment="Stretch" Click="UITbFiles_Click"/>
