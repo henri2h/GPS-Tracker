@@ -24,23 +24,26 @@ namespace Gps_tracker
         static ExtendedExecutionSession session;
         public static async void StartLocationExtensionSession()
         {
-            session = new ExtendedExecutionSession();
-            session.Description = "Location Tracker";
-            session.Reason = ExtendedExecutionReason.LocationTracking;
-
-            session.Revoked += ExtendedExecutionSession_Revoked;
-
-            var result = await session.RequestExtensionAsync();
-            if (result == ExtendedExecutionResult.Denied)
+            if (session == null)
             {
-                MainPage.messageBox("error on creating the extended session");
-                Console.WriteLine("Error on creationg the extended session");
-            }
-            else
-            {
-                
-                System.Diagnostics.Debug.WriteLine("Extended session succesfuly created");
-                Console.WriteLine("Extended session succesfuly created");
+                session = new ExtendedExecutionSession();
+                session.Description = "Location Tracker";
+                session.Reason = ExtendedExecutionReason.LocationTracking;
+
+                session.Revoked += ExtendedExecutionSession_Revoked;
+
+                var result = await session.RequestExtensionAsync();
+                if (result == ExtendedExecutionResult.Denied)
+                {
+                    MainPage.messageBox("error on creating the extended session");
+                    Console.WriteLine("Error on creationg the extended session");
+                }
+                else
+                {
+
+                    System.Diagnostics.Debug.WriteLine("Extended session succesfuly created");
+                    Console.WriteLine("Extended session succesfuly created");
+                }
             }
 
         }

@@ -121,6 +121,14 @@
     <Compile Include="UI\ConsoleView.xaml.cs">
       <DependentUpon>ConsoleView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UI\FilesView\directoryObject.cs" />
+    <Compile Include="UI\FilesView\FileElement.xaml.cs">
+      <DependentUpon>FileElement.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\FilesView\FilesManager.cs" />
+    <Compile Include="UI\FilesView\FileView.xaml.cs">
+      <DependentUpon>FileView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\InformationsView.xaml.cs">
       <DependentUpon>InformationsView.xaml</DependentUpon>
     </Compile>
@@ -136,6 +144,8 @@
     <None Include="Gps tracker_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\appbar.folder.png" />
+    <Content Include="Assets\appbar.page.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -159,6 +169,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UI\ConsoleView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\FilesView\FileElement.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\FilesView\FileView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
