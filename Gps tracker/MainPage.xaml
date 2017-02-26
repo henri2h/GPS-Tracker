@@ -17,7 +17,7 @@
                 </StackPanel>
                 <Button x:Name="btStart" Content="Start recording the track" Click="btStart_Click"/>
 
-                <UI:InformationsView x:Name="UITbInformations"/>
+                <UI:InformationsView x:Name="UITbInformations" Margin="5"/>
 
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="btSave" Content="Save" Width="150" Height="31" Click="btSave_Click"/>
@@ -26,7 +26,7 @@
 
                 </StackPanel>
 
-                <UI:MapView x:Name="UIMapView" HorizontalAlignment="Stretch" Height="424"/>
+                <UI:MapView x:Name="UIMapView" HorizontalAlignment="Stretch" Height="300"/>
 
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="btUpdate" Content="Update" Click="btUpdate_Click"></Button>
@@ -39,7 +39,7 @@
                     <ScrollViewer MaxHeight="400" x:Name="ConsoleUITextBoxScroll">
                         <UI:ConsoleView x:Name="ConsoleView"/>
                     </ScrollViewer>
-                    
+
                     <StackPanel Orientation="Horizontal">
                         <TextBox x:Name="ConsoleUIReadBox"/>
                         <Button x:Name="ConsoleUIbtReturn" Content="return" Click="ConsoleUIbtReturn_Click" Foreground="White"/>
@@ -47,6 +47,7 @@
 
                 </StackPanel>
                 <Button x:Name="UITbSettings" Content="Settings" HorizontalAlignment="Stretch" Click="UITbSettings_Click"/>
+                <Button x:Name="UITbFiles" Content="Files" HorizontalAlignment="Stretch" Click="UITbFiles_Click"/>
                 <TextBlock Text="Made by Henri2H"/>
             </StackPanel>
 

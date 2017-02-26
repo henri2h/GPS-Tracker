@@ -1,16 +1,10 @@
 ﻿using Gps_tracker.AppCore;
+using Gps_tracker.UI.FilesView;
 using System;
 using System.AppCore;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using Windows.Devices.Geolocation;
-using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Input;
 
 namespace Gps_tracker
 {
@@ -21,27 +15,9 @@ namespace Gps_tracker
     {
         public Information informations = new Information();
         timer time;
-        public string tempFile = "";
-
-        //UI
-        public double? maxSpeed = 0;
-        double mediumSpeed = 0;
-
-        public double totalDistance = new double();
-        public string output = "";
-
-        public string LocatorStatus = "";
-
-
-        StringWriter sw = new StringWriter();
-
-        DateTimeOffset date = DateTimeOffset.Now;
 
         // intialize the locator
         locator GPSLocator;
-
-        public static ObservableCollection<string> coordinates = new ObservableCollection<string>();
-
 
         public MainPage()
         {
@@ -52,13 +28,15 @@ namespace Gps_tracker
 
                 // intitalisation
                 time = new timer();
-                GPSLocator = new locator(this);
-                Console.page = this;
+                if (GPSLocator == null)
+                {
 
-                tempFile = files.getTempFile(".gpx");
-                Console.WriteLine("Temp file : " + tempFile);
+                    GPSLocator = new locator(this);
+                    GPSLocator.startLocalisation();
+                }
+                AppCore.Core.setTempFile();
 
-                GPSLocator.startLocalisation();
+
                 updateUITextElements();
             }
             catch (Exception ex)
@@ -89,12 +67,15 @@ namespace Gps_tracker
         {
             if (GPSLocator.recordingLocalisation == false)
             {
+                informations.startTravelTime = DateTime.Now;
                 time.start(GPSLocator);
                 GPSLocator.recordingLocalisation = true;
                 btStart.Content = "Stop recording the track";
             }
             else
             {
+                informations.endTravelTime = DateTime.Now;
+                informations.totalTravelDistance = 0;
                 time.stop();
                 GPSLocator.recordingLocalisation = false;
                 btStart.Content = "Start recording the track";
@@ -103,7 +84,7 @@ namespace Gps_tracker
         }
         //save
         private void btSave_Click(object sender, RoutedEventArgs e) { files.choose(this, GPSLocator); }
-      
+
         private void btUpdate_Click(object sender, RoutedEventArgs e)
         {
             updateUITextElements();
@@ -111,9 +92,9 @@ namespace Gps_tracker
 
         public void updateUITextElements()
         {
-            UITbInformations.updateUIInformations(GPSLocator.currentPoint, totalDistance, date.ToString(), output, LocatorStatus, GPSLocator.currentPoint.speed, mediumSpeed, maxSpeed);
+            UITbInformations.updateUIInformations(informations);
         }
-        
+
         //============ UI ===============
         public void unThreadUpdateUITextElement()
         {
@@ -127,30 +108,6 @@ namespace Gps_tracker
                 ErrorMessage.printOut(ex);
             }
         }
-
-
-
-
-        public void updateTextBlock(TextBlock tb, string helpString, string text)
-        {
-            try
-            {
-                if (text != "" || text != null)
-                {
-                    tb.Visibility = Visibility.Visible;
-                    tb.Text = helpString + text;
-                }
-                else { tb.Visibility = Visibility.Collapsed; }
-            }
-            catch (Exception ex)
-            {
-                ex.Source = "MainPage.updateTextBlock";
-                ErrorMessage.printOut(ex);
-            }
-        }
-
-
-
 
         public void unThreadUpdateUIMap()
         {
@@ -176,21 +133,7 @@ namespace Gps_tracker
 
 
 
-        public void WriteLine(string text)
-        {
-            try
-            {
-                var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    ConsoleView.WriteLine(text);
-                });
-            }
-            catch (Exception ex)
-            {
-                ex.Source = "MainPage.WriteLine (Console)";
-                ErrorMessage.printOut(ex);
-            }
-        }
+
 
         private void ConsoleUIbtReturn_Click(object sender, RoutedEventArgs e)
         {
@@ -208,6 +151,13 @@ namespace Gps_tracker
         {
             Frame rootFrame = Window.Current.Content as Frame;
             bool canChange = rootFrame.Navigate(typeof(SettingsView));
+        }
+
+        private void UITbFiles_Click(object sender, RoutedEventArgs e)
+        {
+
+            Frame rootFrame = Window.Current.Content as Frame;
+            bool canChange = rootFrame.Navigate(typeof(FileView));
         }
     }
 
