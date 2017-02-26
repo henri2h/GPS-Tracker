@@ -1,4 +1,5 @@
 ﻿using System;
+using System.AppCore;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -20,18 +21,20 @@ namespace Gps_tracker.UI
 {
     public sealed partial class ConsoleView : UserControl
     {
+        const int maxLenght = 600;
         public string Text { get; set; }
         public ConsoleView()
         {
             this.InitializeComponent();
+            Console.consoles.Add(this);
         }
 
         public void WriteLine(string text)
         {
             this.Text += text + Environment.NewLine;
-            if (this.Text.Length > 200)
+            if (this.Text.Length > maxLenght)
             {
-                this.Text = this.Text.Substring(this.Text.Length - 200);
+                this.Text = this.Text.Substring(this.Text.Length - maxLenght);
             }
 
             try

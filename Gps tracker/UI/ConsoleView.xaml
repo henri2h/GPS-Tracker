@@ -10,6 +10,6 @@
     d:DesignWidth="400">
 
     <Grid>
-        <TextBox x:Name="ConsoleUItextBox"/>
+        <TextBlock x:Name="ConsoleUItextBox" Foreground="White"/>
     </Grid>
 </UserControl>
