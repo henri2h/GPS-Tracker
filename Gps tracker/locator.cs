@@ -79,7 +79,7 @@ namespace Gps_tracker
                     position_old = position;
                     position = args.Position.Coordinate.Point.Position;
                     page.informations.output = value.ToString();
-                    
+
 
                     if (value > 2)
                     {
@@ -106,6 +106,7 @@ namespace Gps_tracker
 
                     page.informations.date = DateTime.Now;
                     page.informations.currentPoint = currentPoint;
+                    page.informations.currentSpeed = currentPoint.speed.Value;
                     if (page.informations.maxSpeed < currentPoint.speed) { page.informations.maxSpeed = currentPoint.speed.Value; }
 
                     value++;
