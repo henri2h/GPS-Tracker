@@ -34,8 +34,10 @@
             <TextBlock x:Name="tbAccuracy" />
             <TextBlock x:Name="tbDate"  Width="Auto" Height="30" HorizontalAlignment="Left" VerticalAlignment="Top"/>
             <Slider x:Name="sliderUnitSpeed" Maximum="2" Width="140" LargeChange="1"  PointerReleased="Slider_PointerMoved" ValueChanged="Slider_PointerMoved" HorizontalAlignment="Left"/>
-
-           
+            <TextBlock Text="Memory :"/>
+            <TextBlock x:Name="tbMemory"/>
+            <TextBlock x:Name="tbMaxMemory"/>
+            <TextBlock x:Name="tbMemoryLevel"/>
         </StackPanel>
     </Grid>
 </UserControl>

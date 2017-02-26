@@ -1,18 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using Gps_tracker.AppCore;
+using System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -20,6 +12,7 @@ namespace Gps_tracker.UI
 {
     public sealed partial class InformationsView : UserControl
     {
+        Information currentInfo = new Information();
         speedUnit SpeedUnit
         {
             get
@@ -29,22 +22,23 @@ namespace Gps_tracker.UI
             set
             {
                 AppCore.Core.settings.SpeedUnit = value;
-                AppCore.Core.saveSettings();
+                //  AppCore.Core.saveSettings();
             }
         }
 
         public InformationsView()
         {
             this.InitializeComponent();
+            updateUITextBox();
         }
-        public void updateUIInformations(point currentPoint, double totalDistance, string date, string output, string Status, double? speed, double? mediumSpeed, double? maxSpeed)
+
+        public void updateUIInformations(Information informations)
         {
+            this.currentInfo = informations;
+            //point currentPoint, double totalDistance, string date, string output, string Status, double? speed, double? mediumSpeed, double? maxSpeed
             try
             {
-                updateUITextBox(currentPoint, totalDistance, date, output, Status);
-                updateSpeedUIElement(speed, mediumSpeed, maxSpeed);
-                if (extendedSession.extendedSessionActive) { UITbExtendedSession.Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Colors.Green); }
-                else { UITbExtendedSession.Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Colors.Red); }
+                updateUI();
             }
             catch (Exception ex)
             {
@@ -53,22 +47,38 @@ namespace Gps_tracker.UI
             }
         }
 
-        public void updateUITextBox(point currentPoint, double totalDistance, string date, string output, string Status)
+        void updateUI()
+        {
+            updateUITextBox();
+            updateSpeedUIElement();
+            if (extendedSession.extendedSessionActive) { UITbExtendedSession.Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Colors.Green); }
+            else { UITbExtendedSession.Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Colors.Red); }
+        }
+        void updateUITextBox()
         {
             try
             {
-                updateTextBlock(tbDate, "Date : ", date);
-                updateTextBlock(tbOutput, "Output : ", output);
+                updateTextBlock(tbDate, "Date : ", currentInfo.date.ToString());
+                updateTextBlock(tbOutput, "Output : ", currentInfo.output);
 
-                updateTextBlock(tbSource, "Postion source : ", currentPoint.positionSource.ToString());
-                updateTextBlock(LocatorUITexBlock, "Locator status : ", Status);
+                if (currentInfo.currentPoint != null)
+                {
+                    updateTextBlock(tbSource, "Postion source : ", currentInfo.currentPoint.positionSource.ToString());
 
-                updateTextBlock(tbTotalDistance, "Total travel distance : ", totalDistance.ToString());
+                    updateTextBlock(tbLatitude, "Latitude : ", currentInfo.currentPoint.latitude.ToString());
+                    updateTextBlock(tbLongitude, "Longitude : ", currentInfo.currentPoint.longitude.ToString());
+                    updateTextBlock(tbAltitude, "Altitude : ", currentInfo.currentPoint.altitude.ToString());
+                    updateTextBlock(tbAccuracy, "Accuracy : ", currentInfo.currentPoint.accuracy.ToString());
+                }
 
-                updateTextBlock(tbLatitude, "Latitude : ", currentPoint.latitude.ToString());
-                updateTextBlock(tbLongitude, "Longitude : ", currentPoint.longitude.ToString());
-                updateTextBlock(tbAltitude, "Altitude : ", currentPoint.altitude.ToString());
-                updateTextBlock(tbAccuracy, "Accuracy : ", currentPoint.accuracy.ToString());
+                updateTextBlock(LocatorUITexBlock, "Locator status : ", currentInfo.Status);
+
+                updateTextBlock(tbTotalDistance, "Total travel distance : ", currentInfo.totalTravelDistance.ToString());
+
+
+                updateTextBlock(tbMemory, "Memory used : ", Windows.System.MemoryManager.AppMemoryUsage.ToString());
+                updateTextBlock(tbMaxMemory, "Memory limit : ", Windows.System.MemoryManager.AppMemoryUsageLimit.ToString());
+                updateTextBlock(tbMemoryLevel, "Memory level : ", Windows.System.MemoryManager.AppMemoryUsageLevel.ToString());
             }
 
             catch (Exception ex)
@@ -80,11 +90,11 @@ namespace Gps_tracker.UI
         }
 
 
-        public void updateTextBlock(TextBlock tb, string helpString, string text)
+        void updateTextBlock(TextBlock tb, string helpString, string text)
         {
             try
             {
-                if (text != "" || text != null)
+                if (text != "" && text != null)
                 {
                     tb.Visibility = Visibility.Visible;
                     tb.Text = helpString + text;
@@ -98,17 +108,16 @@ namespace Gps_tracker.UI
             }
         }
 
-        public void updateSpeedUIElement(double? speed, double? mediumSpeed, double? maxSpeed)
+        void updateSpeedUIElement()
         {
-            updateSpeedUnit();
-
             sliderUnitSpeed.Header = "Speed unit : " + getSpeedStringUnit();
             // speed
-            updateTextBlock(UISpeedTextBox, "Speed : ", getSpeedValueForUnit(speed));
-            updateTextBlock(UIMediumSpeedTextBox, "Average speed : ", getSpeedValueForUnit(mediumSpeed));
-            updateTextBlock(UIMaxSpeedTextBox, "Max speed : ", getSpeedValueForUnit(maxSpeed));
+            updateTextBlock(UISpeedTextBox, "Speed : ", getSpeedValueForUnit(currentInfo.currentSpeed));
+            updateTextBlock(UIMediumSpeedTextBox, "Average speed : ", getSpeedValueForUnit(currentInfo.mediumSpeed));
+            updateTextBlock(UIMaxSpeedTextBox, "Max speed : ", getSpeedValueForUnit(currentInfo.maxSpeed));
         }
-        public void updateSpeedUnit()
+
+        void updateSpeedUnit()
         {
             switch (sliderUnitSpeed.Value.ToString())
             {
@@ -124,13 +133,14 @@ namespace Gps_tracker.UI
                 case "2":
                     SpeedUnit = speedUnit.milesPerHour;
                     break;
-
             }
+
+            updateSpeedUIElement();
         }
 
 
         // return speed unit values and calculate them
-        public string getSpeedValueForUnit(double? inputSpeed)
+        string getSpeedValueForUnit(double? inputSpeed)
         {
             if (inputSpeed == null) { return null; }
             string outputSpeed = "";
@@ -141,30 +151,23 @@ namespace Gps_tracker.UI
 
             return outputSpeed + getSpeedStringUnit();
         }
-        public string getSpeedStringUnit()
+
+        string getSpeedStringUnit()
         {
             if (SpeedUnit == speedUnit.metersPerSecond) { return "m/s"; }
             else if (SpeedUnit == speedUnit.kmPerHour) { return "km/h"; }
             else if (SpeedUnit == speedUnit.milesPerHour) { return "miles/h"; }
             else { return null; }
         }
-        /*
-        private void sliderUnitSpeed_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
-        {
-            updateSpeedUIElement();
-        }
-        //update
-    */
 
 
-        //slider
         private void Slider_PointerMoved(object sender, PointerRoutedEventArgs e)
         {
-            //updateUITextElements();
+            updateSpeedUnit();
         }
         private void Slider_PointerMoved(object sender, RangeBaseValueChangedEventArgs e)
         {
-        //();
+            updateSpeedUnit();
         }
 
 
