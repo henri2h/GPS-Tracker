@@ -2,9 +2,6 @@
 using System.AppCore;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
@@ -16,15 +13,18 @@ namespace Gps_tracker
         // temp files and dir
         public static string getTempFile(string extention)
         {
-            string file = Path.GetTempPath();
+            string directory = Path.Combine(AppCore.Core.localFolder.Path, "gpxFiles");
+            if (Directory.Exists(directory) == false) { Directory.CreateDirectory(directory); }
+
             string name = "current";
             int version = 0;
-            while (File.Exists(file + name + version + extention))
+            while (File.Exists(Path.Combine(directory, name + version + extention)))
             {
                 version++;
             }
-            return file + name + version + extention;
+            return Path.Combine(directory, name + version + extention);
         }
+
         public static string getTempDir()
         {
             return Path.GetTempPath();
@@ -63,7 +63,7 @@ namespace Gps_tracker
                 FileSavePicker savePicker = new FileSavePicker();
                 savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
                 // Dropdown of file types the user can save the file as
-                savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { extension });
+                savePicker.FileTypeChoices.Add("GPX format", new List<string>() { extension });
                 savePicker.SuggestedFileName = "error";
                 StorageFile file = await savePicker.PickSaveFileAsync();
                 if (file != null)
@@ -121,16 +121,16 @@ namespace Gps_tracker
                     FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
                     if (status == FileUpdateStatus.Complete)
                     {
-                        page.output = "File " + file.Name + " was saved.";
+                        page.informations.output = "File " + file.Name + " was saved.";
                     }
                     else
                     {
-                        page.output = "File " + file.Name + " couldn't be saved.";
+                        page.informations.output = "File " + file.Name + " couldn't be saved.";
                     }
                 }
                 else
                 {
-                    page.output = "Operation cancelled.";
+                    page.informations.output = "Operation cancelled.";
                 }
                 page.unThreadUpdateUITextElement();
             }
