@@ -1,4 +1,5 @@
 ﻿using System;
+using System.AppCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,17 +22,24 @@ namespace Gps_tracker.AppCore
         {
             loadSettings();
         }
+        public static void setTempFile() {
+            AppCore.Core.tempFile = files.getTempFile(".gpx");
+            Console.WriteLine("Temp file : " + AppCore.Core.tempFile);
+        }
 
         public static async void loadSettings()
         {
-            StorageFile file = await localFolder.GetFileAsync(settingFileName);
-            if (file != null)
+            try
             {
+
+                StorageFile file = await localFolder.GetFileAsync(settingFileName);
                 string content = await FileIO.ReadTextAsync(file);
                 settings = Newtonsoft.Json.JsonConvert.DeserializeObject<Setting>(content);
+                Console.WriteLine("File exist");
             }
-            else
+            catch
             {
+                Console.WriteLine("File didn' exist");
                 settings = new Setting();
                 settings.SpeedUnit = speedUnit.metersPerSecond;
                 settings.autoSave = true;
@@ -44,12 +52,16 @@ namespace Gps_tracker.AppCore
 
         public static async void saveSettings()
         {
+            Console.WriteLine("Going to save");
             string text = Newtonsoft.Json.JsonConvert.SerializeObject(settings);
+            await localFolder.CreateFileAsync(settingFileName, CreationCollisionOption.ReplaceExisting);
             StorageFile file = await localFolder.GetFileAsync(settingFileName);
+            
             if (file != null)
             {
                 await FileIO.WriteTextAsync(file, text);
             }
+            Console.WriteLine("Setting saved");
         }
 
         public static void connectRemoteDebug()
