@@ -50,8 +50,8 @@ namespace Gps_tracker
                 geoLocator.StatusChanged += Locator_StatusChanged;
 
 
-                page.output = "locator started";
-                
+                page.informations.output = "locator started";
+
                 // start the extended session
                 extendedSession.StartLocationExtensionSession();
 
@@ -78,14 +78,12 @@ namespace Gps_tracker
 
                     position_old = position;
                     position = args.Position.Coordinate.Point.Position;
-                    page.output = value.ToString();
-
-                    MainPage.coordinates.Add(position.Latitude.ToString());
-                    MainPage.coordinates.Add(position.Longitude.ToString());
+                    page.informations.output = value.ToString();
+                    
 
                     if (value > 2)
                     {
-                        page.totalDistance += GetDistanceBetweenPoints(position_old.Latitude, position_old.Longitude, position.Latitude, position.Longitude);
+                        page.informations.totalTravelDistance += GetDistanceBetweenPoints(position_old.Latitude, position_old.Longitude, position.Latitude, position.Longitude);
                     }
                     currentPoint = new point();
                     // ======= setup the variables ============
@@ -106,7 +104,9 @@ namespace Gps_tracker
                     updateUIMap();
                     Console.WriteLine("New point : " + value);
 
-                    if (page.maxSpeed < currentPoint.speed) { page.maxSpeed = currentPoint.speed; }
+                    page.informations.date = DateTime.Now;
+                    page.informations.currentPoint = currentPoint;
+                    if (page.informations.maxSpeed < currentPoint.speed) { page.informations.maxSpeed = currentPoint.speed.Value; }
 
                     value++;
                     updateUI();
@@ -128,7 +128,7 @@ namespace Gps_tracker
                 Console.WriteLine("status changed" + args.Status.ToString());
                 Console.WriteLine("Locator status : " + sender.LocationStatus.ToString());
 
-                page.output = "status changed" + args.Status.ToString();
+                page.informations.output = "status changed" + args.Status.ToString();
                 System.Diagnostics.Debug.WriteLine(sender.LocationStatus.ToString());
 
 
