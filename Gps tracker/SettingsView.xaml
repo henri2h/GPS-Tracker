@@ -9,10 +9,14 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel>
-            <TextBox Text="Settings"/>
+            <TextBlock Text="Settings"/>
             <ToggleSwitch x:Name="UISwitchSaving" Header="Saving"/>
             <ToggleSwitch x:Name="UISwitchExtended" Header="Extended"/>
             <Button x:Name="UITbSave" Content="Save" HorizontalAlignment="Stretch" Click="UITbSave_Click"/>
+            <TextBox x:Name="UItbMapToken" Header="Map tocken"/>
+            <TextBox x:Name="UITbHostname" Header="Hostname"/>
+            <Button x:Name="UIBtConnect" Content="Connect" Click="UIBtConnect_Click"/>
+
         </StackPanel>
     </Grid>
 </Page>

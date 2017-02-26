@@ -31,12 +31,13 @@ namespace Gps_tracker
         {
             UISwitchExtended.IsOn = AppCore.Core.settings.enhancedMode;
             UISwitchSaving.IsOn = AppCore.Core.settings.autoSave;
+            UITbHostname.Text = AppCore.Core.settings.Hostname;
         }
         public void saveSettings()
         {
             AppCore.Core.settings.enhancedMode = UISwitchExtended.IsOn;
             AppCore.Core.settings.autoSave = UISwitchSaving.IsOn;
-
+            AppCore.Core.settings.Hostname = UITbHostname.Text;
             AppCore.Core.saveSettings();
         }
 
@@ -45,7 +46,12 @@ namespace Gps_tracker
             saveSettings();
 
             Frame rootFrame = Window.Current.Content as Frame;
-            bool canChange = rootFrame.Navigate(typeof(MainPage));
+            rootFrame.GoBack();
+        }
+
+        private void UIBtConnect_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
