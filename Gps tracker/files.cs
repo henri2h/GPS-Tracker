@@ -77,18 +77,18 @@ namespace Gps_tracker
                     FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
                     if (status == FileUpdateStatus.Complete)
                     {
-                        MainPage.messageBox("File " + file.Name + " was saved.");
+                        MainPage.MessageBox("File " + file.Name + " was saved.");
                         Console.WriteLine("File " + file.Name + " was saved.");
                     }
                     else
                     {
-                        MainPage.messageBox("File " + file.Name + " couldn't be saved.");
+                        MainPage.MessageBox("File " + file.Name + " couldn't be saved.");
                         Console.WriteLine("File " + file.Name + " couldn't be saved.");
                     }
                 }
                 else
                 {
-                    MainPage.messageBox("Operation cancelled.");
+                    MainPage.MessageBox("Operation cancelled.");
                     Console.WriteLine("Operation cancelled");
                 }
             }
@@ -132,7 +132,7 @@ namespace Gps_tracker
                 {
                     page.informations.output = "Operation cancelled.";
                 }
-                page.unThreadUpdateUITextElement();
+                page.UnThreadUpdateUITextElement();
             }
             catch (Exception ex)
             {

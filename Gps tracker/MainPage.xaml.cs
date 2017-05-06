@@ -48,7 +48,7 @@ namespace Gps_tracker
         }
 
         //intialisation
-        private void btCenter_Click(object sender, RoutedEventArgs e)
+        private void BtCenter_Click(object sender, RoutedEventArgs e)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace Gps_tracker
             }
         }
         //start
-        private void btStart_Click(object sender, RoutedEventArgs e)
+        private void BtStart_Click(object sender, RoutedEventArgs e)
         {
             if (Core.GPSLocator.recordingLocalisation == false)
             {
@@ -84,9 +84,9 @@ namespace Gps_tracker
             updateUITextElements();
         }
         //save
-        private void btSave_Click(object sender, RoutedEventArgs e) { files.choose(this, Core.GPSLocator); }
+        private void BtSave_Click(object sender, RoutedEventArgs e) { files.choose(this, Core.GPSLocator); }
 
-        private void btUpdate_Click(object sender, RoutedEventArgs e)
+        private void BtUpdate_Click(object sender, RoutedEventArgs e)
         {
             updateUITextElements();
         }
@@ -97,7 +97,7 @@ namespace Gps_tracker
         }
 
         //============ UI ===============
-        public void unThreadUpdateUITextElement()
+        public void UnThreadUpdateUITextElement()
         {
             try
             {
@@ -125,19 +125,16 @@ namespace Gps_tracker
 
 
 
-        public static async void messageBox(string msg)
+        public static async void MessageBox(string msg)
         {
-            var msgDlg = new Windows.UI.Popups.MessageDialog(msg);
-            msgDlg.DefaultCommandIndex = 1;
+            var msgDlg = new Windows.UI.Popups.MessageDialog(msg)
+            {
+                DefaultCommandIndex = 1
+            };
             await msgDlg.ShowAsync();
         }
 
-
-
-
-
-
-        private void btMapupdate_Click(object sender, RoutedEventArgs e)
+        private void BtMapupdate_Click(object sender, RoutedEventArgs e)
         {
             Console.WriteLine("Map Updating : Size of track : " + Core.GPSLocator.track.ToArray().Length);
             UIMapView.updateUIAllMap(Core.GPSLocator.track.ToArray());
@@ -151,7 +148,6 @@ namespace Gps_tracker
 
         private void UITbFiles_Click(object sender, RoutedEventArgs e)
         {
-
             Frame rootFrame = Window.Current.Content as Frame;
             bool canChange = rootFrame.Navigate(typeof(FileView));
         }

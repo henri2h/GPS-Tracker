@@ -35,7 +35,7 @@ namespace Gps_tracker
                 var result = await session.RequestExtensionAsync();
                 if (result == ExtendedExecutionResult.Denied)
                 {
-                    MainPage.messageBox("error on creating the extended session");
+                    MainPage.MessageBox("error on creating the extended session");
                     Console.WriteLine("Error on creationg the extended session");
                 }
                 else
@@ -51,7 +51,7 @@ namespace Gps_tracker
         static void ExtendedExecutionSession_Revoked(object sender, ExtendedExecutionRevokedEventArgs args)
         //ExtendedExecutionSession sender, ExtensionRevokedEventArgs args)
         {
-            MainPage.messageBox("Extended session revoked");
+            MainPage.MessageBox("Extended session revoked");
             Console.WriteLine("Extended session revoked");
             //TODO: clean up session data
             StopLocationExtensionSession();
@@ -60,7 +60,7 @@ namespace Gps_tracker
 
         static void StopLocationExtensionSession()
         {
-            MainPage.messageBox("Extended session stoped");
+            MainPage.MessageBox("Extended session stoped");
             //reinitialisze the session
             if (session != null)
             {

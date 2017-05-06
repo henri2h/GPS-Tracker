@@ -150,7 +150,7 @@ namespace Gps_tracker
 
         void updateUI()
         {
-            try { page.unThreadUpdateUITextElement(); }
+            try { page.UnThreadUpdateUITextElement(); }
             catch (Exception ex)
             {
                 ex.Source = "locator.updateUI";
