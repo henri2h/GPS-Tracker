@@ -13,7 +13,6 @@ namespace Gps_tracker
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        public Information informations = new Information();
         timer time;
 
         public MainPage()
@@ -25,9 +24,14 @@ namespace Gps_tracker
 
                 // intitalisation
                 time = new timer();
+
+                if (Core.informations == null)
+                {
+                    Core.informations = new Information();
+                }
+
                 if (AppCore.Core.GPSLocator == null)
                 {
-
                     AppCore.Core.GPSLocator = new locator(this);
                     AppCore.Core.GPSLocator.startLocalisation();
                 }
@@ -64,15 +68,15 @@ namespace Gps_tracker
         {
             if (Core.GPSLocator.recordingLocalisation == false)
             {
-                informations.startTravelTime = DateTime.Now;
+                Core.informations.startTravelTime = DateTime.Now;
                 time.start(Core.GPSLocator);
                 Core.GPSLocator.recordingLocalisation = true;
                 btStart.Content = "Stop recording the track";
             }
             else
             {
-                informations.endTravelTime = DateTime.Now;
-                informations.totalTravelDistance = 0;
+                Core.informations.endTravelTime = DateTime.Now;
+                Core.informations.totalTravelDistance = 0;
                 time.stop();
                 Core.GPSLocator.recordingLocalisation = false;
                 btStart.Content = "Start recording the track";
@@ -89,7 +93,7 @@ namespace Gps_tracker
 
         public void updateUITextElements()
         {
-            UITbInformations.updateUIInformations(informations);
+            UITbInformations.updateUIInformations(Core.informations);
         }
 
         //============ UI ===============

@@ -19,6 +19,7 @@ namespace Gps_tracker.AppCore
         public static Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
         public static Windows.Storage.StorageFolder tempFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
         internal static locator GPSLocator;
+        internal static Information informations;
 
         public static void startApp()
         {
