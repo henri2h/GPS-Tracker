@@ -32,7 +32,7 @@ namespace Gps_tracker
 
 
         // save tempfile
-        public static bool saveGPXTempFile(locator GPSLocator)
+        public static bool saveGPXTempFile(Locator GPSLocator)
         {
             try
             {
@@ -98,7 +98,7 @@ namespace Gps_tracker
                 ErrorMessage.printOut(ex);
             }
         }
-        public static async void choose(MainPage page, locator GPXLocator)
+        public static async void choose(MainPage page, Locator GPXLocator)
         {
             try
             {

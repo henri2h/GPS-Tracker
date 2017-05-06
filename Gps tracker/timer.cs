@@ -19,8 +19,8 @@ namespace Gps_tracker
         public static endTimer endtimer;
 
         public static Timer timerVar;
-        static locator GPSLocator;
-        public void start(locator gs)
+        static Locator GPSLocator;
+        public void start(Locator gs)
         {
             GPSLocator = gs;
             timerVar = new Timer(timerCallback, null, 0, 10000);

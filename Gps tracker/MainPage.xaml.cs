@@ -32,8 +32,8 @@ namespace Gps_tracker
 
                 if (AppCore.Core.GPSLocator == null)
                 {
-                    AppCore.Core.GPSLocator = new locator(this);
-                    AppCore.Core.GPSLocator.startLocalisation();
+                    AppCore.Core.GPSLocator = new Locator(this);
+                    AppCore.Core.GPSLocator.StartLocalisation();
                 }
                 AppCore.Core.setTempFile();
 

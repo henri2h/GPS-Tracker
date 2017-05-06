@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gps_tracker.AppCore;
+using System;
 using System.AppCore;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -13,7 +14,7 @@ using Windows.UI.Xaml.Controls.Maps;
 
 namespace Gps_tracker
 {
-    public class locator
+    public class Locator
     {
 
         public MainPage page;
@@ -34,9 +35,10 @@ namespace Gps_tracker
         public string Status = "";
 
 
-        public locator(MainPage pages) { page = pages; }
+        public Locator(MainPage pages) { page = pages; }
+
         //true if the localisation is enabled
-        public bool startLocalisation()
+        public bool StartLocalisation()
         {
             try
             {
@@ -50,7 +52,7 @@ namespace Gps_tracker
                 geoLocator.StatusChanged += Locator_StatusChanged;
 
 
-                page.informations.output = "locator started";
+                Core.informations.output = "locator started";
 
                 // start the extended session
                 extendedSession.StartLocationExtensionSession();
@@ -78,39 +80,42 @@ namespace Gps_tracker
 
                     position_old = position;
                     position = args.Position.Coordinate.Point.Position;
-                    page.informations.output = value.ToString();
+                    Core.informations.output = value.ToString();
 
 
                     if (value > 2)
                     {
-                        page.informations.totalTravelDistance += GetDistanceBetweenPoints(position_old.Latitude, position_old.Longitude, position.Latitude, position.Longitude);
+                        Core.informations.totalTravelDistance += GetDistanceBetweenPoints(position_old.Latitude, position_old.Longitude, position.Latitude, position.Longitude);
                     }
-                    currentPoint = new point();
-                    // ======= setup the variables ============
-                    currentPoint.track = value;
 
-                    currentPoint.altitude = args.Position.Coordinate.Point.Position.Altitude;
-                    currentPoint.latitude = args.Position.Coordinate.Point.Position.Latitude;
-                    currentPoint.longitude = args.Position.Coordinate.Point.Position.Longitude;
+                    currentPoint = new point()
+                    {
+                        // ======= setup the variables ============
+                        track = value,
 
-                    currentPoint.speed = args.Position.Coordinate.Speed;
-                    currentPoint.date = args.Position.Coordinate.Timestamp;
-                    currentPoint.accuracy = args.Position.Coordinate.Accuracy;
-                    currentPoint.positionSource = args.Position.Coordinate.PositionSource;
+                        altitude = args.Position.Coordinate.Point.Position.Altitude,
+                        latitude = args.Position.Coordinate.Point.Position.Latitude,
+                        longitude = args.Position.Coordinate.Point.Position.Longitude,
+
+                        speed = args.Position.Coordinate.Speed,
+                        date = args.Position.Coordinate.Timestamp,
+                        accuracy = args.Position.Coordinate.Accuracy,
+                        positionSource = args.Position.Coordinate.PositionSource
+                    };
 
                     track.Add(currentPoint);
 
                     // update UI
-                    updateUIMap();
+                    UpdateUIMap();
                     Console.WriteLine("New point : " + value);
 
-                    page.informations.date = DateTime.Now;
-                    page.informations.currentPoint = currentPoint;
-                    page.informations.currentSpeed = currentPoint.speed.Value;
-                    if (page.informations.maxSpeed < currentPoint.speed) { page.informations.maxSpeed = currentPoint.speed.Value; }
+                    Core.informations.date = DateTime.Now;
+                    Core.informations.currentPoint = currentPoint;
+                    Core.informations.currentSpeed = currentPoint.speed.Value;
+                    if (Core.informations.maxSpeed < currentPoint.speed) { Core.informations.maxSpeed = currentPoint.speed.Value; }
 
                     value++;
-                    updateUI();
+                    UpdateUI();
 
                 }
 
@@ -129,14 +134,14 @@ namespace Gps_tracker
                 Console.WriteLine("status changed" + args.Status.ToString());
                 Console.WriteLine("Locator status : " + sender.LocationStatus.ToString());
 
-                page.informations.output = "status changed" + args.Status.ToString();
+                Core.informations.output = "status changed" + args.Status.ToString();
                 System.Diagnostics.Debug.WriteLine(sender.LocationStatus.ToString());
 
 
                 // tell the user
                 Status = sender.LocationStatus.ToString();
 
-                updateUI();
+                UpdateUI();
             }
             catch (Exception ex)
             {
@@ -148,7 +153,7 @@ namespace Gps_tracker
         }
 
 
-        void updateUI()
+        void UpdateUI()
         {
             try { page.UnThreadUpdateUITextElement(); }
             catch (Exception ex)
@@ -157,7 +162,7 @@ namespace Gps_tracker
                 ErrorMessage.printOut(ex);
             }
         }
-        void updateUIMap()
+        void UpdateUIMap()
         {
             try { page.UnThreadUpdateUIMap(); }
             catch (Exception ex)
