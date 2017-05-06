@@ -38,7 +38,7 @@ namespace Gps_tracker
                 AppCore.Core.setTempFile();
 
 
-                updateUITextElements();
+                UpdateUITextElements();
             }
             catch (Exception ex)
             {
@@ -81,17 +81,17 @@ namespace Gps_tracker
                 Core.GPSLocator.recordingLocalisation = false;
                 btStart.Content = "Start recording the track";
             }
-            updateUITextElements();
+            UpdateUITextElements();
         }
         //save
         private void BtSave_Click(object sender, RoutedEventArgs e) { files.choose(this, Core.GPSLocator); }
 
         private void BtUpdate_Click(object sender, RoutedEventArgs e)
         {
-            updateUITextElements();
+            UpdateUITextElements();
         }
 
-        public void updateUITextElements()
+        public void UpdateUITextElements()
         {
             UITbInformations.updateUIInformations(Core.informations);
         }
@@ -101,7 +101,7 @@ namespace Gps_tracker
         {
             try
             {
-                var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { updateUITextElements(); });
+                var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { UpdateUITextElements(); });
             }
             catch (Exception ex)
             {
@@ -110,7 +110,7 @@ namespace Gps_tracker
             }
         }
 
-        public void unThreadUpdateUIMap()
+        public void UnThreadUpdateUIMap()
         {
             try
             {

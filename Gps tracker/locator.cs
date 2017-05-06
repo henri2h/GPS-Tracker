@@ -159,7 +159,7 @@ namespace Gps_tracker
         }
         void updateUIMap()
         {
-            try { page.unThreadUpdateUIMap(); }
+            try { page.UnThreadUpdateUIMap(); }
             catch (Exception ex)
             {
                 ex.Source = "locator.updateUIMap";
