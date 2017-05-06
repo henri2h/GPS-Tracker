@@ -42,6 +42,12 @@ namespace Gps_tracker.UI
         {
             try
             {
+                Windows.System.AppMemoryUsageLevel level = Windows.System.MemoryManager.AppMemoryUsageLevel;
+                if (level == Windows.System.AppMemoryUsageLevel.Medium || level == Windows.System.AppMemoryUsageLevel.High)
+                {
+                    this.UpdateUIAllMap(points);
+                }
+
                 if (points.Length > 1)
                 {
                     point oldPoint = points[points.Length - 2];
@@ -53,8 +59,6 @@ namespace Gps_tracker.UI
                             new BasicGeoposition() { Latitude = oldPoint.latitude, Longitude = oldPoint.longitude },
                             new BasicGeoposition() { Latitude = current.latitude, Longitude = current.longitude }
                         );
-
-
                     }
                 }
 
@@ -72,11 +76,23 @@ namespace Gps_tracker.UI
         public void UpdateUIAllMap(point[] points)
         {
             MapControl.MapElements.Clear();
+            int numberOfPoints = points.Length - 1;
+            int distanceBetweenPoint = 1;
+
+            if (numberOfPoints > 40)
+            {
+                distanceBetweenPoint = numberOfPoints / 40;
+            }
+
+            if (distanceBetweenPoint == 0) { distanceBetweenPoint = 1; }
+
             try
             {
                 point oldPoint = null;
-                foreach (point pointElement in points)
+                for (int i = 0; i < numberOfPoints; i += distanceBetweenPoint)
                 {
+                    point pointElement = points[i];
+
                     if (oldPoint != null)
                     {
                         Windows.UI.Xaml.Controls.Maps.MapPolyline mapPolyline = new Windows.UI.Xaml.Controls.Maps.MapPolyline()
@@ -104,7 +120,8 @@ namespace Gps_tracker.UI
         }
 
         private void MapControl1_Loaded(object sender, RoutedEventArgs e)
-        { //UIMapView.updateMap(GPSLocator.track.ToArray());
+        {
+            this.UpdateUIAllMap(AppCore.Core.GPSLocator.track.ToArray());
         }
     }
 
