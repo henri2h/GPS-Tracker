@@ -16,9 +16,6 @@ namespace Gps_tracker
         public Information informations = new Information();
         timer time;
 
-        // intialize the locator
-        locator GPSLocator;
-
         public MainPage()
         {
             try
@@ -28,11 +25,11 @@ namespace Gps_tracker
 
                 // intitalisation
                 time = new timer();
-                if (GPSLocator == null)
+                if (AppCore.Core.GPSLocator == null)
                 {
 
-                    GPSLocator = new locator(this);
-                    GPSLocator.startLocalisation();
+                    AppCore.Core.GPSLocator = new locator(this);
+                    AppCore.Core.GPSLocator.startLocalisation();
                 }
                 AppCore.Core.setTempFile();
 
@@ -51,9 +48,9 @@ namespace Gps_tracker
         {
             try
             {
-                if (GPSLocator.global != null)
+                if (AppCore.Core.GPSLocator.global != null)
                 {
-                    UIMapView.centerMap(GPSLocator.global.Coordinate.Point);
+                    UIMapView.centerMap(AppCore.Core.GPSLocator.global.Coordinate.Point);
                 }
             }
             catch (Exception ex)
@@ -65,11 +62,11 @@ namespace Gps_tracker
         //start
         private void btStart_Click(object sender, RoutedEventArgs e)
         {
-            if (GPSLocator.recordingLocalisation == false)
+            if (Core.GPSLocator.recordingLocalisation == false)
             {
                 informations.startTravelTime = DateTime.Now;
-                time.start(GPSLocator);
-                GPSLocator.recordingLocalisation = true;
+                time.start(Core.GPSLocator);
+                Core.GPSLocator.recordingLocalisation = true;
                 btStart.Content = "Stop recording the track";
             }
             else
@@ -77,13 +74,13 @@ namespace Gps_tracker
                 informations.endTravelTime = DateTime.Now;
                 informations.totalTravelDistance = 0;
                 time.stop();
-                GPSLocator.recordingLocalisation = false;
+                Core.GPSLocator.recordingLocalisation = false;
                 btStart.Content = "Start recording the track";
             }
             updateUITextElements();
         }
         //save
-        private void btSave_Click(object sender, RoutedEventArgs e) { files.choose(this, GPSLocator); }
+        private void btSave_Click(object sender, RoutedEventArgs e) { files.choose(this, Core.GPSLocator); }
 
         private void btUpdate_Click(object sender, RoutedEventArgs e)
         {
@@ -113,7 +110,7 @@ namespace Gps_tracker
         {
             try
             {
-                var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { UIMapView.updateMap(GPSLocator.track.ToArray()); });
+                var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { UIMapView.updateMap(Core.GPSLocator.track.ToArray()); });
             }
             catch (Exception ex)
             {
@@ -135,11 +132,11 @@ namespace Gps_tracker
 
 
 
-      
+
         private void btMapupdate_Click(object sender, RoutedEventArgs e)
         {
-            Console.WriteLine("Map Updating : Size of track : " + GPSLocator.track.ToArray().Length);
-            UIMapView.updateUIAllMap(GPSLocator.track.ToArray());
+            Console.WriteLine("Map Updating : Size of track : " + Core.GPSLocator.track.ToArray().Length);
+            UIMapView.updateUIAllMap(Core.GPSLocator.track.ToArray());
         }
 
         private void UITbSettings_Click(object sender, RoutedEventArgs e)
