@@ -19,24 +19,26 @@ namespace Gps_tracker.UI
             MapControl.MapServiceToken = "dIQYRjm1oGFEfWPNnTmx~GRofurcHYDuU4uJtNG1C6Q~AhcpDsCLAmjtPskvs3dCm3TMl2Hhawxmy66H6cGFAmkUcOFou7gYl0xbTzzit0Id";
 
         }
-        public void centerMap(Geopoint point)
+        public void CenterMap(Geopoint point)
         {
             MapControl.Center = point;
             MapControl.ZoomLevel = 16;
         }
 
-        public void setUIMapSegement(BasicGeoposition start, BasicGeoposition end)
+        public void SetUIMapSegement(BasicGeoposition start, BasicGeoposition end)
         {
-            Windows.UI.Xaml.Controls.Maps.MapPolyline mapPolyline = new Windows.UI.Xaml.Controls.Maps.MapPolyline();
-            mapPolyline.Path = new Geopath(new List<BasicGeoposition>() { start, end });
+            Windows.UI.Xaml.Controls.Maps.MapPolyline mapPolyline = new Windows.UI.Xaml.Controls.Maps.MapPolyline()
+            {
+                Path = new Geopath(new List<BasicGeoposition>() { start, end }),
 
-            mapPolyline.StrokeColor = Colors.Black;
-            mapPolyline.StrokeThickness = 3;
-            mapPolyline.StrokeDashed = true;
+                StrokeColor = Colors.Black,
+                StrokeThickness = 3,
+                StrokeDashed = true
+            };
             MapControl.MapElements.Add(mapPolyline);
         }
 
-        public void updateMap(point[] points)
+        public void UpdateMap(point[] points)
         {
             try
             {
@@ -47,7 +49,7 @@ namespace Gps_tracker.UI
 
                     if (oldPoint != null)
                     {
-                        setUIMapSegement(
+                        SetUIMapSegement(
                             new BasicGeoposition() { Latitude = oldPoint.latitude, Longitude = oldPoint.longitude },
                             new BasicGeoposition() { Latitude = current.latitude, Longitude = current.longitude }
                         );
@@ -67,7 +69,7 @@ namespace Gps_tracker.UI
         /// <summary>
         /// Refresh all the map
         /// </summary>
-        public void updateUIAllMap(point[] points)
+        public void UpdateUIAllMap(point[] points)
         {
             MapControl.MapElements.Clear();
             try
@@ -77,14 +79,16 @@ namespace Gps_tracker.UI
                 {
                     if (oldPoint != null)
                     {
-                        Windows.UI.Xaml.Controls.Maps.MapPolyline mapPolyline = new Windows.UI.Xaml.Controls.Maps.MapPolyline();
-                        mapPolyline.Path = new Geopath(new List<BasicGeoposition>() {
+                        Windows.UI.Xaml.Controls.Maps.MapPolyline mapPolyline = new Windows.UI.Xaml.Controls.Maps.MapPolyline()
+                        {
+                            Path = new Geopath(new List<BasicGeoposition>() {
                             new BasicGeoposition() {Latitude=oldPoint.latitude, Longitude=oldPoint.longitude},
                             new BasicGeoposition() {Latitude=pointElement.latitude, Longitude=pointElement.longitude}
-                             });
-                        mapPolyline.StrokeColor = Colors.Black;
-                        mapPolyline.StrokeThickness = 3;
-                        mapPolyline.StrokeDashed = true;
+                             }),
+                            StrokeColor = Colors.Black,
+                            StrokeThickness = 3,
+                            StrokeDashed = true
+                        };
                         MapControl.MapElements.Add(mapPolyline);
                     }
 
