@@ -37,8 +37,13 @@ namespace Gps_tracker
                 }
                 AppCore.Core.setTempFile();
 
+                if (AppCore.Core.GPSLocator.global != null)
+                {
+                    UIMapView.CenterMap(AppCore.Core.GPSLocator.global.Coordinate.Point);
+                }
 
                 UpdateUITextElements();
+                
             }
             catch (Exception ex)
             {
