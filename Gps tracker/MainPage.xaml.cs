@@ -21,7 +21,7 @@ namespace Gps_tracker
             {
                 this.InitializeComponent();
 
-
+                Core.page = this;
                 // intitalisation
                 time = new timer();
 
@@ -32,7 +32,7 @@ namespace Gps_tracker
 
                 if (AppCore.Core.GPSLocator == null)
                 {
-                    AppCore.Core.GPSLocator = new Locator(this);
+                    AppCore.Core.GPSLocator = new Locator();
                     AppCore.Core.GPSLocator.StartLocalisation();
                 }
                 AppCore.Core.SetTempFile();

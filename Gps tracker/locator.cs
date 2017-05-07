@@ -16,8 +16,6 @@ namespace Gps_tracker
 {
     public class Locator
     {
-
-        public MainPage page;
         //postion
         public List<point> track = null;
         public point currentPoint = new point();
@@ -35,7 +33,7 @@ namespace Gps_tracker
         public string Status = "";
 
 
-        public Locator(MainPage pages) { page = pages; }
+        public Locator() {}
 
         //true if the localisation is enabled
         public bool StartLocalisation()
@@ -155,7 +153,7 @@ namespace Gps_tracker
 
         void UpdateUI()
         {
-            try { page.UnThreadUpdateUITextElement(); }
+            try { Core.page.UnThreadUpdateUITextElement(); }
             catch (Exception ex)
             {
                 ex.Source = "locator.updateUI";
@@ -164,7 +162,7 @@ namespace Gps_tracker
         }
         void UpdateUIMap()
         {
-            try { page.UnThreadUpdateUIMap(); }
+            try { Core.page.UnThreadUpdateUIMap(); }
             catch (Exception ex)
             {
                 ex.Source = "locator.updateUIMap";
