@@ -61,7 +61,9 @@ namespace Gps_tracker.AppCore
             {
                 SpeedUnit = speedUnit.metersPerSecond,
                 autoSave = true,
-                enhancedMode = true
+                enhancedMode = true,
+                Hostname= "10.0.0.3"
+
             };
             SaveSettings();
         }
