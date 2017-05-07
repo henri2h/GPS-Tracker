@@ -1,0 +1,28 @@
+﻿<Page
+    x:Class="Gps_tracker.UI.FilesView.FileViewer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Gps_tracker.UI.FilesView"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="File content :"/>
+        </StackPanel>
+        <ListView Grid.Row="1">
+            <TextBlock x:Name="UITbFileContent"/>
+        </ListView>
+        <StackPanel Grid.Row="2">
+            <Button x:Name="UIBtReturn" Click="UIBtReturn_Click"/>
+            <Button x:Name="UIBtShare" Click="UIBtShare_Click"/>
+        </StackPanel>
+    </Grid>
+</Page>
