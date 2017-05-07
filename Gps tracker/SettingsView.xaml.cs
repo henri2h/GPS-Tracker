@@ -38,7 +38,7 @@ namespace Gps_tracker
             AppCore.Core.settings.enhancedMode = UISwitchExtended.IsOn;
             AppCore.Core.settings.autoSave = UISwitchSaving.IsOn;
             AppCore.Core.settings.Hostname = UITbHostname.Text;
-            AppCore.Core.saveSettings();
+            AppCore.Core.SaveSettings();
         }
 
         private void UITbSave_Click(object sender, RoutedEventArgs e)

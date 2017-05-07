@@ -24,7 +24,7 @@ namespace Gps_tracker.AppCore
 
         public static void startApp()
         {
-            loadSettings();
+            LoadSettings();
         }
         public static void setTempFile()
         {
@@ -32,7 +32,7 @@ namespace Gps_tracker.AppCore
             Console.WriteLine("Temp file : " + AppCore.Core.tempFile);
         }
 
-        public static async void loadSettings()
+        public static async void LoadSettings()
         {
             try
             {
@@ -44,37 +44,42 @@ namespace Gps_tracker.AppCore
                     settings = Newtonsoft.Json.JsonConvert.DeserializeObject<Setting>(content);
                     Console.WriteLine("File exist");
                 }
-                else { createSettings(); }
+                else { CreateSettings(); }
 
             }
             catch
             {
-                createSettings();
+                CreateSettings();
             }
 
         }
-        static void createSettings()
+        static void CreateSettings()
         {
-            Console.WriteLine("File didn' exist");
-            settings = new Setting();
-            settings.SpeedUnit = speedUnit.metersPerSecond;
-            settings.autoSave = true;
-            settings.enhancedMode = true;
-
-            saveSettings();
+            Console.WriteLine("File didn't exist");
+            settings = new Setting()
+            {
+                SpeedUnit = speedUnit.metersPerSecond,
+                autoSave = true,
+                enhancedMode = true
+            };
+            SaveSettings();
         }
 
-        public static async void saveSettings()
+        public static async void SaveSettings()
         {
             Console.WriteLine("Going to save");
             string text = Newtonsoft.Json.JsonConvert.SerializeObject(settings);
-            await localFolder.CreateFileAsync(settingFileName, CreationCollisionOption.ReplaceExisting);
-            StorageFile file = await localFolder.GetFileAsync(settingFileName);
+            string filePath = Path.Combine(localFolder.Path, settingFileName);
+            File.WriteAllText(filePath, text);
 
-            if (file != null)
-            {
-                await FileIO.WriteTextAsync(file, text);
-            }
+            /*await localFolder.CreateFileAsync(settingFileName, CreationCollisionOption.ReplaceExisting);
+             StorageFile file = await localFolder.GetFileAsync(settingFileName);
+
+             if (file != null)
+             {
+                 await FileIO.WriteTextAsync(file, text);
+             }*/
+
             Console.WriteLine("Setting saved");
         }
 
