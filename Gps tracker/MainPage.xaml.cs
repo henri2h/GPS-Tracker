@@ -150,14 +150,32 @@ namespace Gps_tracker
 
         private void UITbSettings_Click(object sender, RoutedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            bool canChange = rootFrame.Navigate(typeof(SettingsView));
+            try
+            {
+
+                Frame rootFrame = Window.Current.Content as Frame;
+                bool canChange = rootFrame.Navigate(typeof(SettingsView));
+            }
+            catch (Exception ex)
+            {
+                ex.Source = "MainPage.UITbSettings_Click";
+                ErrorMessage.printOut(ex);
+            }
         }
 
         private void UITbFiles_Click(object sender, RoutedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            bool canChange = rootFrame.Navigate(typeof(FileView));
+            try
+            {
+
+                Frame rootFrame = Window.Current.Content as Frame;
+                bool canChange = rootFrame.Navigate(typeof(FileView));
+            }
+            catch (Exception ex)
+            {
+                ex.Source = "MainPage.UITbFiles_Click";
+                ErrorMessage.printOut(ex);
+            }
         }
     }
 

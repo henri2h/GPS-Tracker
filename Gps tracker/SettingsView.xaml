@@ -16,7 +16,6 @@
             <TextBox x:Name="UItbMapToken" Header="Map tocken"/>
             <TextBox x:Name="UITbHostname" Header="Hostname"/>
             <Button x:Name="UIBtConnect" Content="Connect" Click="UIBtConnect_Click"/>
-
         </StackPanel>
     </Grid>
 </Page>
