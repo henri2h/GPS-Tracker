@@ -17,12 +17,14 @@
         <StackPanel Grid.Row="0">
             <TextBlock Text="File content :"/>
         </StackPanel>
+        
         <ListView Grid.Row="1">
             <TextBlock x:Name="UITbFileContent"/>
         </ListView>
-        <StackPanel Grid.Row="2">
-            <Button x:Name="UIBtReturn" Click="UIBtReturn_Click"/>
-            <Button x:Name="UIBtShare" Click="UIBtShare_Click"/>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Button x:Name="UIBtReturn" Click="UIBtReturn_Click" Content="Return"/>
+            <Button x:Name="UIBtShare" Click="UIBtShare_Click" Content="Share"/>
         </StackPanel>
     </Grid>
 </Page>
