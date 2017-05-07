@@ -34,7 +34,7 @@ namespace Gps_tracker
             }
             string err = getErrorString(ex);
             Console.WriteLine(err);
-            string tempFile = files.getTempFile(".err");
+            string tempFile = Files.GetTempFile(".err");
 
             File.AppendAllText(tempFile, err);
             //  files.saveFile(".err", err + Environment.NewLine + tempFile);
@@ -43,7 +43,7 @@ namespace Gps_tracker
         {
             //just to save without printing the error
             string err = getErrorString(ex);
-            string tempFile = files.getTempFile(".err");
+            string tempFile = Files.GetTempFile(".err");
 
             File.AppendAllText(tempFile, err);
             //  files.saveFile(".err", err + Environment.NewLine + tempFile);
@@ -52,7 +52,7 @@ namespace Gps_tracker
         public static void sendErrorMessages()
         {
             StringBuilder sb = new StringBuilder();
-            string tempDir = files.getTempDir();
+            string tempDir = Files.GetTempDir();
             string[] localFiles = Directory.GetFiles(tempDir);
             foreach (string localFile in localFiles)
             {

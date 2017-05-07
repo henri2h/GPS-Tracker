@@ -28,7 +28,7 @@ namespace Gps_tracker.AppCore
         }
         public static void setTempFile()
         {
-            AppCore.Core.tempFile = files.getTempFile(".gpx");
+            AppCore.Core.tempFile = Files.GetTempFile(".gpx");
             Console.WriteLine("Temp file : " + AppCore.Core.tempFile);
         }
 

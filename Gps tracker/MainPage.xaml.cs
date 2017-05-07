@@ -87,7 +87,7 @@ namespace Gps_tracker
         private void BtSave_Click(object sender, RoutedEventArgs e) {
 
             UIMapView.UpdateUIAllMap(Core.GPSLocator.track.ToArray());
-            files.choose(this, Core.GPSLocator); }
+            Files.Choose(this, Core.GPSLocator); }
 
         private void BtUpdate_Click(object sender, RoutedEventArgs e)
         {

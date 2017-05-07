@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gps_tracker.AppCore;
+using System;
 using System.AppCore;
 using System.Collections.Generic;
 using System.IO;
@@ -8,10 +9,10 @@ using Windows.Storage.Provider;
 
 namespace Gps_tracker
 {
-    public class files
+    public class Files
     {
         // temp files and dir
-        public static string getTempFile(string extention)
+        public static string GetTempFile(string extention)
         {
             string directory = Path.Combine(AppCore.Core.localFolder.Path, "gpxFiles");
             if (Directory.Exists(directory) == false) { Directory.CreateDirectory(directory); }
@@ -25,14 +26,14 @@ namespace Gps_tracker
             return Path.Combine(directory, name + version + extention);
         }
 
-        public static string getTempDir()
+        public static string GetTempDir()
         {
             return Path.GetTempPath();
         }
 
 
         // save tempfile
-        public static bool saveGPXTempFile(Locator GPSLocator)
+        public static bool SaveGPXTempFile(Locator GPSLocator)
         {
             try
             {
@@ -56,12 +57,14 @@ namespace Gps_tracker
             }
             return false;
         }
-        public static async void saveFile(string extension, string content)
+        public static async void SaveFile(string extension, string content)
         {
             try
             {
-                FileSavePicker savePicker = new FileSavePicker();
-                savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+                FileSavePicker savePicker = new FileSavePicker()
+                {
+                    SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+                };
                 // Dropdown of file types the user can save the file as
                 savePicker.FileTypeChoices.Add("GPX format", new List<string>() { extension });
                 savePicker.SuggestedFileName = "error";
@@ -98,12 +101,14 @@ namespace Gps_tracker
                 ErrorMessage.printOut(ex);
             }
         }
-        public static async void choose(MainPage page, Locator GPXLocator)
+        public static async void Choose(MainPage page, Locator GPXLocator)
         {
             try
             {
-                FileSavePicker savePicker = new FileSavePicker();
-                savePicker.SuggestedStartLocation = PickerLocationId.DocumentsLibrary;
+                FileSavePicker savePicker = new FileSavePicker()
+                {
+                    SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+                };
                 // Dropdown of file types the user can save the file as
                 savePicker.FileTypeChoices.Add("Plain Text", new List<string>() { ".gpx" });
                 // Default file name if the user does not type one in or select a file to replace
@@ -121,16 +126,19 @@ namespace Gps_tracker
                     FileUpdateStatus status = await CachedFileManager.CompleteUpdatesAsync(file);
                     if (status == FileUpdateStatus.Complete)
                     {
-                        page.informations.output = "File " + file.Name + " was saved.";
+                        Core.informations.output = "File " + file.Name + " was saved.";
+                        Console.WriteLine("File " + file.Name + " was saved.");
                     }
                     else
                     {
-                        page.informations.output = "File " + file.Name + " couldn't be saved.";
+                        Core.informations.output = "File " + file.Name + " couldn't be saved.";
+                        Console.WriteLine("File " + file.Name + " couldn't be saved.");
                     }
                 }
                 else
                 {
-                    page.informations.output = "Operation cancelled.";
+                    Core.informations.output = "Operation cancelled.";
+                    Console.WriteLine("Operation cancelled");
                 }
                 page.UnThreadUpdateUITextElement();
             }
