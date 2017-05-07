@@ -48,6 +48,18 @@ namespace Gps_tracker.UI
                     this.UpdateUIAllMap(points);
                 }
 
+                if (points.Length == 1) {
+                    BasicGeoposition gP = new BasicGeoposition()
+                    {
+                        Latitude = points[0].latitude,
+                        Longitude = points[0].longitude,
+                        Altitude = points[0].altitude
+                    };
+
+                    Geopoint gPt = new Geopoint(gP);
+                    this.CenterMap(gPt);
+                }
+
                 if (points.Length > 1)
                 {
                     point oldPoint = points[points.Length - 2];
