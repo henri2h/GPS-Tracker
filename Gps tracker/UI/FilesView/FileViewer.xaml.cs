@@ -25,8 +25,13 @@ namespace Gps_tracker.UI.FilesView
         public FileViewer()
         {
             this.InitializeComponent();
+            LoadContent();
         }
-
+        private void LoadContent()
+        {
+            string content = File.ReadAllText(AppCore.Core.selectedFilePath);
+            UITbFileContent.Text = content;
+        }
         private void UIBtShare_Click(object sender, RoutedEventArgs e)
         {
 

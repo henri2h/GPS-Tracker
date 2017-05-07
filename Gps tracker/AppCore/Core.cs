@@ -15,6 +15,7 @@ namespace Gps_tracker.AppCore
         const string settingFileName = "settings.set";
         public static Setting settings { get; set; }
         public static string tempFile { get; set; }
+        public static string selectedFilePath { get; internal set; }
 
         public static Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
         public static Windows.Storage.StorageFolder tempFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;

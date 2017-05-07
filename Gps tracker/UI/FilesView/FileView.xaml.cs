@@ -66,6 +66,12 @@ namespace Gps_tracker.UI.FilesView
                 currentPath = fElem.path;
                 loadPage();
             }
+            else
+            {
+                AppCore.Core.selectedFilePath = fElem.path;
+                Frame rootFrame = Window.Current.Content as Frame;
+                bool canChange = rootFrame.Navigate(typeof(FileViewer));
+            }
         }
 
         private void UITbParent_Click(object sender, RoutedEventArgs e)
