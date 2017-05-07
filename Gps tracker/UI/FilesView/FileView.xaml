@@ -18,7 +18,9 @@
         <ScrollViewer Grid.Row="1" HorizontalAlignment="Stretch">
             <StackPanel x:Name="UIStackFiles" HorizontalAlignment="Stretch"/>
         </ScrollViewer>
-        <Button x:Name="UITbParent" Content="See parent directory" Grid.Row="3" Click="UITbParent_Click"/>
-
+        <StackPanel Grid.Row="3">
+        <Button x:Name="UITbParent" Content="See parent directory" Click="UITbParent_Click"/>
+            <Button x:Name="RetrunToHomeView" Content="Return to home view" Click="RetrunToHomeView_Click"/>
+        </StackPanel>
     </Grid>
 </Page>

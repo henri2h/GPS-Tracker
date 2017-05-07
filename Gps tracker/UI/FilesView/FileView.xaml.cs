@@ -27,34 +27,36 @@ namespace Gps_tracker.UI.FilesView
         public FileView()
         {
             this.InitializeComponent();
-            currentPath = AppCore.Core.localFolder.Path;
-            loadPage();
-            buttonGoBack();
+            CurrentPath = AppCore.Core.localFolder.Path;
+            LoadPage();
+            ButtonGoBack();
         }
 
-        public string currentPath { get; set; }
+        public string CurrentPath { get; set; }
 
-        public void loadPage()
+        public void LoadPage()
         {
 
-            Console.WriteLine("Loading files of : " + currentPath);
+            Console.WriteLine("Loading files of : " + CurrentPath);
 
-            List<directoryObject> objects = FilesManager.listFiles(currentPath);
+            List<directoryObject> objects = FilesManager.listFiles(CurrentPath);
 
             UIStackFiles.Children.Clear();
             foreach (directoryObject dir in objects)
             {
-                FileElement fileElem = new FileElement(dir.name, dir.path, dir.isDirectory);
-                fileElem.HorizontalAlignment = HorizontalAlignment.Stretch;
+                FileElement fileElem = new FileElement(dir.name, dir.path, dir.isDirectory)
+                {
+                    HorizontalAlignment = HorizontalAlignment.Stretch
+                };
                 fileElem.Click += FileElem_Click;
 
                 UIStackFiles.Children.Add(fileElem);
             }
-            buttonGoBack();
+            ButtonGoBack();
         }
-        void buttonGoBack()
+        void ButtonGoBack()
         {
-            if (currentPath == AppCore.Core.localFolder.Path) { UITbParent.IsEnabled = false; }
+            if (CurrentPath == AppCore.Core.localFolder.Path) { UITbParent.IsEnabled = false; }
             else { UITbParent.IsEnabled = true; }
         }
 
@@ -63,8 +65,8 @@ namespace Gps_tracker.UI.FilesView
             FileElement fElem = (FileElement)sender;
             if (fElem.isDirectory == true)
             {
-                currentPath = fElem.path;
-                loadPage();
+                CurrentPath = fElem.path;
+                LoadPage();
             }
             else
             {
@@ -76,9 +78,15 @@ namespace Gps_tracker.UI.FilesView
 
         private void UITbParent_Click(object sender, RoutedEventArgs e)
         {
-            DirectoryInfo dF = Directory.GetParent(currentPath);
-            currentPath = dF.FullName;
-            loadPage();
+            DirectoryInfo dF = Directory.GetParent(CurrentPath);
+            CurrentPath = dF.FullName;
+            LoadPage();
+        }
+
+        private void RetrunToHomeView_Click(object sender, RoutedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            bool canChange = rootFrame.Navigate(typeof(MainPage));
         }
     }
 }
