@@ -35,7 +35,7 @@ namespace Gps_tracker
                     AppCore.Core.GPSLocator = new Locator(this);
                     AppCore.Core.GPSLocator.StartLocalisation();
                 }
-                AppCore.Core.setTempFile();
+                AppCore.Core.SetTempFile();
 
                 if (AppCore.Core.GPSLocator.global != null)
                 {

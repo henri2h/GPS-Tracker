@@ -17,11 +17,11 @@ namespace Gps_tracker.UI
         {
             get
             {
-                return AppCore.Core.settings.SpeedUnit;
+                return AppCore.Core.Settings.SpeedUnit;
             }
             set
             {
-                AppCore.Core.settings.SpeedUnit = value;
+                AppCore.Core.Settings.SpeedUnit = value;
                 //  AppCore.Core.saveSettings();
             }
         }

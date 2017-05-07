@@ -29,7 +29,7 @@ namespace Gps_tracker.UI.FilesView
         }
         private void LoadContent()
         {
-            string content = File.ReadAllText(AppCore.Core.selectedFilePath);
+            string content = File.ReadAllText(AppCore.Core.SelectedFilePath);
             UITbFileContent.Text = content;
         }
         private void UIBtShare_Click(object sender, RoutedEventArgs e)

@@ -29,15 +29,15 @@ namespace Gps_tracker
         }
         public void loadSettings()
         {
-            UISwitchExtended.IsOn = AppCore.Core.settings.enhancedMode;
-            UISwitchSaving.IsOn = AppCore.Core.settings.autoSave;
-            UITbHostname.Text = AppCore.Core.settings.Hostname;
+            UISwitchExtended.IsOn = AppCore.Core.Settings.enhancedMode;
+            UISwitchSaving.IsOn = AppCore.Core.Settings.autoSave;
+            UITbHostname.Text = AppCore.Core.Settings.Hostname;
         }
         public void saveSettings()
         {
-            AppCore.Core.settings.enhancedMode = UISwitchExtended.IsOn;
-            AppCore.Core.settings.autoSave = UISwitchSaving.IsOn;
-            AppCore.Core.settings.Hostname = UITbHostname.Text;
+            AppCore.Core.Settings.enhancedMode = UISwitchExtended.IsOn;
+            AppCore.Core.Settings.autoSave = UISwitchSaving.IsOn;
+            AppCore.Core.Settings.Hostname = UITbHostname.Text;
             AppCore.Core.SaveSettings();
         }
 

@@ -44,7 +44,7 @@ namespace Gps_tracker
                 }
                 else
                 {
-                    File.WriteAllText(AppCore.Core.tempFile, gpx.generateGPXOutput(GPSLocator.track));
+                    File.WriteAllText(AppCore.Core.TempFile, gpx.generateGPXOutput(GPSLocator.track));
 
                     return true;
                 }

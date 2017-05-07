@@ -31,7 +31,7 @@ namespace Gps_tracker
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
-            AppCore.Core.startApp();
+            AppCore.Core.StartApp();
         }
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

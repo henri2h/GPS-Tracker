@@ -70,7 +70,7 @@ namespace Gps_tracker.UI.FilesView
             }
             else
             {
-                AppCore.Core.selectedFilePath = fElem.path;
+                AppCore.Core.SelectedFilePath = fElem.path;
                 Frame rootFrame = Window.Current.Content as Frame;
                 bool canChange = rootFrame.Navigate(typeof(FileViewer));
             }

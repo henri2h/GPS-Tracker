@@ -15,7 +15,7 @@ namespace Gps_tracker.UI
         {
             this.InitializeComponent();
             // place the mapServiceToken here, you can get one at https://www.bingmapsportal.com/
-            if (AppCore.Core.settings.MapServiceToken != null) MapControl.MapServiceToken = AppCore.Core.settings.MapServiceToken;
+            if (AppCore.Core.Settings.MapServiceToken != null) MapControl.MapServiceToken = AppCore.Core.Settings.MapServiceToken;
             MapControl.MapServiceToken = "dIQYRjm1oGFEfWPNnTmx~GRofurcHYDuU4uJtNG1C6Q~AhcpDsCLAmjtPskvs3dCm3TMl2Hhawxmy66H6cGFAmkUcOFou7gYl0xbTzzit0Id";
 
         }
