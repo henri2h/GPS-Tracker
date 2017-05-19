@@ -9,19 +9,20 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock Text="Files :" Grid.Row="0"/>
+
         <ScrollViewer Grid.Row="1" HorizontalAlignment="Stretch">
             <StackPanel x:Name="UIStackFiles" HorizontalAlignment="Stretch"/>
         </ScrollViewer>
-        
-        <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <Button x:Name="UITbParent" Content="See parent directory" Click="UITbParent_Click"/>
-            <Button x:Name="RetrunToHomeView" Content="Return to home view" Click="RetrunToHomeView_Click"/>
-        </StackPanel>
+
+        <CommandBar Grid.Row="2">
+            <AppBarButton Icon="Back" Label="See parent directory" Click="UITbParent_Click"/>
+            <AppBarButton Icon="Home" Label="Return to home view" Click="RetrunToHomeView_Click"/>
+        </CommandBar>
     </Grid>
 </Page>

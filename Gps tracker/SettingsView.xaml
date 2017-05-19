@@ -8,14 +8,20 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
             <TextBlock Text="Settings"/>
             <ToggleSwitch x:Name="UISwitchSaving" Header="Saving"/>
             <ToggleSwitch x:Name="UISwitchExtended" Header="Extended"/>
-            <Button x:Name="UITbSave" Content="Save" HorizontalAlignment="Stretch" Click="UITbSave_Click"/>
             <TextBox x:Name="UItbMapToken" Header="Map tocken"/>
             <TextBox x:Name="UITbHostname" Header="Hostname"/>
-            <Button x:Name="UIBtConnect" Content="Connect" Click="UIBtConnect_Click"/>
         </StackPanel>
+        <CommandBar Grid.Row="1">
+            <AppBarButton Icon="Play" Label="Connect" Click="UIBtConnect_Click"/>
+            <AppBarButton Icon="Save" Label="Save" Click="UITbSave_Click"/>
+        </CommandBar>
     </Grid>
 </Page>
