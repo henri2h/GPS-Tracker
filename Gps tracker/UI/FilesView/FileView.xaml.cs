@@ -56,8 +56,8 @@ namespace Gps_tracker.UI.FilesView
         }
         void ButtonGoBack()
         {
-            if (CurrentPath == AppCore.Core.localFolder.Path) { UITbParent.IsEnabled = false; }
-            else { UITbParent.IsEnabled = true; }
+            if (CurrentPath == AppCore.Core.localFolder.Path) { UIBtParent.IsEnabled = false; }
+            else { UIBtParent.IsEnabled = true; }
         }
 
         private void FileElem_Click(object sender, RoutedEventArgs e)

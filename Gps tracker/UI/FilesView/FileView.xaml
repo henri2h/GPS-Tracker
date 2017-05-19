@@ -21,7 +21,7 @@
         </ScrollViewer>
 
         <CommandBar Grid.Row="2">
-            <AppBarButton Icon="Back" Label="See parent directory" Click="UITbParent_Click"/>
+            <AppBarButton Icon="Back" Label="See parent directory" Click="UITbParent_Click" x:Name="UIBtParent"/>
             <AppBarButton Icon="Home" Label="Return to home view" Click="RetrunToHomeView_Click"/>
         </CommandBar>
     </Grid>
