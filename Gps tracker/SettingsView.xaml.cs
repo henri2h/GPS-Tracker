@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gps_tracker.AppCore;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,25 +26,26 @@ namespace Gps_tracker
         public SettingsView()
         {
             this.InitializeComponent();
-            loadSettings();
+            LoadSettings();
         }
-        public void loadSettings()
+        public void LoadSettings()
         {
-            UISwitchExtended.IsOn = AppCore.Core.Settings.enhancedMode;
-            UISwitchSaving.IsOn = AppCore.Core.Settings.autoSave;
-            UITbHostname.Text = AppCore.Core.Settings.Hostname;
+            UISwitchExtended.IsOn = Core.Settings.enhancedMode;
+            UISwitchSaving.IsOn = Core.Settings.autoSave;
+            if (Core.Settings.Hostname != null)
+                UITbHostname.Text = Core.Settings.Hostname;
         }
-        public void saveSettings()
+        public void SaveSettings()
         {
-            AppCore.Core.Settings.enhancedMode = UISwitchExtended.IsOn;
-            AppCore.Core.Settings.autoSave = UISwitchSaving.IsOn;
-            AppCore.Core.Settings.Hostname = UITbHostname.Text;
-            AppCore.Core.SaveSettings();
+            Core.Settings.enhancedMode = UISwitchExtended.IsOn;
+            Core.Settings.autoSave = UISwitchSaving.IsOn;
+            Core.Settings.Hostname = UITbHostname.Text;
+            Core.SaveSettings();
         }
 
         private void UITbSave_Click(object sender, RoutedEventArgs e)
         {
-            saveSettings();
+            SaveSettings();
 
             Frame rootFrame = Window.Current.Content as Frame;
             rootFrame.GoBack();
