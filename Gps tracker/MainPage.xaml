@@ -10,28 +10,22 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-        <ScrollViewer>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0">
             <StackPanel>
                 <StackPanel x:Name="TitlePanel" Height="40" BorderBrush="#FF130404" Background="#FF8B8B8B" BorderThickness="0,1">
                     <TextBlock Text="Gps tracker"/>
                 </StackPanel>
-                <Button x:Name="btStart" Content="Start recording the track" Click="btStart_Click"/>
 
                 <UI:InformationsView x:Name="UITbInformations" Margin="5"/>
 
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="btSave" Content="Save" Width="150" Height="31" Click="btSave_Click"/>
-                    <AppBarSeparator/>
-                    <Button x:Name="btCenter" Content="center"  Height="28" Width="177" Click="btCenter_Click"/>
-
-                </StackPanel>
-
                 <UI:MapView x:Name="UIMapView" HorizontalAlignment="Stretch" Height="300"/>
 
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="btUpdate" Content="Update" Click="btUpdate_Click"></Button>
-                    <Button x:Name="btMapupdate" Content="update map" Click="btMapupdate_Click"/>
-                </StackPanel>
+                <Button x:Name="btCenter" Content="center"  Height="28" Width="177" Click="BtCenter_Click"/>
+                <Button x:Name="btMapupdate" Content="update map" Click="BtMapupdate_Click"/>
 
                 <!--console-->
                 <StackPanel x:Name="ConsoleUI" Background="Black" >
@@ -40,14 +34,18 @@
                         <UI:ConsoleView x:Name="ConsoleView"/>
                     </ScrollViewer>
 
-               
+
                 </StackPanel>
-                <Button x:Name="UITbSettings" Content="Settings" HorizontalAlignment="Stretch" Click="UITbSettings_Click"/>
-                <Button x:Name="UITbFiles" Content="Files" HorizontalAlignment="Stretch" Click="UITbFiles_Click"/>
-                <TextBlock Text="Made by Henri2H"/>
+
             </StackPanel>
 
         </ScrollViewer>
-
+        <CommandBar Grid.Row="1">
+            <AppBarButton Icon="Play" Label="Start recording" Click="BtStart_Click" x:Name="UIAppBtRecord"/>
+            <AppBarButton Icon="Refresh" Label="Reload" Click="BtUpdate_Click"/>
+            <AppBarButton Icon="Setting" Label="Settings" Click="UITbSettings_Click"/>
+            <AppBarButton Icon="Save" Label="Save GPX" Click="BtSave_Click"/>
+            <AppBarButton Icon="Folder" Label="See app folder" Click="UITbFiles_Click"/>
+        </CommandBar>
     </Grid>
 </Page>

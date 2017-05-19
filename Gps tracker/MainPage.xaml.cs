@@ -43,7 +43,7 @@ namespace Gps_tracker
                 }
 
                 UpdateUITextElements();
-                
+
             }
             catch (Exception ex)
             {
@@ -76,7 +76,8 @@ namespace Gps_tracker
                 Core.informations.startTravelTime = DateTime.Now;
                 time.start(Core.GPSLocator);
                 Core.GPSLocator.recordingLocalisation = true;
-                btStart.Content = "Stop recording the track";
+                UIAppBtRecord.Label = "Stop recording the track";
+                UIAppBtRecord.Icon = new SymbolIcon(Symbol.Stop);
             }
             else
             {
@@ -84,15 +85,18 @@ namespace Gps_tracker
                 Core.informations.totalTravelDistance = 0;
                 time.stop();
                 Core.GPSLocator.recordingLocalisation = false;
-                btStart.Content = "Start recording the track";
+                UIAppBtRecord.Label = "Start recording the track";
+                UIAppBtRecord.Icon = new SymbolIcon(Symbol.Play);
             }
             UpdateUITextElements();
         }
         //save
-        private void BtSave_Click(object sender, RoutedEventArgs e) {
+        private void BtSave_Click(object sender, RoutedEventArgs e)
+        {
 
             UIMapView.UpdateUIAllMap(Core.GPSLocator.track.ToArray());
-            Files.Choose(this, Core.GPSLocator); }
+            Files.Choose(this, Core.GPSLocator);
+        }
 
         private void BtUpdate_Click(object sender, RoutedEventArgs e)
         {
