@@ -55,5 +55,10 @@ namespace Gps_tracker
         {
 
         }
+        private void RetrunToHomeView_Click(object sender, RoutedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            bool canChange = rootFrame.Navigate(typeof(MainPage));
+        }
     }
 }

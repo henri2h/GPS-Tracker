@@ -22,6 +22,7 @@
         <CommandBar Grid.Row="1">
             <AppBarButton Icon="Play" Label="Connect" Click="UIBtConnect_Click"/>
             <AppBarButton Icon="Save" Label="Save" Click="UITbSave_Click"/>
+            <AppBarButton Icon="Home" Label="Return to home view" Click="RetrunToHomeView_Click"/>
         </CommandBar>
     </Grid>
 </Page>
