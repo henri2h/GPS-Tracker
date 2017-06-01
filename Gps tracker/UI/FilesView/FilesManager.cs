@@ -10,7 +10,7 @@ namespace Gps_tracker.UI.FilesView
 {
     public class FilesManager
     {
-        public static List<directoryObject> listFiles(string path)
+        public static List<directoryObject> ListFiles(string path)
         {
             List<directoryObject> files = new List<directoryObject>();
 

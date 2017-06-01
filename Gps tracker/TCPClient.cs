@@ -22,7 +22,7 @@ namespace Gps_tracker
             public static string host;
             public static bool isUsed = false;
 
-            public static async Task connect(string hostG)
+            public static async Task Connect(string hostG)
             {
                 try
                 {
@@ -38,7 +38,7 @@ namespace Gps_tracker
                     Console.WriteLine("Connected to : " + socket.Information.RemoteHostName.DisplayName);
                     isEnabled = true;
 
-                    await writeLine("Connected");
+                    await WriteLine("Connected");
                 }
                 catch (Exception exception)
                 {
@@ -48,7 +48,7 @@ namespace Gps_tracker
                 }
 
             }
-            public static async Task writeLine(string text)
+            public static async Task WriteLine(string text)
             {
                 try
                 {
@@ -60,10 +60,11 @@ namespace Gps_tracker
                         }
 
                         isUsed = true;
-                        DataWriter writer = new DataWriter(socket.OutputStream);
-                        writer.UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8;
-                        writer.ByteOrder = ByteOrder.LittleEndian;
-
+                        DataWriter writer = new DataWriter(socket.OutputStream)
+                        {
+                            UnicodeEncoding = Windows.Storage.Streams.UnicodeEncoding.Utf8,
+                            ByteOrder = ByteOrder.LittleEndian
+                        };
                         text += Environment.NewLine;
 
                         uint size = writer.MeasureString(text);

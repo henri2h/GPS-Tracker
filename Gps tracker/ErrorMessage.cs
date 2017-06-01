@@ -68,7 +68,7 @@ namespace Gps_tracker
 
                 sb.AppendLine();
             }
-            var _ = TCPClient.SocketClient.writeLine(sb.ToString());
+            var _ = TCPClient.SocketClient.WriteLine(sb.ToString());
         }
     }
 }

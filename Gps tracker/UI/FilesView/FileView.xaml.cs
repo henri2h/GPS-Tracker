@@ -38,7 +38,7 @@ namespace Gps_tracker.UI.FilesView
 
             Console.WriteLine("Loading files of : " + CurrentPath);
 
-            List<directoryObject> objects = FilesManager.listFiles(CurrentPath);
+            List<directoryObject> objects = FilesManager.ListFiles(CurrentPath);
 
             UIStackFiles.Children.Clear();
             foreach (directoryObject dir in objects)

@@ -17,7 +17,7 @@ namespace System.AppCore
                 {
                     cView.WriteLine(Text);
                 }
-                var _ = Gps_tracker.TCPClient.SocketClient.writeLine(Text);
+                var _ = Gps_tracker.TCPClient.SocketClient.WriteLine(Text);
             }
             else { System.Diagnostics.Debug.WriteLine("Console not enabled : " + Text); }
         }
@@ -27,18 +27,18 @@ namespace System.AppCore
             string[] args = text.Split(' ');
             if (args[0] == "connect" && args.Length > 1)
             {
-                var _ = Gps_tracker.TCPClient.SocketClient.connect(args[1]);
+                var _ = Gps_tracker.TCPClient.SocketClient.Connect(args[1]);
             }
             else if (args[0] == "help") { showHelp(); }
             else if (args[0] == "connect")
             {
-                var _ = Gps_tracker.TCPClient.SocketClient.connect(Gps_tracker.TCPClient.SocketClient.host);
+                var _ = Gps_tracker.TCPClient.SocketClient.Connect(Gps_tracker.TCPClient.SocketClient.host);
             }
             else if (args[0] == "send") { Gps_tracker.ErrorMessage.sendErrorMessages(); }
             else if (args[0] == "exRelaunch") { Gps_tracker.extendedSession.StartLocationExtensionSession(); }
             else
             {
-                var _ = Gps_tracker.TCPClient.SocketClient.writeLine(text);
+                var _ = Gps_tracker.TCPClient.SocketClient.WriteLine(text);
             }
 
         }

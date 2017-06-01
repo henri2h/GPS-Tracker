@@ -91,7 +91,7 @@ namespace Gps_tracker.AppCore
         public static void ConnectRemoteDebug()
         {
             // this is in order to debug the client remotely
-            var _ = TCPClient.SocketClient.connect("10.0.0.3");
+            var _ = TCPClient.SocketClient.Connect("10.0.0.3");
         }
 
         public static void GetMemoryUsage()
