@@ -22,10 +22,12 @@ namespace Gps_tracker.AppCore
         internal static Locator GPSLocator;
         internal static Information informations;
         internal static MainPage page;
+        internal static String CurrentPath;
 
         public static void StartApp()
         {
             LoadSettings();
+            CurrentPath = localFolder.Path;
         }
         public static void SetTempFile()
         {

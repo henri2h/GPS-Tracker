@@ -27,12 +27,11 @@ namespace Gps_tracker.UI.FilesView
         public FileView()
         {
             this.InitializeComponent();
-            CurrentPath = AppCore.Core.localFolder.Path;
             LoadPage();
             ButtonGoBack();
         }
 
-        public string CurrentPath { get; set; }
+        public string CurrentPath { get => AppCore.Core.CurrentPath; set { AppCore.Core.CurrentPath = value; } }
 
         public void LoadPage()
         {

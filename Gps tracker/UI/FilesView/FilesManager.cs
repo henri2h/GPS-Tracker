@@ -31,7 +31,8 @@ namespace Gps_tracker.UI.FilesView
                 if (attr.HasFlag(FileAttributes.Directory))
                 {
                     newFile.isDirectory = true;
-                    newFile.name = Path.GetDirectoryName(file);
+                    newFile.name = Path.GetFileName(file);
+
                 }
                 else
                 {
