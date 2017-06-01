@@ -1,4 +1,5 @@
 ﻿using System;
+using System.AppCore;
 using System.Collections.Generic;
 using Windows.Devices.Geolocation;
 using Windows.UI;
@@ -19,6 +20,7 @@ namespace Gps_tracker.UI
             MapControl.MapServiceToken = "dIQYRjm1oGFEfWPNnTmx~GRofurcHYDuU4uJtNG1C6Q~AhcpDsCLAmjtPskvs3dCm3TMl2Hhawxmy66H6cGFAmkUcOFou7gYl0xbTzzit0Id";
 
         }
+
         public void CenterMap(Geopoint point)
         {
             MapControl.Center = point;
@@ -45,10 +47,12 @@ namespace Gps_tracker.UI
                 Windows.System.AppMemoryUsageLevel level = Windows.System.MemoryManager.AppMemoryUsageLevel;
                 if (level == Windows.System.AppMemoryUsageLevel.Medium || level == Windows.System.AppMemoryUsageLevel.High)
                 {
+                    Console.WriteLine("Cleaning map :");
                     this.UpdateUIAllMap(points);
                 }
 
-                if (points.Length == 1) {
+                if (points.Length == 1)
+                {
                     BasicGeoposition gP = new BasicGeoposition()
                     {
                         Latitude = points[0].latitude,
@@ -93,6 +97,7 @@ namespace Gps_tracker.UI
 
             if (numberOfPoints > 40)
             {
+                Console.WriteLine("Number of point : " + numberOfPoints);
                 distanceBetweenPoint = numberOfPoints / 40;
             }
 
@@ -101,8 +106,10 @@ namespace Gps_tracker.UI
             try
             {
                 point oldPoint = null;
+                int totalPointCount = 0;
                 for (int i = 0; i < numberOfPoints; i += distanceBetweenPoint)
                 {
+                    totalPointCount++;
                     point pointElement = points[i];
 
                     if (oldPoint != null)
@@ -122,6 +129,8 @@ namespace Gps_tracker.UI
 
                     oldPoint = pointElement;
                 }
+
+                Console.WriteLine("Total point number : " + totalPointCount);
 
             }
             catch (Exception ex)
