@@ -14,6 +14,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+
         <ScrollViewer Grid.Row="0">
             <StackPanel>
                 <StackPanel x:Name="TitlePanel" Height="40" BorderBrush="#FF130404" Background="#FF8B8B8B" BorderThickness="0,1">
@@ -24,8 +25,10 @@
 
                 <UI:MapView x:Name="UIMapView" HorizontalAlignment="Stretch" Height="300"/>
 
-                <Button x:Name="btCenter" Content="center"  Height="28" Width="177" Click="BtCenter_Click"/>
-                <Button x:Name="btMapupdate" Content="update map" Click="BtMapupdate_Click"/>
+                <StackPanel Orientation="Horizontal" Height="30">
+                    <Button x:Name="btCenter" Content="center" Click="BtCenter_Click"/>
+                    <Button x:Name="btMapupdate" Content="update map" Click="BtMapupdate_Click"/>
+                </StackPanel>
 
                 <!--console-->
                 <StackPanel x:Name="ConsoleUI" Background="Black" >

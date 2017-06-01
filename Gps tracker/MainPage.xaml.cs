@@ -93,9 +93,16 @@ namespace Gps_tracker
         //save
         private void BtSave_Click(object sender, RoutedEventArgs e)
         {
-
-            UIMapView.UpdateUIAllMap(Core.GPSLocator.track.ToArray());
-            Files.Choose(this, Core.GPSLocator);
+            // UIMapView.UpdateUIAllMap(Core.GPSLocator.track.ToArray());
+            try
+            {
+                Files.Choose(this, Core.GPSLocator);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Could not save file");
+                ErrorMessage.printOut(ex, "Error in saving");
+            }
         }
 
         private void BtUpdate_Click(object sender, RoutedEventArgs e)
