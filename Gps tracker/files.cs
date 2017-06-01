@@ -14,7 +14,16 @@ namespace Gps_tracker
         // temp files and dir
         public static string GetTempFile(string extention)
         {
-            string directory = Path.Combine(AppCore.Core.localFolder.Path, "gpxFiles");
+            return GetTempFile("gpxFiles", extention);
+        }
+        public static string GetErrorTempFile()
+        {
+            return GetTempFile("errors", ".err");
+        }
+
+        public static string GetTempFile(string dir, string extention)
+        {
+            string directory = Path.Combine(AppCore.Core.localFolder.Path, dir);
             if (Directory.Exists(directory) == false) { Directory.CreateDirectory(directory); }
 
             string name = "current";

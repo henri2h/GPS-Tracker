@@ -34,7 +34,7 @@ namespace Gps_tracker
             }
             string err = getErrorString(ex);
             Console.WriteLine(err);
-            string tempFile = Files.GetTempFile(".err");
+            string tempFile = Files.GetErrorTempFile();
 
             File.AppendAllText(tempFile, err);
             //  files.saveFile(".err", err + Environment.NewLine + tempFile);
