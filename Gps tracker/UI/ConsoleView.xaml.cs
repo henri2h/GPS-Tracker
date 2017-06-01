@@ -38,12 +38,19 @@ namespace Gps_tracker.UI
             {
                 this.Text = this.Text.Substring(this.Text.Length - maxLenght);
             }
-
-            if (FileName != null)
+            try
             {
-                // TODO : detect if the file is currently under writing
-                File.WriteAllText(FileName, "[" + DateTime.Now.ToString() + "] : " + text);
+                if (FileName != null)
+                {
+                    // TODO : detect if the file is currently under writing
+                    File.AppendAllText(FileName, "[" + DateTime.Now.ToString() + "] : " + text + Environment.NewLine);
 
+                }
+            }
+            catch (Exception ex)
+            {
+                ex.Source = "ConsoleView.WriteLine";
+                ErrorMessage.saveOut(ex);
             }
 
             try
