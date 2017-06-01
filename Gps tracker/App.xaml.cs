@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.HockeyApp;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -32,6 +33,8 @@ namespace Gps_tracker
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             AppCore.Core.StartApp();
+            
+            Microsoft.HockeyApp.HockeyClient.Current.Configure("120d38848d23492cb0eb126e597e8467");
         }
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
