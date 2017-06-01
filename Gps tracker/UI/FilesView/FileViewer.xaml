@@ -15,15 +15,15 @@
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0">
-            <TextBlock Text="File content :"/>
+            <TextBlock Text="File content :" TextWrapping="WrapWholeWords"/>
         </StackPanel>
         
         <ListView Grid.Row="1">
-            <TextBlock x:Name="UITbFileContent"/>
+            <TextBlock x:Name="UITbFileContent" TextWrapping="Wrap"/>
         </ListView>
         
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button x:Name="UIBtReturn" Click="UIBtReturn_Click" Content="Return"/>
+            <Button x:Name="UIBtReturn" Click="UIBtReturn_Click" Content="Return" />
             <Button x:Name="UIBtShare" Click="UIBtShare_Click" Content="Share"/>
         </StackPanel>
     </Grid>
