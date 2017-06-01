@@ -7,6 +7,7 @@ using System.IO;
 using System.Windows;
 using System.Xml;
 using System.AppCore;
+using System.Xml.Linq;
 
 namespace Gps_tracker
 {
@@ -17,7 +18,7 @@ namespace Gps_tracker
             Console.WriteLine("Generating gpx output");
 
             XmlDocument doc = new XmlDocument();
-            
+
             XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", "no");
             XmlElement root = doc.DocumentElement;
             doc.InsertBefore(xmlDeclaration, root);
@@ -67,7 +68,48 @@ namespace Gps_tracker
             doc.Save(output);
             return output.ToString();
         }
-        
+
+        public static String GenerateCompleteGPX(List<point> points, String trackName)
+        {
+            DateTime dt = DateTime.Now;
+
+            XDocument xDoc = new XDocument(new XDeclaration("1.0", "utf-8", "yes"));
+            
+            XElement xGpx = new XElement("gpx");
+            xGpx.SetAttributeValue("version", "1.0");
+            XElement xTrk = new XElement("trk");
+            XElement xTrksgt = new XElement("trkseg");
+
+
+
+            xTrk.Add(new XElement("name", trackName));
+            xTrk.Add(new XElement("number", 1));
+
+            foreach (point pt in points)
+            {
+                XElement xPoint = new XElement("trkpt");
+
+                xPoint.SetAttributeValue("lon", pt.longitude.ToString());
+                xPoint.SetAttributeValue("lat", pt.latitude.ToString());
+
+                XElement xEle = new XElement("ele", pt.altitude.ToString());
+                xPoint.Add(xEle);
+
+                string time = pt.date.ToUniversalTime().ToString();
+                XElement xTime = new XElement("time", time);
+                xPoint.Add(xTime);
+
+                xTrksgt.Add(xPoint);
+            }
+
+            xTrk.Add(xTrksgt);
+
+            xGpx.Add(xTrk);
+            xDoc.Add(xGpx);
+
+            return xDoc.ToString();
+        }
+
 
     }
 }
