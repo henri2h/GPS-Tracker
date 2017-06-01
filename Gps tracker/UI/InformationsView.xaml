@@ -25,8 +25,8 @@
             <TextBlock x:Name="tbAltitude"/>
             <TextBlock x:Name="tbTotalDistance"/>
 
-            <StackPanel Orientation="Horizontal">
-                <TextBlock x:Name="UISpeedTextBox" />
+            <StackPanel Orientation="Vertical">
+                <TextBlock x:Name="UISpeedTextBox"/>
                 <TextBlock x:Name="UIMediumSpeedTextBox" Margin="10,0,0,0"/>
                 <TextBlock x:Name="UIMaxSpeedTextBox" Margin="10,0,0,0"/>
             </StackPanel>
