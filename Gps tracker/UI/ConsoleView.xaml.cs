@@ -21,10 +21,12 @@ namespace Gps_tracker.UI
 {
     public sealed partial class ConsoleView : UserControl
     {
+        String FileName;
         const int maxLenght = 800;
         public string Text { get; set; }
         public ConsoleView()
         {
+            if (FileName == null) FileName = Files.GetFileName("Console", "consoleReport", ".list");
             this.InitializeComponent();
             Console.consoles.Add(this);
         }
@@ -35,6 +37,13 @@ namespace Gps_tracker.UI
             if (this.Text.Length > maxLenght)
             {
                 this.Text = this.Text.Substring(this.Text.Length - maxLenght);
+            }
+
+            if (FileName != null)
+            {
+                // TODO : detect if the file is currently under writing
+                File.WriteAllText(FileName, "[" + DateTime.Now.ToString() + "] : " + text);
+
             }
 
             try

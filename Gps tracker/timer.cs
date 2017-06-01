@@ -30,7 +30,7 @@ namespace Gps_tracker
         {
             try
             {
-                bool ok = Files.SaveGPXTempFile( GPSLocator);
+                bool ok = Files.SaveGPXTempFile(GPSLocator);
                 if (!ok) { Console.WriteLine("TempFile : saveKO"); }
                 else { Console.WriteLine("TempFile : saveOK"); }
             }
