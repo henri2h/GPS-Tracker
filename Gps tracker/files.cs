@@ -25,6 +25,19 @@ namespace Gps_tracker
             }
             return Path.Combine(directory, name + version + extention);
         }
+        // temp files and dir
+        public static string GetFileName(string directoryName, string filename, string extention)
+        {
+            string directory = Path.Combine(AppCore.Core.localFolder.Path, directoryName);
+            if (Directory.Exists(directory) == false) { Directory.CreateDirectory(directory); }
+
+            int version = 0;
+            while (File.Exists(Path.Combine(directory, filename + version + extention)))
+            {
+                version++;
+            }
+            return Path.Combine(directory, filename + version + extention);
+        }
 
         public static string GetTempDir()
         {
@@ -45,7 +58,7 @@ namespace Gps_tracker
                 else
                 {
                     File.WriteAllText(AppCore.Core.TempFile, gpx.generateGPXOutput(GPSLocator.track));
-
+                    File.WriteAllText(AppCore.Core.TempFile + "JSON", Newtonsoft.Json.JsonConvert.SerializeObject(GPSLocator.track));
                     return true;
                 }
             }
