@@ -44,7 +44,7 @@ namespace Gps_tracker
 
                 track = new List<point>();
                 geoLocator.DesiredAccuracy = PositionAccuracy.High;
-                geoLocator.MovementThreshold = 1;
+                geoLocator.MovementThreshold = 5;
 
                 geoLocator.PositionChanged += Locator_PositionChanged;
                 geoLocator.StatusChanged += Locator_StatusChanged;
