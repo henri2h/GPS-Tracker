@@ -21,7 +21,10 @@ namespace Gps_tracker
                 String fileName = Path.Combine(LogPath, subject + ".log");
                 File.AppendAllText(fileName, content);
             }
-            catch { }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ErrorMessage.GetErrorString(ex));
+            }
         }
         public static void LogMain(String content)
         {

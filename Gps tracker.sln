@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gps tracker", "Gps tracker\Gps tracker.csproj", "{331D5027-8748-4474-A39F-13E6130D9491}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCPServer", "ConsoleApplication1\TCPServer.csproj", "{3A59D3C9-C93D-4A6F-8825-9D9493F16489}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TCPServer", "SocketServer\TCPServer.csproj", "{3A59D3C9-C93D-4A6F-8825-9D9493F16489}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

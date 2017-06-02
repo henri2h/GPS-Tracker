@@ -1,4 +1,5 @@
-﻿using Gps_tracker.UI;
+﻿using Gps_tracker;
+using Gps_tracker.UI;
 using System.Collections.Generic;
 using System.Text;
 
@@ -12,7 +13,18 @@ namespace System.AppCore
         {
             if (active)
             {
-                System.Diagnostics.Debug.WriteLine("[" + DateTime.Now.ToString() + "] : " + "[Console] : " + Text);
+                String debugLine = "[" + DateTime.Now.ToString() + "] : " + "[Console] : " + Text;
+                System.Diagnostics.Debug.WriteLine(debugLine);
+                try
+                {
+                    Logger.LogLine("Console", debugLine);
+                }
+                catch (Exception ex)
+                {
+                    ex.Source = "ConsoleView.WriteLine";
+                    ErrorMessage.SaveOut(ex);
+                }
+
                 foreach (ConsoleView cView in consoles)
                 {
                     cView.WriteLine(Text);
@@ -22,14 +34,14 @@ namespace System.AppCore
             else { System.Diagnostics.Debug.WriteLine("Console not enabled : " + Text); }
         }
 
-        public static void setNewLine(string text)
+        public static void SetNewLine(string text)
         {
             string[] args = text.Split(' ');
             if (args[0] == "connect" && args.Length > 1)
             {
                 var _ = Gps_tracker.TCPClient.SocketClient.Connect(args[1]);
             }
-            else if (args[0] == "help") { showHelp(); }
+            else if (args[0] == "help") { ShowHelp(); }
             else if (args[0] == "connect")
             {
                 var _ = Gps_tracker.TCPClient.SocketClient.Connect(Gps_tracker.TCPClient.SocketClient.host);
@@ -42,7 +54,7 @@ namespace System.AppCore
             }
 
         }
-        static void showHelp()
+        static void ShowHelp()
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("===============");

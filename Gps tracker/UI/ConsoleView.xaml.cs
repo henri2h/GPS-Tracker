@@ -36,15 +36,7 @@ namespace Gps_tracker.UI
             {
                 this.Text = this.Text.Substring(this.Text.Length - maxLenght);
             }
-            try
-            {
-                Logger.LogLine("Console", "[" + DateTime.Now.ToString() + "] : " + text);
-            }
-            catch (Exception ex)
-            {
-                ex.Source = "ConsoleView.WriteLine";
-                ErrorMessage.SaveOut(ex);
-            }
+           
 
             try
             {
@@ -63,7 +55,7 @@ namespace Gps_tracker.UI
         private void ConsoleUIbtReturn_Click(object sender, RoutedEventArgs e)
         {
             string comm = ConsoleUIReadBox.Text;
-            var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Console.setNewLine(comm); });
+            var _ = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => { Console.SetNewLine(comm); });
             ConsoleUIReadBox.Text = "";
         }
         public void Clear()
