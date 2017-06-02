@@ -13,7 +13,7 @@ namespace Gps_tracker
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        timer time;
+        Timer time;
 
         public MainPage()
         {
@@ -23,7 +23,7 @@ namespace Gps_tracker
 
                 Core.page = this;
                 // intitalisation
-                time = new timer();
+                time = new Timer();
 
                 if (Core.informations == null)
                 {
@@ -74,7 +74,7 @@ namespace Gps_tracker
             if (Core.GPSLocator.recordingLocalisation == false)
             {
                 Core.informations.startTravelTime = DateTime.Now;
-                time.start(Core.GPSLocator);
+                time.Start(Core.GPSLocator);
                 Core.GPSLocator.recordingLocalisation = true;
                 UIAppBtRecord.Label = "Stop recording the track";
                 UIAppBtRecord.Icon = new SymbolIcon(Symbol.Stop);
@@ -83,7 +83,7 @@ namespace Gps_tracker
             {
                 Core.informations.endTravelTime = DateTime.Now;
                 Core.informations.totalTravelDistance = 0;
-                time.stop();
+                time.Stop();
                 Core.GPSLocator.recordingLocalisation = false;
                 UIAppBtRecord.Label = "Start recording the track";
                 UIAppBtRecord.Icon = new SymbolIcon(Symbol.Play);

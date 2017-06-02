@@ -12,21 +12,21 @@ namespace Gps_tracker
     /// <summary>
     /// This class is for the timer
     /// </summary>
-    public class timer
+    public class Timer
     {
 
         public delegate void endTimer();
         public static endTimer endtimer;
 
-        public static Timer timerVar;
+        public static System.Threading.Timer timerVar;
         static Locator GPSLocator;
-        public void start(Locator gs)
+        public void Start(Locator gs)
         {
             GPSLocator = gs;
-            timerVar = new Timer(timerCallback, null, 0, 10000);
-            if (endtimer != null) { endtimer(); }
+            timerVar = new System.Threading.Timer(TimerCallback, null, 0, 10000);
+            endtimer?.Invoke();
         }
-        public void timerCallback(object tc)
+        public void TimerCallback(object tc)
         {
             try
             {
@@ -40,7 +40,7 @@ namespace Gps_tracker
                 ErrorMessage.PrintOut(ex, "error handeled");
             }
         }
-        public void stop()
+        public void Stop()
         {
             timerVar.Dispose();
         }
