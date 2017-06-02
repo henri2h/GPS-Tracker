@@ -19,10 +19,12 @@ namespace Gps_tracker
 
         public static System.Threading.Timer timerVar;
         static Locator GPSLocator;
+        private int value;
+
         public void Start(Locator gs)
         {
             GPSLocator = gs;
-            timerVar = new System.Threading.Timer(TimerCallback, null, 0, 10000);
+            timerVar = new System.Threading.Timer(TimerCallback, null, 0, 30000);
             endtimer?.Invoke();
         }
 
@@ -30,15 +32,18 @@ namespace Gps_tracker
         {
             try
             {
-                if (!GPSLocator.SavedTimer)
+                if (GPSLocator.value != this.value)
                 {
                     bool ok = Files.SaveGPXTempFile(GPSLocator);
                     if (!ok)
                     {
                         Console.WriteLine("TempFile : saveKO");
-                        GPSLocator.SavedTimer = true;
                     }
-                    else { Console.WriteLine("TempFile : saveOK"); }
+                    else
+                    {
+                        Console.WriteLine("TempFile : saveOK");
+                        this.value = GPSLocator.value;
+                    }
                 }
             }
             catch (Exception ex)
