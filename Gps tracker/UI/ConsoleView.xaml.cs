@@ -21,7 +21,11 @@ namespace Gps_tracker.UI
 {
     public sealed partial class ConsoleView : UserControl
     {
-        String FileName;
+        String FileName
+        {
+            get => AppCore.Core.FileName; set => AppCore.Core.FileName = value;
+        }
+
         const int maxLenght = 800;
         public string Text { get; set; }
         public ConsoleView()

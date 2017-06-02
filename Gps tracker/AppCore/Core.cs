@@ -23,6 +23,7 @@ namespace Gps_tracker.AppCore
         internal static Information informations;
         internal static MainPage page;
         internal static String CurrentPath;
+        internal static String FileName;
 
         public static void StartApp()
         {
@@ -64,7 +65,7 @@ namespace Gps_tracker.AppCore
                 SpeedUnit = speedUnit.metersPerSecond,
                 autoSave = true,
                 enhancedMode = true,
-                Hostname= "10.0.0.3"
+                Hostname = "10.0.0.3"
 
             };
             SaveSettings();
