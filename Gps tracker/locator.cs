@@ -62,7 +62,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "locator.startLocalisation";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
 
                 return false;
             }
@@ -121,7 +121,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "locator.Locator_PositionChanged";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
         void Locator_StatusChanged(Geolocator sender, StatusChangedEventArgs args)
@@ -144,7 +144,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "locator.Locator_StatusChanged";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
 
 
@@ -157,7 +157,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "locator.updateUI";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
         void UpdateUIMap()
@@ -166,7 +166,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "locator.updateUIMap";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
 
@@ -202,7 +202,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "locator.getDistanceBetweenTwoPoints";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
                 return 0;
             }
         }

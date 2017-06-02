@@ -34,7 +34,7 @@ namespace System.AppCore
             {
                 var _ = Gps_tracker.TCPClient.SocketClient.Connect(Gps_tracker.TCPClient.SocketClient.host);
             }
-            else if (args[0] == "send") { Gps_tracker.ErrorMessage.sendErrorMessages(); }
+            else if (args[0] == "send") { Gps_tracker.ErrorMessage.SendErrorMessages(); }
             else if (args[0] == "exRelaunch") { Gps_tracker.extendedSession.StartLocationExtensionSession(); }
             else
             {

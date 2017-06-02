@@ -82,7 +82,7 @@ namespace Gps_tracker.UI
             catch (Exception ex)
             {
                 ex.Source = "MainPage.updateUIMap";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
 
@@ -136,7 +136,7 @@ namespace Gps_tracker.UI
             catch (Exception ex)
             {
                 ex.Source = "MainPage.updateUIMap";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
 

@@ -13,7 +13,7 @@ namespace Gps_tracker
 {
     public class ErrorMessage
     {
-        public static string getErrorString(Exception ex)
+        public static string GetErrorString(Exception ex)
         {
             StringBuilder output = new StringBuilder();
 
@@ -26,30 +26,30 @@ namespace Gps_tracker
 
             return output.ToString();
         }
-        public static void printOut(Exception ex, string customMessage = "")
+        public static void PrintOut(Exception ex, string customMessage = "")
         {
             // add a way to print custom messages
             if(customMessage != ""){
                 Console.WriteLine(customMessage);
             }
-            string err = getErrorString(ex);
+            string err = GetErrorString(ex);
             Console.WriteLine(err);
             string tempFile = Files.GetErrorTempFile();
 
             File.AppendAllText(tempFile, err);
             //  files.saveFile(".err", err + Environment.NewLine + tempFile);
         }
-        public static void saveOut(Exception ex)
+        public static void SaveOut(Exception ex)
         {
             //just to save without printing the error
-            string err = getErrorString(ex);
+            string err = GetErrorString(ex);
             string tempFile = Files.GetTempFile(".err");
 
             File.AppendAllText(tempFile, err);
             //  files.saveFile(".err", err + Environment.NewLine + tempFile);
         }
 
-        public static void sendErrorMessages()
+        public static void SendErrorMessages()
         {
             StringBuilder sb = new StringBuilder();
             string tempDir = Files.GetTempDir();

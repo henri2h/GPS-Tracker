@@ -120,7 +120,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "file.saveFile";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
         public static async void Choose(MainPage page, Locator GPXLocator)
@@ -167,7 +167,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "file.choose";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
     }

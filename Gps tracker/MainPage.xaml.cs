@@ -48,7 +48,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "MainPage.constructor";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
 
@@ -65,7 +65,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "MaiPage.btCenter_Click";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
         //start
@@ -98,10 +98,10 @@ namespace Gps_tracker
             {
                 Files.Choose(this, Core.GPSLocator);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine("Could not save file");
-                ErrorMessage.printOut(ex, "Error in saving");
+                ErrorMessage.PrintOut(ex, "Error in saving");
             }
         }
 
@@ -125,7 +125,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "MainPage.unThreadUpdateUITextElement";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
 
@@ -138,7 +138,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "MainPage.unThreadUpdateUIMap";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
 
@@ -146,11 +146,18 @@ namespace Gps_tracker
 
         public static async void MessageBox(string msg)
         {
-            var msgDlg = new Windows.UI.Popups.MessageDialog(msg)
+            try
             {
-                DefaultCommandIndex = 1
-            };
-            await msgDlg.ShowAsync();
+                var msgDlg = new Windows.UI.Popups.MessageDialog(msg)
+                {
+                    DefaultCommandIndex = 1
+                };
+                await msgDlg.ShowAsync();
+            }
+            catch
+            {
+                Console.WriteLine("Could show dialog");
+            }
         }
 
         private void BtMapupdate_Click(object sender, RoutedEventArgs e)
@@ -170,7 +177,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "MainPage.UITbSettings_Click";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
 
@@ -185,7 +192,7 @@ namespace Gps_tracker
             catch (Exception ex)
             {
                 ex.Source = "MainPage.UITbFiles_Click";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
     }

@@ -44,7 +44,7 @@ namespace Gps_tracker
                 {
                     exception.Source = "TCPClient.connect";
                     isEnabled = false;
-                    ErrorMessage.printOut(exception);
+                    ErrorMessage.PrintOut(exception);
                 }
 
             }
@@ -86,7 +86,7 @@ namespace Gps_tracker
                 {
                     ex.Source = "TCPClient.WriteLine";
                     isEnabled = false;
-                    ErrorMessage.printOut(ex);
+                    ErrorMessage.PrintOut(ex);
                 }
             }
         }

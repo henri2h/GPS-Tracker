@@ -50,7 +50,7 @@ namespace Gps_tracker.UI
             catch (Exception ex)
             {
                 ex.Source = "ConsoleView.WriteLine";
-                ErrorMessage.saveOut(ex);
+                ErrorMessage.SaveOut(ex);
             }
 
             try
@@ -64,7 +64,7 @@ namespace Gps_tracker.UI
             catch (Exception ex)
             {
                 ex.Source = "ConsoleView.WriteLine (Console)";
-                ErrorMessage.printOut(ex);
+                ErrorMessage.PrintOut(ex);
             }
         }
         private void ConsoleUIbtReturn_Click(object sender, RoutedEventArgs e)
