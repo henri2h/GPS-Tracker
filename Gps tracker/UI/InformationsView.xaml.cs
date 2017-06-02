@@ -51,7 +51,7 @@ namespace Gps_tracker.UI
         {
             updateUITextBox();
             updateSpeedUIElement();
-            if (extendedSession.extendedSessionActive) { UITbExtendedSession.Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Colors.Green); }
+            if (ExtendedSession.ExtendedSessionActive) { UITbExtendedSession.Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Colors.Green); }
             else { UITbExtendedSession.Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Colors.Red); }
         }
         void updateUITextBox()

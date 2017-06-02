@@ -8,9 +8,9 @@ using Windows.ApplicationModel.ExtendedExecution;
 
 namespace Gps_tracker
 {
-    public class extendedSession
+    public class ExtendedSession
     {
-        public static bool extendedSessionActive
+        public static bool ExtendedSessionActive
         {
             get
             {
@@ -26,10 +26,11 @@ namespace Gps_tracker
         {
             if (session == null)
             {
-                session = new ExtendedExecutionSession();
-                session.Description = "Location Tracker";
-                session.Reason = ExtendedExecutionReason.LocationTracking;
-
+                session = new ExtendedExecutionSession()
+                {
+                    Description = "Location Tracker",
+                    Reason = ExtendedExecutionReason.LocationTracking
+                };
                 session.Revoked += ExtendedExecutionSession_Revoked;
 
                 var result = await session.RequestExtensionAsync();

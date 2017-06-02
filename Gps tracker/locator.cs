@@ -53,7 +53,7 @@ namespace Gps_tracker
                 Core.informations.output = "locator started";
 
                 // start the extended session
-                extendedSession.StartLocationExtensionSession();
+                ExtendedSession.StartLocationExtensionSession();
 
                 System.Diagnostics.Debug.WriteLine("Started locator");
                 Console.WriteLine("Locator started : ");

@@ -24,7 +24,6 @@ namespace Gps_tracker.UI.FilesView
     /// </summary>
     public sealed partial class FileViewer : Page
     {
-        protected Frame rootPage = Window.Current.Content as Frame;
         private DataTransferManager dataTransferManager;
 
         String fileContent;
@@ -37,8 +36,6 @@ namespace Gps_tracker.UI.FilesView
             // Register the current page as a share source.
             this.dataTransferManager = DataTransferManager.GetForCurrentView();
             this.dataTransferManager.DataRequested += new TypedEventHandler<DataTransferManager, DataRequestedEventArgs>(this.OnDataRequested);
-
-
         }
 
 
@@ -67,7 +64,7 @@ namespace Gps_tracker.UI.FilesView
                 requestData.Properties.Description = "File detail"; // The description is optional.
                 requestData.Properties.ContentSourceApplicationLink = ApplicationLink;
 
-                
+
                 //                requestData.SetText(dataPackageText);
                 requestData.SetStorageItems(files);
             }
@@ -84,7 +81,7 @@ namespace Gps_tracker.UI.FilesView
             GetShareContent(args.Request);
         }
 
-        protected Uri ApplicationLink
+        private Uri ApplicationLink
         {
             get
             {
@@ -95,11 +92,8 @@ namespace Gps_tracker.UI.FilesView
 
 
         public static Uri GetApplicationLink(string sharePageName)
-
         {
-
             return new Uri("ms-sdk-sharesourcecs:navigate?page=" + sharePageName);
-
         }
     }
 }
