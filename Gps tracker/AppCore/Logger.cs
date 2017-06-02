@@ -9,6 +9,7 @@ namespace Gps_tracker
 {
     public class Logger
     {
+
         static String LogPath => Path.Combine(AppCore.Core.localFolder.Path, "logs");
 
         public static void LogLine(String subject, String content)
@@ -17,8 +18,9 @@ namespace Gps_tracker
             {
                 content += Environment.NewLine;
 
-                if (Directory.Exists(LogPath)) { Directory.CreateDirectory(LogPath); }
+                if (!Directory.Exists(LogPath)) Directory.CreateDirectory(LogPath);
                 String fileName = Path.Combine(LogPath, subject + ".log");
+                if (!File.Exists(fileName)) File.Create(fileName);
                 File.AppendAllText(fileName, content);
             }
             catch (Exception ex)
@@ -30,5 +32,34 @@ namespace Gps_tracker
         {
             LogLine("program", content);
         }
+
+
+
+
+
+        public static void CleanLogs()
+        {
+            if (Directory.Exists(LogPath))
+            {
+                String NewDir = GetTempFile("OldLogs_");
+                foreach (String path in Directory.GetFiles(LogPath))
+                {
+                    string dir = Path.Combine(NewDir, Path.GetFileName(path));
+                    File.Copy(path, dir);
+                }
+            }
+        }
+
+
+        public static string GetTempFile(string name)
+        {
+            int version = 0;
+            while (Directory.Exists(Path.Combine(LogPath, name + version)))
+            {
+                version++;
+            }
+            return Path.Combine(LogPath, name + version);
+        }
+
     }
 }

@@ -25,6 +25,7 @@ namespace System.AppCore
                     ErrorMessage.SaveOut(ex);
                 }
 
+
                 foreach (ConsoleView cView in consoles)
                 {
                     cView.WriteLine(Text);
