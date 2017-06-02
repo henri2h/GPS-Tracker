@@ -31,9 +31,9 @@ namespace Gps_tracker
         public int value = 0;
 
         public string Status = "";
+        internal bool SavedTimer;
 
-
-        public Locator() {}
+        public Locator() { }
 
         //true if the localisation is enabled
         public bool StartLocalisation()
@@ -113,6 +113,7 @@ namespace Gps_tracker
                     if (Core.informations.maxSpeed < currentPoint.speed) { Core.informations.maxSpeed = currentPoint.speed.Value; }
 
                     value++;
+                    this.SavedTimer = false;
                     UpdateUI();
 
                 }

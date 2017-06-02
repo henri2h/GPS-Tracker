@@ -14,7 +14,6 @@ namespace Gps_tracker
     /// </summary>
     public class Timer
     {
-
         public delegate void endTimer();
         public static endTimer endtimer;
 
@@ -26,13 +25,21 @@ namespace Gps_tracker
             timerVar = new System.Threading.Timer(TimerCallback, null, 0, 10000);
             endtimer?.Invoke();
         }
+
         public void TimerCallback(object tc)
         {
             try
             {
-                bool ok = Files.SaveGPXTempFile(GPSLocator);
-                if (!ok) { Console.WriteLine("TempFile : saveKO"); }
-                else { Console.WriteLine("TempFile : saveOK"); }
+                if (!GPSLocator.SavedTimer)
+                {
+                    bool ok = Files.SaveGPXTempFile(GPSLocator);
+                    if (!ok)
+                    {
+                        Console.WriteLine("TempFile : saveKO");
+                        GPSLocator.SavedTimer = true;
+                    }
+                    else { Console.WriteLine("TempFile : saveOK"); }
+                }
             }
             catch (Exception ex)
             {

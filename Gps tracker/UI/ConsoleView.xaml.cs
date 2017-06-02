@@ -21,16 +21,10 @@ namespace Gps_tracker.UI
 {
     public sealed partial class ConsoleView : UserControl
     {
-        String FileName
-        {
-            get => AppCore.Core.FileName; set => AppCore.Core.FileName = value;
-        }
-
         const int maxLenght = 800;
         public string Text { get; set; }
         public ConsoleView()
         {
-            if (FileName == null) FileName = Files.GetFileName("Console", "consoleReport", ".list");
             this.InitializeComponent();
             Console.consoles.Add(this);
         }
@@ -44,12 +38,7 @@ namespace Gps_tracker.UI
             }
             try
             {
-                if (FileName != null)
-                {
-                    // TODO : detect if the file is currently under writing
-                    File.AppendAllText(FileName, "[" + DateTime.Now.ToString() + "] : " + text + Environment.NewLine);
-
-                }
+                Logger.LogLine("Console", "[" + DateTime.Now.ToString() + "] : " + text);
             }
             catch (Exception ex)
             {
