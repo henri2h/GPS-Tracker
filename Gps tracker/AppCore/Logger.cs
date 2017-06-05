@@ -39,15 +39,23 @@ namespace Gps_tracker
 
         public static void CleanLogs()
         {
-            if (Directory.Exists(LogPath))
+            try
             {
-                String NewDir = GetTempFile("OldLogs_");
-                foreach (String path in Directory.GetFiles(LogPath))
+                if (Directory.Exists(LogPath))
                 {
-                    string dir = Path.Combine(NewDir, Path.GetFileName(path));
-                    File.Copy(path, dir);
+                    String NewDir = GetTempFile("OldLogs_");
+                    foreach (String path in Directory.GetFiles(LogPath))
+                    {
+                        string dir = Path.Combine(NewDir, Path.GetFileName(path));
+                        File.Copy(path, dir);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ErrorMessage.GetErrorString(ex));
+            }
+
         }
 
 
