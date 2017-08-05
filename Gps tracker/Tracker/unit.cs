@@ -8,8 +8,8 @@ namespace Gps_tracker
 {
     public enum speedUnit
     {
-        kmPerHour,
         metersPerSecond,
+        kmPerHour,
         milesPerHour
     }
 }
