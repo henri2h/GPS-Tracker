@@ -1,4 +1,5 @@
 ﻿using Gps_tracker;
+using Gps_tracker.AppCore;
 using Gps_tracker.UI;
 using System.Collections.Generic;
 using System.Text;

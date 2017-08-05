@@ -69,5 +69,20 @@ namespace Gps_tracker.AppCore
             return Path.Combine(LogPath, name + version);
         }
 
+        internal static void DeleteErrors()
+        {
+            String p = Path.Combine(AppCore.Core.localFolder.Path, "errors");
+            if (Directory.Exists(p)) {
+                foreach (String f in Directory.EnumerateFiles(p))
+                {
+                    try { File.Delete(f); }
+                    catch
+                    {
+                        LogMain("Could not delete " + f);
+                    }
+                }
+            }
+        }
+
     }
 }
