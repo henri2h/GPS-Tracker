@@ -60,5 +60,10 @@ namespace Gps_tracker
             Frame rootFrame = Window.Current.Content as Frame;
             bool canChange = rootFrame.Navigate(typeof(MainPage));
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            AppCore.Logger.DeleteErrors();
+        }
     }
 }

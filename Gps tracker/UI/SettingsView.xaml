@@ -21,7 +21,7 @@
 
             <TextBox x:Name="UItbMapToken" Header="Map tocken"/>
             <TextBox x:Name="UITbHostname" Header="Hostname"/>
-
+            <Button Content="Delete errors files"/>
         </StackPanel>
         
         <CommandBar Grid.Row="1">
