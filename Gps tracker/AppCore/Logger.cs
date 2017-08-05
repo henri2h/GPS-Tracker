@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gps_tracker
+namespace Gps_tracker.AppCore
 {
     public class Logger
     {
