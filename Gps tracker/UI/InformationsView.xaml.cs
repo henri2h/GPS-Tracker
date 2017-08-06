@@ -1,5 +1,6 @@
 ﻿using Gps_tracker.AppCore;
 using System;
+using System.ComponentModel;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -10,9 +11,12 @@ using Windows.UI.Xaml.Input;
 
 namespace Gps_tracker.UI
 {
-    public sealed partial class InformationsView : UserControl
+    public sealed partial class InformationsView : UserControl, INotifyPropertyChanged
     {
         Information currentInfo = new Information();
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         speedUnit SpeedUnit
         {
             get
@@ -54,6 +58,7 @@ namespace Gps_tracker.UI
             if (ExtendedSession.ExtendedSessionActive) { UITbExtendedSession.Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Colors.Green); }
             else { UITbExtendedSession.Foreground = new Windows.UI.Xaml.Media.SolidColorBrush(Colors.Red); }
         }
+
         void updateUITextBox()
         {
             try
@@ -117,25 +122,18 @@ namespace Gps_tracker.UI
             updateTextBlock(UIMaxSpeedTextBox, "Max speed : ", getSpeedValueForUnit(currentInfo.maxSpeed));
         }
 
-        void updateSpeedUnit()
+
+        public double SUnit
         {
-            switch (sliderUnitSpeed.Value.ToString())
+            get
             {
-                case "0":
-                    SpeedUnit = speedUnit.metersPerSecond;
-
-                    break;
-
-                case "1":
-                    SpeedUnit = speedUnit.kmPerHour;
-                    break;
-
-                case "2":
-                    SpeedUnit = speedUnit.milesPerHour;
-                    break;
+                return (double)SpeedUnit;
             }
-
-            updateSpeedUIElement();
+            set
+            {
+                SpeedUnit = (speedUnit)value;
+                updateSpeedUIElement();
+            }
         }
 
 
@@ -158,16 +156,6 @@ namespace Gps_tracker.UI
             else if (SpeedUnit == speedUnit.kmPerHour) { return "km/h"; }
             else if (SpeedUnit == speedUnit.milesPerHour) { return "miles/h"; }
             else { return null; }
-        }
-
-
-        private void Slider_PointerMoved(object sender, PointerRoutedEventArgs e)
-        {
-            updateSpeedUnit();
-        }
-        private void Slider_PointerMoved(object sender, RangeBaseValueChangedEventArgs e)
-        {
-            updateSpeedUnit();
         }
 
 
