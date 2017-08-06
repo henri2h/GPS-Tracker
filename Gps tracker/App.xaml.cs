@@ -32,6 +32,7 @@ namespace Gps_tracker
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            
             AppCore.Core.StartApp();
             
             Microsoft.HockeyApp.HockeyClient.Current.Configure("120d38848d23492cb0eb126e597e8467");
