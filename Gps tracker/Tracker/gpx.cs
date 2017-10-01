@@ -38,7 +38,9 @@ namespace Gps_tracker
             XmlElement trkseg = doc.CreateElement(string.Empty, "trkseg", string.Empty);
             trk.AppendChild(trkseg);
 
-            foreach (point pointLocal in track)
+            List<point> trackCopy = new List<point>(track);
+
+            foreach (point pointLocal in trackCopy)
             {
                 //create point
                 XmlElement trkpt = doc.CreateElement(string.Empty, "trkpt", string.Empty);
