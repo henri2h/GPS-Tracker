@@ -24,6 +24,17 @@ namespace Gps_tracker.UI.FilesView
     /// </summary>
     public sealed partial class FileView : Page
     {
+
+        bool FViewLoaded
+        {
+            get => AppCore.Core.FViewLoaded; set => AppCore.Core.FViewLoaded = value;
+        }
+
+        List<directoryObject> objects
+        {
+            get => AppCore.Core.FViewObj; set => AppCore.Core.FViewObj = value;
+        }
+
         public FileView()
         {
             this.InitializeComponent();
@@ -38,7 +49,10 @@ namespace Gps_tracker.UI.FilesView
 
             Console.WriteLine("Loading files of : " + CurrentPath);
 
-            List<directoryObject> objects = FilesManager.ListFiles(CurrentPath);
+            if(FViewLoaded == false)
+             objects = FilesManager.ListFiles(CurrentPath);
+            FViewLoaded = true;
+
 
             UIStackFiles.Children.Clear();
             foreach (directoryObject dir in objects)
@@ -65,6 +79,7 @@ namespace Gps_tracker.UI.FilesView
             if (fElem.isDirectory == true)
             {
                 CurrentPath = fElem.path;
+                FViewLoaded = false;
                 LoadPage();
             }
             else
@@ -79,6 +94,7 @@ namespace Gps_tracker.UI.FilesView
         {
             DirectoryInfo dF = Directory.GetParent(CurrentPath);
             CurrentPath = dF.FullName;
+            FViewLoaded = false;
             LoadPage();
         }
 

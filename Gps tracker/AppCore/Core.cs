@@ -1,12 +1,9 @@
-﻿using System;
+﻿using Gps_tracker.UI.FilesView;
+using System;
 using System.AppCore;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.Storage;
-using Windows.Storage.Streams;
 
 namespace Gps_tracker.AppCore
 {
@@ -16,6 +13,8 @@ namespace Gps_tracker.AppCore
         public static Setting Settings { get; set; }
         public static string TempFile { get; set; }
         public static string SelectedFilePath { get; internal set; }
+        public static bool FViewLoaded { get; internal set; }
+        public static List<directoryObject>  FViewObj { get; internal set; }
 
         public static Windows.Storage.StorageFolder localFolder = Windows.Storage.ApplicationData.Current.LocalFolder;
         public static Windows.Storage.StorageFolder tempFolder = Windows.Storage.ApplicationData.Current.TemporaryFolder;
