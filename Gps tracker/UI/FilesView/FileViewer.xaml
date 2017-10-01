@@ -22,9 +22,9 @@
             <TextBlock x:Name="UITbFileContent" TextWrapping="Wrap"/>
         </ListView>
         
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Button x:Name="UIBtReturn" Click="UIBtReturn_Click" Content="Return" />
-            <Button x:Name="UIBtShare" Click="UIBtShare_Click" Content="Share"/>
-        </StackPanel>
+        <CommandBar Grid.Row="2">
+            <AppBarButton Click="UIBtReturn_Click" Icon="Back" Label="Return" />
+            <AppBarButton Click="UIBtShare_Click" Icon="Send" Label="Share"/>
+        </CommandBar>
     </Grid>
 </Page>
