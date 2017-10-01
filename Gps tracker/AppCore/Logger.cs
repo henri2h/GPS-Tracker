@@ -33,10 +33,6 @@ namespace Gps_tracker.AppCore
             LogLine("program", content);
         }
 
-
-
-
-
         public static void CleanLogs()
         {
             try
@@ -44,10 +40,11 @@ namespace Gps_tracker.AppCore
                 if (Directory.Exists(LogPath))
                 {
                     String NewDir = GetTempFile("OldLogs_");
+                    Directory.CreateDirectory(NewDir);
                     foreach (String path in Directory.GetFiles(LogPath))
                     {
                         string dir = Path.Combine(NewDir, Path.GetFileName(path));
-                        File.Copy(path, dir);
+                        File.Move(path, dir);
                     }
                 }
             }
@@ -73,6 +70,21 @@ namespace Gps_tracker.AppCore
         {
             String p = Path.Combine(AppCore.Core.localFolder.Path, "errors");
             if (Directory.Exists(p)) {
+                foreach (String f in Directory.EnumerateFiles(p))
+                {
+                    try { File.Delete(f); }
+                    catch
+                    {
+                        LogMain("Could not delete " + f);
+                    }
+                }
+            }
+        }
+        internal static void DeleteLogs()
+        {
+            String p = Path.Combine(AppCore.Core.localFolder.Path, "logs");
+            if (Directory.Exists(p))
+            {
                 foreach (String f in Directory.EnumerateFiles(p))
                 {
                     try { File.Delete(f); }

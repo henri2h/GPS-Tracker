@@ -65,5 +65,10 @@ namespace Gps_tracker
         {
             AppCore.Logger.DeleteErrors();
         }
+
+        private void DeleteLogsClick(object sender, RoutedEventArgs e)
+        {
+            AppCore.Logger.DeleteLogs();
+        }
     }
 }
