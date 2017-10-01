@@ -12,6 +12,8 @@ namespace Gps_tracker.UI
 {
     public sealed partial class MapView : UserControl
     {
+        private readonly int PointMax = 150;
+
         public MapView()
         {
             this.InitializeComponent();
@@ -95,10 +97,10 @@ namespace Gps_tracker.UI
             int numberOfPoints = points.Length - 1;
             int distanceBetweenPoint = 1;
 
-            if (numberOfPoints > 40)
+            if (numberOfPoints > PointMax)
             {
                 Console.WriteLine("Number of point : " + numberOfPoints);
-                distanceBetweenPoint = numberOfPoints / 40;
+                distanceBetweenPoint = numberOfPoints / PointMax;
             }
 
             if (distanceBetweenPoint == 0) { distanceBetweenPoint = 1; }
