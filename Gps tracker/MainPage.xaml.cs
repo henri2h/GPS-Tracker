@@ -5,6 +5,7 @@ using System.AppCore;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Console = System.AppCore.Console; // removed ambiguious call
 
 namespace Gps_tracker
 {

@@ -1,4 +1,5 @@
-﻿using Microsoft.HockeyApp;
+﻿using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -34,8 +35,7 @@ namespace Gps_tracker
             this.Suspending += OnSuspending;
             
             AppCore.Core.StartApp();
-            
-            Microsoft.HockeyApp.HockeyClient.Current.Configure("120d38848d23492cb0eb126e597e8467");
+            AppCenter.Start("120d38848d23492cb0eb126e597e8467", typeof(Analytics));
         }
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points

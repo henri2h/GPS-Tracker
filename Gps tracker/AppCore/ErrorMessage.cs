@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Core;
+using Console = System.AppCore.Console;
 
 namespace Gps_tracker
 {

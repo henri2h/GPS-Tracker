@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.ExtendedExecution;
+using Console = System.AppCore.Console;
 
 namespace Gps_tracker
 {

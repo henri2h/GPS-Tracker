@@ -6,6 +6,7 @@ using System.IO;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Provider;
+using Console = System.AppCore.Console;
 
 namespace Gps_tracker
 {

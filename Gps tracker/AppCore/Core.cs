@@ -4,6 +4,7 @@ using System.AppCore;
 using System.Collections.Generic;
 using System.IO;
 using Windows.Storage;
+using Console = System.AppCore.Console;
 
 namespace Gps_tracker.AppCore
 {

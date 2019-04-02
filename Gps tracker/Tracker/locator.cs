@@ -11,6 +11,7 @@ using Windows.Devices.Geolocation;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls.Maps;
+using Console = System.AppCore.Console;
 
 namespace Gps_tracker
 {

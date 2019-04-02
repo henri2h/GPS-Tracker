@@ -10,6 +10,7 @@ using Windows.Networking.Sockets;
 using Windows.Networking;
 using Windows.Security.Cryptography;
 using System.AppCore;
+using Console = System.AppCore.Console;
 
 namespace Gps_tracker
 {
